@@ -4,18 +4,11 @@
 #include "BigInt.h"
 #include "utlity.h"
 int main() {
-	const string input = "abc";
+	Ringdht sys(5);
+	sys.insertMachine("machine 1");
+	sys.insertMachine("machine 4");
 
-	SHA1 checksum;
-	checksum.update(input);
-	const string hash = checksum.final();
-
-	cout << "The SHA-1 of \"" << input << "\" is: " << hash << endl;
-
-
-	cout << "IN BINARY: " << hexaToBinary(hash) << endl;
-
-	cout << binaryToDecimel("11111111") << endl;
+	sys.showRoutingTables();
 	/*Bigint a("32");
 	Bigint b("2");
 	cout << a * b;

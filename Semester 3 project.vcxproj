@@ -134,6 +134,7 @@
     <ClInclude Include="Btree.h" />
     <ClInclude Include="CircularList.h" />
     <ClInclude Include="DoubleList.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="Machine.h" />
     <ClInclude Include="Ringdht.h" />
     <ClInclude Include="SHA1.hpp" />

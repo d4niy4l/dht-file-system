@@ -1,95 +1,222 @@
 #pragma once
+/************************************************************************
+TITLE: VECTOR
+DESCRIPTION:
+This class was made to serve as a
+replacement for the static array in C++,
+to efficiently grow the array and manage
+dynamic memory.
+REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
+AUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: HAFIZA IQRA [22I-1299]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include <iostream>
+
 using namespace std;
+
 template <class T>
 class Vector {
-	int capacity;
-	int size;
-	T* data;
+private:
+    int _capacity;
+    int _size;
+    T* data;
 public:
-	Vector(int s) {
-		capacity = s;
-		size = 0;
-		data = new T[capacity];
-	}
-	Vector(int s, T val) {
-		capacity = s;
-		size = s;
-		data = new T[capacity];
-		for (int i = 0; i < s; i++)
-			data[i] = val;
-	}
-	void resize(int s, T val) {
-		delete[] data;
-		data = new T[s];
-		capacity = s;
-		for (int i = 0; i < s; i++)
-			data[i] = val;
-	}
-	void push_back(T val) {
-		if (size >= capacity) {
-			T* temp = data;
-			data = new T[capacity + 10];
-			for (int i = 0; i < capacity; i++)
-				data[i] = temp[i];
-			capacity = capacity + 10;
-			delete[] temp;
-		}
-		data[size] = val;
-		size++;
-	}
-	void pop_back() {
-		if (size > 0)
-			size--;
-	}
-	void push_front(T val) {
-		T* temp = data;
-		if (size >= capacity)
-			data = new T[capacity + 10];
-		for (int i = 0, j = 1; i < capacity; i++, j++)
-			data[j] = temp[i];
-		if (size >= capacity) capacity += 10;
-		data[0] = val;
-		delete[] temp;
-	}
-	void pop_front() {
-		for (int i = 0; i < capacity - 1; i++)
-			data[i] = data[i + 1];
-		size--;
-	}
-	int getSize() const {
-		return size;
-	}
-	int get_capacity() const{
-		return capacity;
-	}
-	void insert_at_index(T val, int index) {
-		if (index < 0 || index >= capacity) return;
-		for (int i = capacity - 1; i > index; i--)
-			data[i] = data[i - 1];
-		size++;
-	}
-	T& operator [](int i) {
-		if (i >= capacity || i < 0) {
-			cout << "OUT OF BOUNDS";
-			exit;
-		}
-		return data[i];
-	}
-	T& operator [](int i) const {
-		if (i >= capacity || i < 0) {
-			cout << "OUT OF BOUNDS";
-			exit;
-		}
-		return data[i];
-	}
-	void clear() {
-		delete[] data;
-		data = nullptr;
-		capacity = 0;
-		size = 0;
-	}
-	~Vector() {
-		delete[] data;
-	}
+
+    //  DEFAULT CONSTRUCTOR
+    Vector(int s = 5)
+        :_capacity(s), _size(0), data(nullptr)
+    {
+        _capacity = s;
+        _size = 0;
+        data = new T[_capacity];
+    }
+
+    //  PARAMETERIZED CONSTRUCTOR
+    Vector(int s, const T& val)
+        :_capacity(s), _size(s)
+    {
+        data = new T[_capacity];
+        for (int i = 0; i < s; i++)
+            data[i] = val;
+    }
+
+    //  COPY CONSTRUCTOR
+    Vector(const Vector<T>& v) {
+        this->_capacity = v._capacity;
+        this->_size = v._size;
+        if (_capacity > 0) {
+            this->data = new T[this->_capacity];
+            for (int i = 0; i < v._capacity; i++) {
+                this->data[i] = v.data[i];
+            }
+        }
+    }
+
+    //  DESTRUCTOR
+    ~Vector() {
+        delete[] data;
+        data = nullptr;
+    }
+
+    //  RESIZE
+    void resize(int s, const T& val) {
+        //  IF SAME _capacity RETURN
+        if (s == _capacity) return;
+        //  CLEAR IF RESIZE TO ZERO
+        if (s == 0) {
+            this->removeAll();
+        }
+
+        if (data != nullptr) {
+            delete[] data;
+            this->data = nullptr;
+        }
+        data = new T[s];
+        _capacity = s;
+        for (int i = 0; i < s; i++)
+            data[i] = val;
+    }
+
+    //  PUSH_BACK AMORTIZED O(1)
+    void push_back(const T& val) {
+        /*
+            @params: val - Value to be strored
+            DESCRIPTION:
+            Insert value at the end of the array
+        */
+
+        //   IF ABOVE CAPACITY THEN RESIZE
+        if (size >= _capacity) {
+
+            //  MAKING AN ARRAY OF LARGER SIZE
+            T* temp = data;
+            data = new T[_capacity + 10];
+
+            //  COPY PREVIOUS ELEMENTS TO NEW ELEMENTS
+            for (int i = 0; i < _capacity; i++)
+                data[i] = temp[i];
+
+            //  RESETTING _capacity
+            _capacity = _capacity + 10;
+
+            //  DELETING PREVIOUS ARRAY
+            delete[] temp;
+            temp = nullptr;
+        }
+        //  ELSE SIMPLY ADD
+        data[_size] = val;
+        _size++;
+    }
+
+    //  POP_BACK O(1)
+    void pop_back() {
+        if (_size > 0)
+            _size--;
+    }
+
+    //  PUSH FRONT O(N)
+    void push_front(const T& val) {
+        T* temp = data;
+        if (_size >= _capacity) {
+            data = new T[_capacity + 10];
+        }
+        for (int i = 0, j = 1; i < _capacity; i++, j++) {
+            data[j] = temp[i];
+        }
+        if (_size >= _capacity) {
+            _capacity += 10;
+            delete[] temp;
+            temp = nullptr;
+        }
+        data[0] = val;
+        this->_size++;
+    }
+
+    //  POP FRONT O(N)
+    void pop_front() {
+        for (int i = 0; i < _capacity - 1; i++)
+            data[i] = data[i + 1];
+        _size--;
+    }
+
+    //  INSERT AT INDEX O(N)
+    void insert_at_index(const T& val, int index) {
+        if (index < 0 || index >= _capacity)
+            return;
+        if (_size == _capacity) {
+            T* newdata = new T[_capacity + 10];
+            for (int i = 0; i < _capacity; i++) {
+                newdata[i] = data[i];
+            }
+            _capacity += 10;
+            delete data;
+            data = nullptr;
+            data = newdata;
+        }
+        for (int i = _capacity - 1; i > index; i--)
+            data[i] = data[i - 1];
+
+        data[index] = val;
+        _size++;
+    }
+
+    void set_at_index(const T& val, int index) {
+        if (index >= _capacity || index < 0) {
+            return;
+        }
+        else {
+            this->data[index] = val;
+            if (index >= _size) {
+                _size = index + 1;
+            }
+        }
+    }
+
+    //  REMOVE AT INDEX O(N) 
+    void remove_at_index(int idx) {
+        if (idx < 0 || idx >= _size) {
+            return;
+        }
+        for (int i = idx; i < _size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        _size--;
+    }
+
+    //  REMOVE ALL
+    void removeAll() {
+        if (this->data != nullptr) {
+            delete[] data;
+            data = nullptr;
+            _capacity = 0;
+            _size = 0;
+        }
+    }
+
+    //  GETTERS
+    int size() const {
+        return this->_size;
+    }
+
+
+
+    //  OPERATOR OVERLOADING
+
+    T& operator [] (int i) {
+        if (i >= _capacity || i < 0) {
+            cout << "OUT OF BOUNDS";
+            exit(-1);
+        }
+        return data[i];
+    }
+    T& operator [] (int i) const {
+        if (i >= _capacity || i < 0) {
+            cout << "OUT OF BOUNDS";
+            exit(-1);
+        }
+        return data[i];
+    }
 };

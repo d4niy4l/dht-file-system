@@ -458,7 +458,7 @@ std::string Bigint::multiply(std::string str1, std::string str2) {             /
                 result[in1 + in2] += carry;
             in1++;
         }
-        int i = result.getSize() - 1;
+        int i = result.size() - 1;
         while (i >= 0 && result[i] == 0)
             i--;
         if (i == -1)

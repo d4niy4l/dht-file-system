@@ -26,7 +26,7 @@ string hexaToBinary(string hex){
 }
 string getLastNBits(string binary, int bits) {
 	string ans;
-	for (int i = binary.length(); i >= binary.length() - bits; i--) 
+	for (int i = binary.length()-1; i >= binary.length() - bits; i--) 
 		ans += binary[i];
 	return ans;
 }

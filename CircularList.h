@@ -1,3 +1,12 @@
+/************************************************************************
+TITLE: CIRCULAR LINKED LIST
+DESCRIPTION:
+This class was made to aid in the construction of the ring dht
+REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
+AUTHOR: DANIYAL AHMED [22I-1032]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: DANIYAL AHMED
+*************************************************************************/
 #pragma once
 template<class T>
 class cNode {
