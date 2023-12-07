@@ -4,11 +4,14 @@
 #include <string>
 #include "DoubleList.h"
 #include "BigInt.h"
+#include "Btree.h"
 #include "SHA1.hpp"
+#include "File.h"
 using namespace std;
 class Machine {
 	Bigint id;
 	string name;
+	BTree<File> tree;
 	public:
 	DoublyLinkedList<Machine*> RoutingTable;
 	Machine(Bigint id,string name) : name(name), id(id) {}

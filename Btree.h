@@ -1,18 +1,14 @@
 /************************************************************************
-TITLE: VECTOR 
+TITLE: BTREE
 DESCRIPTION:
-This class was made to serve as a 
-replacement for the static array in C++,
-to efficiently grow the array and manage
-dynamic memory.
-REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
-AUTHOR: DANIYAL AHMED [22I-1032]
-COAUTHOR: MUHAMMAD AHMAD [22I-1056]
-COAUTHOR: HAFIZA IQRA [22I-1299]
+REQUIREMENTS: SHOULD WORK IF YOU ARE USING IT
+AUTHOR: MUHAMMAD AHMAD [22I-1056] AND HAFIZA IQRA [22I-1299]
+COAUTHOR: DANIYAL AHMED [22I-1032]
 DATE: MONDAY 4-12-2023
 LASTEDITBY: MUHAMMAD AHMAD
 *************************************************************************/
 #pragma once
+#include "vector.h"
 #include <iostream>
 #include <string>
 #include <queue>
@@ -229,8 +225,6 @@ private:
         if (resolved) {
             return;
         }
-
-
         //  MERGE LEFT
         if (childidx - 1 >= 0) {
             //BNode<T>* mergedNode = new BNode<T>(order);
@@ -496,48 +490,3 @@ public:
 */
 };
 
-
-
-int main() {
-
-    BTree<char> t(5);
-    t.insert('C');
-    t.insert('N');
-    t.insert('G');
-    t.insert('A');
-    t.insert('H');
-    t.insert('E');
-    t.insert('K');
-    t.insert('Q');
-    t.insert('M');
-    t.insert('F');
-    t.insert('W');
-    t.insert('L');
-    t.insert('T');
-    t.insert('Z');
-    t.insert('P');
-    t.insert('R');
-    t.insert('X');
-    t.insert('Y');
-    t.insert('D');
-    t.insert('S');
-
-    
-    //  CHECK LEAVES
-    //t.remove('H');
-    //t.remove('T');
-    //t.remove('R');
-    //t.remove('E');
-    
-    //  CHECK INTERNAL
-    t.remove('H');
-    t.remove('T');
-    t.remove('D');
-
-    //  SEARCH
-    // char ch = t.search('S');
-
-    string code = t.generateDotCode(t.getRoot());
-    t.visualizeTree(code);
-    return 0;
-}

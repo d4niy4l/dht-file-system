@@ -5,4 +5,5 @@ using namespace std;
 class File {
 	Bigint hash;
 	string path;
+	
 };

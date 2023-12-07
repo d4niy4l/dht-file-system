@@ -18,6 +18,7 @@ public:
 		hasher.update(data);
 		return hasher.final();
 	}
+
 	void insertMachine(string name) {
 		string hex = hashFunction(name);
 		string binary = hexaToBinary(hex);
@@ -45,10 +46,6 @@ public:
 						if (searcher->data.getID() >= succ) break;
 					}
 					searcher = searcher->next;
-					if (searcher == curr) {
-						succ -= size;
-						searcher = searcher->next;
-					}
 				}
 				curr->data.RoutingTable.insert(&searcher->data);
 			}
