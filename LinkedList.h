@@ -46,22 +46,26 @@ public:
 		this->clear();
 	}
 
-
-	//overloaded = operator
+	//	ASSIGNMENT OPERATOR
 	LinkedList& operator = (const LinkedList& list) {
-		clear();
+		this->head = nullptr;
 		LNode<T>* curr = list.head;
-		while (curr)
+		while (curr) {
 			insert(curr->data);
+			curr = curr->next;
+		}
 		return *this;
 	}
+
 
 	// COPY CONSTRUCTOR
 	LinkedList(const LinkedList& list) {
 		clear();
 		LNode<T>* curr = list.head;
-		while (curr) 
+		while (curr) { 
 			insert(curr->data);
+			curr = curr->next;
+		}
 	}
 
 	//	INSERTION
@@ -131,7 +135,7 @@ public:
 	}
 
 	//	GET HEAD
-	const T& getHead() {
+	const T& getHead() const {
 		if (!this->isEmpty()) {
 			return this->head->data;
 		}
