@@ -24,7 +24,7 @@ public:
 		string binary = hexaToBinary(hex);
 		binary = getLastNBits(binary, identifierspace);
 		Bigint id = binaryToDecimel(binary);
-		Machine machine = Machine(id, name);
+		Machine machine = Machine(id, name, 5);
 		ring.insertAscending(machine);
 		makeRoutingTables();
 	}
@@ -61,7 +61,7 @@ public:
 		} while (curr != ring.getHead());
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
-		Machine machine = Machine(Bigint(id), name);
+		Machine machine = Machine(Bigint(id), name, 5);
 		ring.insertAscending(machine);
 		makeRoutingTables();
 	}

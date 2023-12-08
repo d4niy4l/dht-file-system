@@ -6,15 +6,15 @@
 #include "BigInt.h"
 #include "Btree.h"
 #include "SHA1.hpp"
-#include "File.h"
+#include "Key_Pair.h"
 using namespace std;
 class Machine {
 	Bigint id;
 	string name;
-	BTree<File> tree;
+	BTree<Key_Pair<File>> tree;
 	public:
 	DoublyLinkedList<Machine*> RoutingTable;
-	Machine(Bigint id,string name) : name(name), id(id) {}
+	Machine(Bigint id,string name, int order) : name(name), id(id), tree(order) {}
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;

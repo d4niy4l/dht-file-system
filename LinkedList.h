@@ -1,5 +1,13 @@
 #pragma once
-
+/************************************************************************
+TITLE: LINKED LIST
+DESCRIPTION:
+This class was made to make a chain of file objects when there was a collision in hash values
+REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
+AUTHOR: MUHAMMAD AHMAD AZAM [22I-1056]
+DATE: TUESDAY 5-12-2023
+LASTEDITBY: MUHAMMAD AHMAD AZAM
+*************************************************************************/
 #include <iostream>
 #include <string>
 using namespace std;
@@ -35,6 +43,11 @@ public:
 	//	DESTRUCTOR
 	~LinkedList() {
 		this->clear();
+	}
+
+	// COPY CONSTRUCTOR
+	LinkedList(const LinkedList& list) {
+
 	}
 
 	//	INSERTION

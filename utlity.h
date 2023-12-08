@@ -39,3 +39,9 @@ Bigint binaryToDecimel(string binary) {
 	}
 	return decimel;
 }
+string getNameFromPath(string path) {
+	string name;
+	for (int i = path.length() - 1; i >= 0 && path[i] != '/' && path[i] != '\\'; i++) 
+		name = path[i] + name;
+	return name;
+}

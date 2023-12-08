@@ -135,6 +135,8 @@
     <ClInclude Include="CircularList.h" />
     <ClInclude Include="DoubleList.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="Key_Pair.h" />
+    <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Machine.h" />
     <ClInclude Include="Ringdht.h" />
     <ClInclude Include="SHA1.hpp" />
