@@ -25,8 +25,7 @@ struct LNode {
 	}
 
 	LNode(T data)
-		:data(data), next(nullptr) {
-		
+		:data(data), next(nullptr) {	
 	}
 };
 

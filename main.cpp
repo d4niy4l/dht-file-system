@@ -5,21 +5,16 @@
 #include "utlity.h"
 int main() {
 	Ringdht sys(5);
-	sys.insertMachine("machine 1");
-	sys.insertMachine("machine 4");
-
+	sys.insertMachine("machine 1","1");
+	sys.insertMachine("machine 4","4");
+	sys.insertMachine("machine 9", "9");
+	sys.insertMachine("machine 11", "11");
+	sys.insertMachine("machine 14", "14");
+	sys.insertMachine("machine 20", "20");
+	sys.insertMachine("machine 18", "18");
+	sys.insertMachine("machine 28", "28");
+	sys.insertMachine("machine 21", "21");
 	sys.showRoutingTables();
-	/*Bigint a("32");
-	Bigint b("2");
-	cout << a * b;
-	cout << endl;
-	Bigint c = a % 3;
-	cout << c << endl;*/
-	//9999999999999999999
-	//9999999999999999999
-	//9999999999999999999
-	//cout << a - 1 << endl;
-	
 	/*
 	n.insertion(4);
 	n.insertion(10);

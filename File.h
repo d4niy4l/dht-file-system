@@ -8,10 +8,7 @@ class File {
 	string path;
 	string name;
 public:
-	File(Bigint hash, string path, string name) : hash(hash), path(path){
-		
-	
-	}
+	File(Bigint hash, string path, string name) : hash(hash), path(path){}
 	bool operator == (const File& other) const {
 		return hash == other.hash;
 	}
