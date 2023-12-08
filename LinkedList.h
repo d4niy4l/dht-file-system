@@ -5,6 +5,7 @@ DESCRIPTION:
 This class was made to make a chain of file objects when there was a collision in hash values
 REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
 AUTHOR: MUHAMMAD AHMAD AZAM [22I-1056]
+COAUTHOR: DANIYAL AHMED [22I-1032]
 DATE: TUESDAY 5-12-2023
 LASTEDITBY: MUHAMMAD AHMAD AZAM
 *************************************************************************/
@@ -45,9 +46,22 @@ public:
 		this->clear();
 	}
 
+
+	//overloaded = operator
+	LinkedList& operator = (const LinkedList& list) {
+		clear();
+		LNode<T>* curr = list.head;
+		while (curr)
+			insert(curr->data);
+		return *this;
+	}
+
 	// COPY CONSTRUCTOR
 	LinkedList(const LinkedList& list) {
-
+		clear();
+		LNode<T>* curr = list.head;
+		while (curr) 
+			insert(curr->data);
 	}
 
 	//	INSERTION

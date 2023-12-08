@@ -191,11 +191,11 @@ private:
         if (childidx + 1 <= currNode->count) {
             BNode<T>* nRight = currNode->links[childidx + 1];
             if (nRight->count > MIN_KEYS) {
-                int temp = nRight->arr[0];
+                T temp = nRight->arr[0];
                 nRight->arr.remove_at_index(0);
                 nRight->count--;
 
-                int currNodeVal = currNode->arr[childidx];
+                T currNodeVal = currNode->arr[childidx];
                 currNode->arr[childidx] = temp;
 
                 child->insert(currNodeVal);
@@ -210,11 +210,11 @@ private:
         if (childidx - 1 >= 0) {
             BNode<T>* nLeft = currNode->links[childidx - 1];
             if (nLeft->count > MIN_KEYS) {
-                int temp = nLeft->arr[nLeft->count-1];
+                T temp = nLeft->arr[nLeft->count-1];
                 nLeft->arr.pop_back();
                 nLeft->count--;
 
-                int currNodeVal = currNode->arr[childidx];
+                T currNodeVal = currNode->arr[childidx];
                 currNode->arr[childidx] = temp;
 
                 child->insert(currNodeVal);
@@ -331,7 +331,7 @@ private:
         }
         
         BNode<T>* child = currNode->links[idx + 2];
-        int currData = child->arr[0];
+        T currData = child->arr[0];
         currNode->arr[idx + 1] = currData;
         deleteNode(child, currData);
         checkDeficiency(currNode, child, idx + 2);
