@@ -6,12 +6,12 @@
 #include <iostream>
 class Bigint {
     std::string str;
-    std::string add(std::string str1, std::string str2);
-    std::string subtract(std::string str1, std::string str2);
-    std::string trim(std::string str);
-    std::string maximum(std::string str1, std::string str2);
-    std::string multiply(string str1, string str2);
-    std::string pow(string str1, string str2) { //this will not work for negative powers 
+    std::string add (std::string str1, std::string str2) const;
+    std::string subtract(std::string str1, std::string str2) const;
+    std::string trim(std::string str) const;
+    std::string maximum(std::string str1, std::string str2) const;
+    std::string multiply (string str1, string str2) const;
+    std::string pow(string str1, string str2) const { //this will not work for negative powers 
         if (str2 == "0") return "1";
         string base = "1";
         while (str2 > "0") {
@@ -43,7 +43,7 @@ public:
     operator string() {
         return this->str;
     }
-    Bigint operator % (Bigint& const s) {
+    Bigint operator % (const Bigint&  s) {
         Bigint temp = *this;
         if (temp < s) return temp;
         while (temp > s) 
@@ -64,16 +64,16 @@ public:
             temp -= n;
         return temp;
     }
-    static Bigint power(Bigint& const a, Bigint& const b) {
+    static Bigint power(const Bigint&  a, const Bigint&  b) {
         return Bigint(a.pow(a.str, b.str));
     }
-    static Bigint power(Bigint& const a, string b) {
+    static Bigint power(const Bigint& a, string b) {
         return Bigint(a.pow(a.str, b));
     }
-    static Bigint power(Bigint& const a, int b) {
+    static Bigint power(const Bigint& a, int b) {
         return Bigint(a.pow(a.str, to_string(b)));
     }
-    static Bigint power(Bigint& const a, long long int b) {
+    static Bigint power(const Bigint& a, long long int b) {
         return Bigint(a.pow(a.str, to_string(b)));
     }
     static Bigint power(int a, int b) {
@@ -88,17 +88,17 @@ public:
         stream >> n.str;
         return stream;
     }
-    Bigint operator + (Bigint const& n) {
+    Bigint operator + (Bigint const& n) const {
         Bigint ans;
         ans.str = add(str, n.str);
         return ans;
     }
-    Bigint operator + (long long int n2) {
+    Bigint operator + (long long int n2) const{
         Bigint ans;
         ans.str = add(str, std::to_string(n2));
         return ans;
     }
-    Bigint operator + (int n2) {
+    Bigint operator + (int n2) const{
         Bigint ans;
         ans.str = add(str, std::to_string(n2));
         return ans;
@@ -149,7 +149,7 @@ public:
         *this -= 1;
         return temp;
     }
-    Bigint& operator = (Bigint& const n) {
+    Bigint& operator = (const Bigint& n) {
         str = n.str;
         return *this;
     }
@@ -176,28 +176,28 @@ public:
 
 
     //for Bigint
-    bool operator >= (const Bigint& s) {            
+    bool operator >= (const Bigint& s) const{            
         return str == maximum(str, s.str);
     }
 
-    bool operator <= (const Bigint& s) {
+    bool operator <= (const Bigint& s) const{
         return s.str == maximum(str, s.str);
     }
 
-    bool operator < (const Bigint& s) {
+    bool operator < (const Bigint& s) const{
         if (s.str == str) return false;
         return *this <= s;
     }
 
-    bool operator > (const Bigint& s) {
+    bool operator > (const Bigint& s) const {
         if (s.str == str) return false;
         return *this >= s;
     }
 
-    bool operator == (const Bigint&  s) {
+    bool operator == (const Bigint&  s) const {
         return str == s.str;
     }
-    bool operator != (const Bigint&  s) {
+    bool operator != (const Bigint& s) const{
         return str != s.str;
     }
 
@@ -257,7 +257,7 @@ public:
         return str != to_string(n);
     }
 
-    Bigint operator * (Bigint& const s) {
+    Bigint operator * (const Bigint& s) {
         Bigint temp(multiply(this->str,s.str));
         return temp;
     }
@@ -270,14 +270,14 @@ public:
         Bigint temp(multiply(this->str, to_string(n)));
         return temp;
     }
-    Bigint& operator *= (Bigint& const s) {
+    Bigint& operator *= (const Bigint& s) {
         str = multiply(this->str, s.str);
         return *this;
     }
 
 
 };
-std :: string Bigint :: add(std :: string str1, std :: string str2) {          // returns arithmetic addition of str1+str2
+std :: string Bigint :: add (std :: string str1, std :: string str2) const{          // returns arithmetic addition of str1+str2
     std::string sum = "";
 
     if (str1.length() == 0 && str2.length() == 0) {
@@ -319,7 +319,7 @@ std :: string Bigint :: add(std :: string str1, std :: string str2) {          /
     }
     return trim(sum);
 }
-std::string Bigint::subtract(std::string str1, std::string str2) {                 // returns arithmetic subtraction of str1-str2
+std::string Bigint::subtract(std::string str1, std::string str2) const{                 // returns arithmetic subtraction of str1-str2
     std::string sum = "";
     if (str1 == str2) {
         return "0";
@@ -376,7 +376,7 @@ std::string Bigint::subtract(std::string str1, std::string str2) {              
     return trim(sum);
 }
 
-std::string Bigint::trim(std::string str) {                         // function to remove zeros
+std::string Bigint::trim(std::string str) const{                         // function to remove zeros
     if (str == "0")
         return str;
     if (str[0] == '-' || str[0] == '0') {
@@ -385,14 +385,14 @@ std::string Bigint::trim(std::string str) {                         // function 
     }
     return str;
 }
-std::string Bigint::maximum(std::string str1, std::string str2) {  
+std::string Bigint::maximum(std::string str1, std::string str2) const {  
     std::string max = "";
     bool bothNeg = false;
     bool isMax = false; //assume  str1 is always greater
     if (str1[0] == '-' && str2[0] == '-') {
         bothNeg = true;
-        str1.substr(1);
-        str2.substr(1);
+        str1 = str1.substr(1);
+        str2 = str2.substr(1);
     }
     else if (str1[0] == '-') 
         return trim(str2);
@@ -425,7 +425,7 @@ std::string Bigint::maximum(std::string str1, std::string str2) {
             return trim(str2);
     }
 }
-std::string Bigint::multiply(std::string str1, std::string str2) {             // return arithmetic multiplication of str1*str2
+std::string Bigint::multiply(std::string str1, std::string str2) const{             // return arithmetic multiplication of str1*str2
     bool neg = false;
     string product = "";
     if (str1[0] == '-' && str2[0] == '-') {

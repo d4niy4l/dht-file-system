@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include "LinkedList.h"
-#include "utlity.h"
 #include "BigInt.h"
 #include "File.h"
 using namespace std;
@@ -11,22 +10,22 @@ class Key_Pair {
 	LinkedList<T> chain;
 public:
 	Key_Pair(Bigint key) : key(key){}
-	bool operator == (const Key_Pair<T>& other) {
+	bool operator == (const Key_Pair<T>& other) const{
 		return key == other.key;
 	}
-	bool operator != (const Key_Pair<T>& other) {
+	bool operator != (const Key_Pair<T>& other) const{
 		return key != other.key;
 	}
-	bool operator > (const Key_Pair<T>& other) {
+	bool operator > (const Key_Pair<T>& other) const{
 		return key > other.key;
 	}
-	bool operator >= (const Key_Pair<T>& other) {
+	bool operator >= (const Key_Pair<T>& other) const{
 		return key >= other.key;
 	}
-	bool operator < (const Key_Pair<T>& other) {
+	bool operator < (const Key_Pair<T>& other) const{
 		return key < other.key;
 	}
-	bool operator <= (const Key_Pair<T>& other) {
+	bool operator <= (const Key_Pair<T>& other) const{
 		return key <= other.key;
 	}
 };
