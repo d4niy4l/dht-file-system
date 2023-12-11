@@ -13,11 +13,14 @@ class Machine {
 	string name;
 	public:
 	BTree<Key_Pair<File>> tree;
-	DoublyLinkedList<Machine*> RoutingTable;
+	DoublyLinkedList<Machine*> RoutingTable;   
 	Machine(Bigint id,string name, int order) : name(name), id(id), tree(order) {}
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;
+	}
+	const DoublyLinkedList<Machine*>& getRoutingTable() {
+		return RoutingTable;
 	}
 	void showRoutingTable() {
 		printDetails();

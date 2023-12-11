@@ -12,7 +12,7 @@ template<class T>
 class cNode {
 public:
 	T data;
-	cNode<T>* next; 
+	cNode<T>* next;
 	cNode<T>* prev;
 	T getData() { return data; }
 	void setData(T d) { data = d; }
@@ -23,7 +23,7 @@ template<class T>
 class CircularLinkedList {
 public:
 	cNode<T>* head;
-	CircularLinkedList() : head(nullptr){}
+	CircularLinkedList() : head(nullptr) {}
 	void insert(T data) {
 		if (!head) {
 			head = new cNode<T>(data);
@@ -46,7 +46,7 @@ public:
 		curr->next = head;
 		head->prev = curr;
 	}
-	void insertAscending(T data){
+	void insertAscending(T data) {
 		if (isEmpty()) {
 			head = new cNode<T>(data);
 			head->next = head;
@@ -80,7 +80,7 @@ public:
 	bool isEmpty() {
 		return !head;
 	}
-	bool search(int data) {
+	bool exists(T data) {
 		if (isEmpty()) return false;
 		if (head->data == data) return true;
 		cNode<T>* curr = head->next;
@@ -90,6 +90,22 @@ public:
 		}
 		return false;
 	}
+
+	const T& search(const T& data) {
+		cNode<T>* temp = head;
+		bool found = false;
+		do {
+			if (temp->data == data) {
+				found = true;
+				break;
+			}
+			temp = temp->next;
+		} while (temp != head);
+		if (found) {
+			return temp->data;
+		}
+	}
+
 	void update(int data, int replacer) {
 		if (isEmpty()) return;
 		if (head->data == data) head->setData(replacer);
@@ -125,7 +141,7 @@ public:
 		delete curr->getNext();
 		curr->next = (temp);
 	}
-	void printList(){
+	void printList() {
 		cNode<T>* temp = head;
 		if (head != NULL) {
 			do {

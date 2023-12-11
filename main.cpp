@@ -4,35 +4,10 @@
 #include "BigInt.h"
 #include "utlity.h"
 int main() {
-	Ringdht sys(5);
-	sys.insertMachine("machine 1","1");
-	sys.insertMachine("machine 4","4");
-	sys.insertMachine("machine 9", "9");
-	sys.insertMachine("machine 11", "11");
-	sys.insertMachine("machine 14", "14");
-	sys.insertMachine("machine 20", "20");
-	sys.insertMachine("machine 18", "18");
-	sys.insertMachine("machine 28", "28");
-	sys.insertMachine("machine 21", "21");
+	
 	//sys.showRoutingTables();
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt");
-	/*
-	n.insertion(4);
-	n.insertion(10);
-	n.insertion(2);
-	n.insertion(12);
-	n.insertion(30);
-	n.insertion(43);
-	n.insertion(3);
-	n.insertion(1);
-	n.insertion(54);
-	n.insertion(64);
-	n.insertion(60);
-	n.insertion(92);
-	n.insertion(90);
-	n.insertion(70);
-	n.insertion(66);*/
+	
+	
 
 	/*n.insertion(1);
 	n.insertion(2);
@@ -57,4 +32,25 @@ int main() {
 
 	n.traversal();*/
 	//visualizeTree(generateDotCode(n.root));
+
+	Ringdht sys(5);
+	sys.insertMachine("machine 1", "1");
+	sys.insertMachine("machine 4", "4");
+	sys.insertMachine("machine 9", "9");
+	sys.insertMachine("machine 11", "11");
+	sys.insertMachine("machine 14", "14");
+	sys.insertMachine("machine 20", "20");
+	sys.insertMachine("machine 18", "18");
+	sys.insertMachine("machine 28", "28");
+	sys.insertMachine("machine 21", "21"); 
+	/*sys.insertMachine("machine 1", "1");
+	sys.insertMachine("machine 3", "3");
+	sys.insertMachine("machine 10", "10");
+	sys.showRoutingTables();*/
+	long fid = 29;
+	 Bigint b(fid);
+	Bigint mid(10);
+	Machine* m = sys.searchMachine(b, mid);
+	cout << "The node where file id " << fid << " should be inserted/searched/deleted is: ";
+	if(m) m->printDetails();
 }
