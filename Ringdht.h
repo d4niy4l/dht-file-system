@@ -28,13 +28,31 @@ public:
 	}
 
 
-	
+
 	void insertFile(string path) {
 		string filehash = hashFile(path);
 		string binary = hexaToBinary(filehash);
 		binary = getLastNBits(binary,identifierspace);
 		Bigint id = binaryToDecimel(binary);
-
+		cout << "HASH OF THE FILE IS: " << id << endl;
+		//using linear search untill search algorithm is designed
+		cNode<Machine>* curr = ring.getHead();
+		Machine* machine = &ring.getHead()->data;
+		do {
+			if (curr->data.getID() >= id) {
+				machine = &curr->data;
+				break;
+			}
+			if (curr->next == ring.getHead() && id > curr->next->data.getID()) {
+				machine = &curr->next->data;
+				break;
+			}
+		} while (curr != ring.getHead());
+		Key_Pair<File> key;
+		key.insert(File(id, path));
+		machine->tree.insert(key);
+		const Key_Pair<File>* k = &machine->tree.search(key);
+		k->getList().print();
 	}
 	
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)

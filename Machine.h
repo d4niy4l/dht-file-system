@@ -11,16 +11,13 @@ using namespace std;
 class Machine {
 	Bigint id;
 	string name;
-	BTree<Key_Pair<File>> tree;
 	public:
+	BTree<Key_Pair<File>> tree;
 	DoublyLinkedList<Machine*> RoutingTable;
 	Machine(Bigint id,string name, int order) : name(name), id(id), tree(order) {}
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;
-	}
-	Machine* reroute(long long int key) {
-		
 	}
 	void showRoutingTable() {
 		printDetails();

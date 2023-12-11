@@ -14,7 +14,9 @@ int main() {
 	sys.insertMachine("machine 18", "18");
 	sys.insertMachine("machine 28", "28");
 	sys.insertMachine("machine 21", "21");
-	sys.showRoutingTables();
+	//sys.showRoutingTables();
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt");
 	/*
 	n.insertion(4);
 	n.insertion(10);

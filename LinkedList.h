@@ -84,12 +84,7 @@ public:
 
 	//	IS EMPTY
 	bool isEmpty() const {
-		if (this->head == nullptr) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return this->head == nullptr;
 	}
 
 	//	DELETE
@@ -130,6 +125,15 @@ public:
 	void clear() {
 		while (!this->isEmpty()) {
 			this->remove(this->head->data);
+		}
+	}
+
+	//PRINT
+	void print() const{
+		LNode<T>* curr = head;
+		while (curr) {
+			cout << curr->data << endl;
+			curr = curr->next;
 		}
 	}
 
