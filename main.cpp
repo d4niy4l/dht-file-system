@@ -4,7 +4,7 @@
 #include "BigInt.h"
 #include "utlity.h"
 int main() {
-	Ringdht sys(5);
+	Ringdht sys(5,5);
 	sys.insertMachine("machine 1","1");
 	sys.insertMachine("machine 4","4");
 	sys.insertMachine("machine 9", "9");
@@ -15,8 +15,8 @@ int main() {
 	sys.insertMachine("machine 28", "28");
 	sys.insertMachine("machine 21", "21");
 	//sys.showRoutingTables();
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt");
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt");
+	sys.insertFile("C:\\Users\\borzoi\\Pictures\\Screenshots\\cases.png","9");
+	sys.insertFile("C:\\Users\\borzoi\\Pictures\\Screenshots\\cases.png","9");
 	/*
 	n.insertion(4);
 	n.insertion(10);

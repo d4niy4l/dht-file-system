@@ -74,6 +74,15 @@ public:
 		string binary = hexaToBinary(filehash);
 		binary = getLastNBits(binary, identifierspace);
 		Bigint id = binaryToDecimel(binary);
+		Bigint mid = MachineID;
+		Machine* machine = searchMachine(id, mid);
+		Key_Pair<File> keyvalue;
+		keyvalue.insert(File(id, path));
+		machine->tree.insert(keyvalue);
+		cout << "HASH OF FILE: " << id << endl;
+		cout << "FILE INSERTED AT MACHINE WITH ID: " << machine->getID() << endl;
+		const Key_Pair<File>* ptr = &machine->tree.search(keyvalue);
+		ptr->getList().print();
 	}
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
 	Machine* getOrigin(const Bigint& p) {
@@ -224,8 +233,9 @@ public:
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
 	}
-	void insertMachine(string name, Bigint& id) { //incase user wants to give their own id
-		Machine machine = Machine(id, name, order);
+	void insertMachine(string name, string id) { //incase user wants to give their own id
+		Bigint sid = id;
+		Machine machine = Machine(sid, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
 	}
