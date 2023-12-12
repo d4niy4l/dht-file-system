@@ -119,7 +119,7 @@ public:
 		}
 	}
 
-	void deleteData(int data) {
+	void remove(T data) {
 		if (isEmpty())
 			return;
 		cNode<T>* curr = head;

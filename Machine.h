@@ -14,7 +14,7 @@ class Machine {
 	public:
 	BTree<Key_Pair<File>> tree;
 	DoublyLinkedList<Machine*> RoutingTable;   
-	Machine(Bigint id,string name, int order) : name(name), id(id), tree(order) {}
+	Machine(Bigint& id,string name, int order) : name(name), id(id), tree(order) {}
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;

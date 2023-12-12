@@ -11,10 +11,7 @@ private:
 	int identifierspace;
 	Bigint size; //made this so we done have to calculate the power (power function is expensive for bigint)
 	CircularLinkedList<Machine> ring;
-
-
-
-
+	int order;
 	string hashFunction(string data) {
 		/*
 			the hash function, gets a string and hashes it using SHA1
@@ -31,8 +28,7 @@ private:
 		SHA1 hasher;
 		return hasher.from_file(path);
 	}
-
-	// will make routung table, call when a machine is inserted, deleted
+	
 	void makeRoutingTables() {
 		if (ring.head->next == ring.head) {
 			ring.head->data.RoutingTable.clear();
@@ -63,18 +59,22 @@ private:
 
 public:
 	//	CONSTRUCTOR
-	Ringdht(int s) : identifierspace(s), size(Bigint::power(2, s)) {}
-
-
+	Ringdht(int s, int order) : identifierspace(s), size(Bigint::power(2, s)), order(order) {}
+	
+	//GETTERS AND SETTERS FOR ORDER
+	void setOrder(int n) {
+		order = n;
+	}
+	int getOrder() {
+		return order;
+	}
 	//	INSERTION
 	void insertFile(string path, string MachineID) {
 		string filehash = hashFile(path);
 		string binary = hexaToBinary(filehash);
 		binary = getLastNBits(binary, identifierspace);
 		Bigint id = binaryToDecimel(binary);
-
 	}
-
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
 	Machine* getOrigin(const Bigint& p) {
 		//first step is to find the machine where the query will originate from
@@ -120,9 +120,6 @@ public:
 		}
 		return curr;
 	}
-
-
-
 	//search the machine required for file insertion/searching/deletion
 	Machine* searchMachine(const Bigint& fileHash, const Bigint& machineHash) {
 		Machine* origin = getOrigin(machineHash);
@@ -131,7 +128,6 @@ public:
 		}
 		Machine* ret = nullptr;
 		Machine* curr = origin;
-
 		Bigint currId = curr->getID();
 		bool nodeFound = false;
 		bool c1 = false;  //condition 1
@@ -158,13 +154,11 @@ public:
 				dNode<Machine*>* currNode = curr->getRoutingTable().head;
 				currNode = currNode->next;
 				while (currNode) {
-
 					// if e > FT[j] and e <= FT[j+1] 
 					if (fileHash > prev->getID() && fileHash <= next->getID()) {
 						validEntry = true;
 						break;
 					}
-
 					//special case if the hash of the file is between the head and last element of the ring dht
 					//if head is reached in the routing table then return the head
 					else if (prev == &ring.getHead()->data && fileHash < ring.getHead()->data.getID() && fileHash < curr->getID()) {
@@ -177,18 +171,14 @@ public:
 							next = currNode->data;
 						}
 					}
-
 				}
 				//if routing was not done and the hash is less than the last element of routing table of current machine
 				if (!validEntry && fileHash <= ring.head->prev->data.getID()) { 
 					// this means that the last element of the routing table was smaller than file hash value so we reroute to that 
 					// and search there
-					if (curr->getID() < fileHash) {
-						if (prev->getID() < fileHash) {
-							validEntry = true;
-						}
+					if (curr->getID() < fileHash && prev->getID() < fileHash) {
+						validEntry = true;
 					}
-
 					// this is for the case when the hash of the file is between the head and last element of the ring dht
 					else if (ring.getHead()->data.getID() > fileHash) {
 						validEntry = true;
@@ -208,18 +198,14 @@ public:
 			else if (!c1 && !c2 && !c3) {
 				//	CASE FOR 29,30,31 WHEN MAX NODE IS 28
 				if (fileHash > ring.head->prev->data.getID()) {
-					Machine* p = &ring.head->data;
-					return p;
+					return &ring.head->data;
 				}
 				else {
 					return curr;
 				}
 			}
-
 		}
-
 	}
-
 
 	//inserts machine, gets machine name and autogenerates its id using SHA1
 	//then converts hexa to binary and gets last n bits of it and changes it into decimel to make it an ID on which comparisons can
@@ -229,12 +215,17 @@ public:
 		string binary = hexaToBinary(hex);
 		binary = getLastNBits(binary, identifierspace);
 		Bigint id = binaryToDecimel(binary);
-		Machine machine = Machine(id, name, 5);
+		Machine machine = Machine(id, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
 	}
-	void insertMachine(string name, string id) { //incase user wants to give their own id
-		Machine machine = Machine(Bigint(id), name, 5);
+	void removeMachine(Bigint& id) {
+		string name = "DELETED MACHINE";
+		ring.remove(Machine(id, name, order));
+		makeRoutingTables();
+	}
+	void insertMachine(string name, Bigint& id) { //incase user wants to give their own id
+		Machine machine = Machine(id, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
 	}

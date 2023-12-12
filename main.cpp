@@ -32,17 +32,16 @@ int main() {
 
 	n.traversal();*/
 	//visualizeTree(generateDotCode(n.root));
-
-	Ringdht sys(5);
-	sys.insertMachine("machine 1", "1");
-	sys.insertMachine("machine 4", "4");
-	sys.insertMachine("machine 9", "9");
-	sys.insertMachine("machine 11", "11");
-	sys.insertMachine("machine 14", "14");
-	sys.insertMachine("machine 20", "20");
-	sys.insertMachine("machine 18", "18");
-	sys.insertMachine("machine 28", "28");
-	sys.insertMachine("machine 21", "21"); 
+	string arr[] = { "1","4","9","11","14","15","20","18","28","21"};
+	Ringdht sys(5,5); 
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++) {
+		string name = "MACHINE " + arr[i];
+		Bigint a(arr[i]);
+		sys.insertMachine(name, a);
+	}
+	Bigint C = 15;
+	// sys.removeMachine(C);
+	sys.showRoutingTables();
 	/*sys.insertMachine("machine 1", "1");
 	sys.insertMachine("machine 3", "3");
 	sys.insertMachine("machine 10", "10");

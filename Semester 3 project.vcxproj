@@ -141,6 +141,7 @@
     <ClInclude Include="Ringdht.h" />
     <ClInclude Include="SHA1.hpp" />
     <ClInclude Include="Stack.h" />
+    <ClInclude Include="System.h" />
     <ClInclude Include="utlity.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
