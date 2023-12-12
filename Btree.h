@@ -1,21 +1,25 @@
+#pragma once
 /************************************************************************
-TITLE: BTREE
+TITLE: VECTOR
 DESCRIPTION:
-REQUIREMENTS: SHOULD WORK IF YOU ARE USING IT
-AUTHOR: MUHAMMAD AHMAD [22I-1056] AND HAFIZA IQRA [22I-1299]
-COAUTHOR: DANIYAL AHMED [22I-1032]
+This class was made to serve as a
+replacement for the static array in C++,
+to efficiently grow the array and manage
+dynamic memory.
+REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
+AUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: HAFIZA IQRA [22I-1299]
 DATE: MONDAY 4-12-2023
 LASTEDITBY: MUHAMMAD AHMAD
 *************************************************************************/
-#pragma once
-#include "vector.h"
 #include <iostream>
 #include <string>
 #include <queue>
 #include <fstream>
+#include "vector.h"
 #include "Key_Pair.h"
 using namespace std;
-
 
 template <class T>
 class BNode {
@@ -49,7 +53,7 @@ public:
 	}
 
 	//  GET MEDIAN
-	T getMedian() {
+	const T& getMedian() {
 		return this->arr[this->medPos];
 	}
 
@@ -63,7 +67,7 @@ public:
 	}
 
 	//  INSERT 
-	void insert(const T & val) {
+	void insert(const T& val) {
 		bool inserted = false;
 		for (int i = 0; i < count; i++) {
 			if (arr[i] > val) {
@@ -78,7 +82,7 @@ public:
 		}
 	}
 
-	void insert(const T & data, BNode<T> * left, BNode<T> * right) {
+	void insert(const T& data, BNode<T>* left, BNode<T>* right) {
 		int idx = -1;
 		for (int i = 0; i < count; i++) {
 			if (data > arr[i]) {
@@ -93,13 +97,9 @@ public:
 		links.set_at_index(left, idx + 1);
 		links.insert_at_index(right, idx + 2);
 	}
-	void insertDuplicate(const T& data, int i) {
-		
-	}
 };
 
-
-template<>
+template <>
 class BNode<Key_Pair<File>> {
 public:
 	Vector<Key_Pair<File>> arr;
@@ -125,13 +125,12 @@ public:
 		}
 	}
 
-	//  DESTRUCTOR
+	//	DESTRUCTOR
 	~BNode() {
 
 	}
 
-	//  GET MEDIAN
-	Key_Pair<File> getMedian() {
+	const Key_Pair<File>& getMedian() {
 		return this->arr[this->medPos];
 	}
 
@@ -144,23 +143,31 @@ public:
 		}
 	}
 
-	//  INSERT 
+
 	void insert(const Key_Pair<File>& val) {
 		bool inserted = false;
 		for (int i = 0; i < count; i++) {
-			if (arr[i] > val) {
+			if (arr[i] == val) {
+				Key_Pair<File>& f = arr[i];
+				File newobj = val.getList().getHead();
+				f.insert(newobj);
+				inserted = true;
+				break;
+			}
+			else if (arr[i] > val) {
 				arr.insert_at_index(val, i);
 				count++;
 				inserted = true;
 				break;
 			}
 		}
+
 		if (!inserted) {
 			arr.insert_at_index(val, count++);
 		}
 	}
 
-	void insert(const Key_Pair<File>& data, BNode<Key_Pair<File>> * left, BNode<Key_Pair<File>> * right) {
+	void insert(const Key_Pair<File>& data, BNode<Key_Pair<File>>* left, BNode<Key_Pair<File>>* right) {
 		int idx = -1;
 		for (int i = 0; i < count; i++) {
 			if (data > arr[i]) {
@@ -175,14 +182,7 @@ public:
 		links.set_at_index(left, idx + 1);
 		links.insert_at_index(right, idx + 2);
 	}
-	void insertDuplicate(const Key_Pair<File>& data, int i) {
-		LinkedList<File> l = data.getList();
-		File f = l.getHead();
-		arr[i].insert(f);
-	}
 };
-
-
 
 
 template <class T>
@@ -194,7 +194,31 @@ private:
 	const int MAX_LINKS;
 	const int MIN_KEYS;
 	bool evenSplit = 0;
+	bool DELETE_VIA_SUCCESSOR = 0;
 private:
+
+
+	//	HELPER FUNCTIONS FOR SEARCH
+	const T& helpSearch(BNode<T>* currNode, const T& data) {
+		if (currNode == nullptr) {
+			return T();
+		}
+		int idx = -1;
+		for (int i = 0; i < currNode->count; i++) {
+			if (data > currNode->arr[i]) {
+				idx++;
+			}
+			else {
+				break;
+			}
+		}
+		if (currNode->arr[idx + 1] == data) {
+			return currNode->arr[idx + 1];
+		}
+		else {
+			return helpSearch(currNode->links[idx + 1], data);
+		}
+	}
 
 
 	//  HELPER FUNCTIONS FOR INSERTION
@@ -213,10 +237,6 @@ private:
 				else {
 					break;
 				}
-			}
-			if (currNode->arr[idx + 1] == data) {
-				currNode->insertDuplicate(data, idx + 1);
-				return;
 			}
 			insertNode(currNode->links[idx + 1], data);
 			if (currNode->links[idx + 1]->count > MAX_KEYS) {
@@ -280,31 +300,58 @@ private:
 		parent->insert(median, left, right);
 	}
 
-
 	//  HELPER FUNCTIONS FOR DELETION
+	void deleteAtLeaf(BNode<T> * &currNode, const T & data) {
+		for (int i = 0; i < currNode->count; i++) {
+			if (currNode->arr[i] == data) {
+				currNode->arr.remove_at_index(i);
+				currNode->count--;
+				break;
+			}
+		}
+	}
+	void deleteAtInternal(BNode<T> * &currNode, const T & data) {
+		int idx = -1;
+		for (int i = 0; i < currNode->count; i++) {
+			if (data > currNode->arr[i]) {
+				idx++;
+			}
+			else {
+				break;
+			}
+		}
+		//  SUCCESSOR
+		if (DELETE_VIA_SUCCESSOR) {
+			BNode<T>* child = currNode->links[idx + 2];
+			BNode<T>* temp = child;
+			while (temp->isLeaf == false) {
+				temp = temp->links[0];
+			}
+			T currData = temp->arr[0];
+			currNode->arr[idx + 1] = currData;
+			deleteNode(child, currData);
+			checkDeficiency(currNode, child, idx + 2);
+		}
+		else {
+			//  LEFT SUBTREE - RIGHTMOST ELEMENT
+			BNode<T>* child = currNode->links[idx + 1];
+			BNode<T>* temp = child;
+			while (temp->isLeaf == false) {
+				temp = temp->links[temp->count];
+			}
+			T currData = temp->arr[temp->count - 1];
+			currNode->arr[idx + 1] = currData;
+			deleteNode(child, currData);
+			checkDeficiency(currNode, child, idx + 1);
+		}
+	}
 	void checkDeficiency(BNode<T> * currNode, BNode<T> * child, int childidx) {
 		if (child->count >= MIN_KEYS) {
 			return;
 		}
+
 		bool resolved = false;
-		//  CHECK RIGHT SIBLING
-		if (childidx + 1 <= currNode->count) {
-			BNode<T>* nRight = currNode->links[childidx + 1];
-			if (nRight->count > MIN_KEYS) {
-				T temp = nRight->arr[0];
-				nRight->arr.remove_at_index(0);
-				nRight->count--;
 
-				T currNodeVal = currNode->arr[childidx];
-				currNode->arr[childidx] = temp;
-
-				child->insert(currNodeVal);
-				resolved = true;
-			}
-		}
-		if (resolved) {
-			return;
-		}
 
 		//  CHECK LEFT SIBLING
 		if (childidx - 1 >= 0) {
@@ -312,12 +359,17 @@ private:
 			if (nLeft->count > MIN_KEYS) {
 				T temp = nLeft->arr[nLeft->count - 1];
 				nLeft->arr.pop_back();
-				nLeft->count--;
 
-				T currNodeVal = currNode->arr[childidx];
-				currNode->arr[childidx] = temp;
+				T currNodeVal = currNode->arr[childidx - 1];
+				currNode->arr[childidx - 1] = temp;
 
 				child->insert(currNodeVal);
+				if (!child->isLeaf) {
+					BNode<T>* temp = nLeft->links[nLeft->count];
+					nLeft->links.pop_back();
+					child->links.push_front(temp);
+				}
+				nLeft->count--;
 				resolved = true;
 			}
 		}
@@ -325,9 +377,41 @@ private:
 		if (resolved) {
 			return;
 		}
+
+
+
+		//  CHECK RIGHT SIBLING
+		if (childidx + 1 <= currNode->count) {
+			BNode<T>* nRight = currNode->links[childidx + 1];
+			if (nRight->count > MIN_KEYS) {
+				T temp = nRight->arr[0];
+				nRight->arr.remove_at_index(0);
+
+				T currNodeVal = currNode->arr[childidx];
+				currNode->arr[childidx] = temp;
+
+				child->insert(currNodeVal);
+				if (!child->isLeaf) {
+					BNode<T>* temp = nRight->links[0];
+					nRight->links.pop_front();
+					child->links.push_back(temp);
+				}
+				nRight->count--;
+				resolved = true;
+			}
+		}
+		if (resolved) {
+			return;
+		}
+
+
+
+
+
+
 		//  MERGE LEFT
 		if (childidx - 1 >= 0) {
-			//BNode<T>* mergedNode = new BNode<T>(order);
+			//BNode* mergedNode = new BNode(order);
 
 			BNode<T>* nLeft = currNode->links[childidx - 1];
 			nLeft->arr.push_back(currNode->arr[childidx - 1]);
@@ -398,8 +482,6 @@ private:
 		//  VALUE FOUND IN CURRENT NODE
 		if (data == currNode->arr[idx + 1]) {
 			if (currNode->isLeaf) {
-				//currNode->arr.remove_at_index(idx + 1);
-				//currNode->count--;
 				deleteAtLeaf(currNode, data);
 			}
 			else {
@@ -413,53 +495,18 @@ private:
 		}
 
 	}
-	void deleteAtLeaf(BNode<T> * &currNode, const T & data) {
-		for (int i = 0; i < currNode->count; i++) {
-			if (currNode->arr[i] == data) {
-				currNode->arr.remove_at_index(i);
-				currNode->count--;
-				break;
+	void destroyTree(BNode<T> * node) {
+		if (node != nullptr) {
+			if (!node->isLeaf) {
+				for (int i = 0; i <= node->count; i++) {
+					if (node->links[i])
+						destroyTree(node->links[i]);
+				}
 			}
-		}
-	}
-	void deleteAtInternal(BNode<T> * &currNode, const T & data) {
-		int idx = -1;
-		for (int i = 0; i < currNode->count; i++) {
-			if (data > currNode->arr[i]) {
-				idx++;
+			if (node) {
+				delete node;
+				node = nullptr;
 			}
-			else {
-				break;
-			}
-		}
-
-		BNode<T>* child = currNode->links[idx + 2];
-		T currData = child->arr[0];
-		currNode->arr[idx + 1] = currData;
-		deleteNode(child, currData);
-		checkDeficiency(currNode, child, idx + 2);
-	}
-
-
-	//  SEARCH
-	const T& helpSearch(BNode<T> * currNode, const T & data) {
-		if (currNode == nullptr) {
-			return T();
-		}
-		int idx = -1;
-		for (int i = 0; i < currNode->count; i++) {
-			if (currNode->arr[i] < data) {
-				idx++;
-			}
-			else {
-				break;
-			}
-		}
-		if (currNode->arr[idx + 1] == data) {
-			return currNode->arr[idx + 1];
-		}
-		else {
-			return helpSearch(currNode->links[idx + 1], data);
 		}
 	}
 
@@ -472,15 +519,21 @@ public:
 
 	//  DESTRUCTOR
 	~BTree() {
-		while (this->root != nullptr)
-		{
-			remove(this->root->arr[0]);
-		}
+		this->destroyTree(this->root);
+	}
 
+	//  IS EMPTY
+	bool isEmpty() {
+		if (this->root == nullptr) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	//  INSERT
-	void insert(const T & data) {
+	void insert(const T& data) {
 		//  IF ROOT IS NULL
 		if (this->root == nullptr) {
 			BNode<T>* newNode = new BNode<T>(order);
@@ -505,12 +558,13 @@ public:
 	}
 
 	//  REMOVE
-	void remove(const T & data) {
+	void remove(const T& data) {
 		deleteNode(this->root, data);
 	}
 
-	const T& search(const T & data) {
-		return this->helpSearch(this->root, data);
+	//	SEARCH
+	const T& search(const T& val) {
+		return helpSearch(root, val);
 	}
 
 	//  GETTERS
@@ -544,9 +598,9 @@ public:
 			idQ.erase(idQ.begin());
 			dotCode += "\tnode" + std::to_string(j) + " [label=\"";
 			for (int i = 0; i < current->arr.size(); i++) {
-				//char ch = current->arr[i];
+				char ch = current->arr[i];
 				dotCode += "|";
-				dotCode += current->arr[i];
+				dotCode += ch;
 			}
 			dotCode += "|\"];\n";
 
