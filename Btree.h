@@ -150,6 +150,9 @@ public:
 			if (arr[i] == val) {
 				Key_Pair<File>& f = arr[i];
 				File newobj = val.getList().getHead();
+				string currName = newobj.getFilename();
+				currName += to_string(f.getList().size());
+				newobj.setFilename(currName);
 				f.insert(newobj);
 				inserted = true;
 				break;

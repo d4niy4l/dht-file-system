@@ -39,9 +39,17 @@ Bigint binaryToDecimel(string binary) {
 	}
 	return decimel;
 }
-string getNameFromPath(string path) {
+string getNameFromPath(const string& path) {
 	string name;
 	for (int i = path.length() - 1; i >= 0 && path[i] != '/' && path[i] != '\\'; i--) 
 		name = path[i] + name;
 	return name;
+}
+
+string getFileExtension(const string& path) {
+	string ext;
+	for (int i = path.length() - 1; i >= 0 && path[i] != '.'; i--)
+		ext = path[i] + ext;
+	ext = '.' + ext;
+	return ext;
 }

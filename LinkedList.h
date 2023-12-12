@@ -33,11 +33,12 @@ template <typename T>
 class LinkedList {
 private:
 	LNode<T>* head;
-
+	int _size;
 public:
 	//	CONSTRUCTOR
 	LinkedList() {
 		this->head = nullptr;
+		_size = 0;
 	}
 
 	//	DESTRUCTOR
@@ -69,6 +70,7 @@ public:
 
 	//	INSERTION
 	void insert(const T& val) {
+		_size++;
 		LNode<T>* temp = this->head;
 		//	IF LIST HEAD IS NULL
 		if (!temp) {
@@ -85,6 +87,11 @@ public:
 	//	IS EMPTY
 	bool isEmpty() const {
 		return this->head == nullptr;
+	}
+
+	//	SIZE
+	int size() const {
+		return _size;
 	}
 
 	//	DELETE
@@ -105,6 +112,7 @@ public:
 			temp = temp->next;
 		}
 		if (found) {
+			_size--;
 			//	VALUE WAS FOUND AT HEAD
 			if (prev == nullptr) {
 				LNode<T>* delNode = temp; 
@@ -126,6 +134,7 @@ public:
 		while (!this->isEmpty()) {
 			this->remove(this->head->data);
 		}
+		_size = 0;
 	}
 
 	//PRINT
