@@ -17,9 +17,10 @@ int main() {
 	//sys.showRoutingTables();
 	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
 	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
-	
+	Bigint a(1);
+	sys.removeMachine(a);
 	cout << "------- DELETION --------\n";
-	sys.removeFile("15", "9");
+	sys.removeFile("29", "9");
 
 	/*
 	n.insertion(4);

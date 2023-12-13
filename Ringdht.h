@@ -280,11 +280,11 @@ public:
 		if (!next) {
 			ring.remove(Machine(id, name, order));
 		}
-		/*while (!machine->tree.isEmpty()) {
+		while (!machine->tree.isEmpty()) {
 			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
 			next->tree.insert(pair); //WARNING: BTREE NOT SPECIALIZED FOR DELETION YET
 			machine->tree.remove(pair);
-		}*/
+		}
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
 		--currMachines;
@@ -294,6 +294,7 @@ public:
 		Machine machine = Machine(sid, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		++currMachines;
 	}
 
 
