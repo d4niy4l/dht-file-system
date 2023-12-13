@@ -8,10 +8,23 @@ class File {
 	Bigint hash;
 	string path;
 	string name;
+	string ext;
 public:
 	File(Bigint hash, string path) : hash(hash), path(path){
 		name = getNameFromPath(path);
+		ext = getFileExtension(path);
+		for (int i = 0; i < ext.size(); i++) {
+			name.pop_back();
+		}
 	}
+
+	const string& getFilename() {
+		return this->name;
+	}
+	void setFilename(const string& _name) {
+		name = _name;
+	}
+
 	bool operator == (const File& other) const {
 		return hash == other.hash;
 	}
@@ -33,7 +46,7 @@ public:
 	friend ostream& operator << (ostream& out, const File& file) {
 		out << "FILE DETAILS: " << endl;
 		cout << "ID: " << file.hash << endl;
-		cout << "NAME: " << file.name << endl;;
+		cout << "NAME: " << file.name << file.ext << endl;;
 		cout << "PATH: " << file.path << endl;
 		return out;
 	}
