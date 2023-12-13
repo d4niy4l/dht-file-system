@@ -126,7 +126,7 @@ public:
 		Bigint id = binaryToDecimel(binary);
 		Bigint mid = MachineID;
 		Machine* machine = searchMachine(id, mid);
-		Key_Pair<File> keyvalue;
+		Key_Pair<File> keyvalue(id);
 		keyvalue.insert(File(id, path));
 		machine->tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;

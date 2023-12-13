@@ -21,7 +21,22 @@ public:
 	const string& getFilename() const {
 		return (this->name);
 	}
-	
+
+	const string& getExtension() const {
+		return (this->ext);
+	}
+
+	const string& getPath() const {
+		return this->path;
+	}
+
+	void setPath(const string& _path) {
+		path = _path;
+	}
+	void setExtension(const string& _ext) {
+		ext = _ext;
+	}
+
 	void setFilename(const string& _name) {
 		name = _name;
 	}
@@ -44,6 +59,7 @@ public:
 	bool operator <= (const File& other) const {
 		return hash <= other.hash;
 	}
+	
 	friend ostream& operator << (ostream& out, const File& file) {
 		out << "FILE DETAILS: " << endl;
 		cout << "ID: " << file.hash << endl;
