@@ -96,16 +96,12 @@ public:
 		bool found = false;
 		do {
 			if (temp->data == data) {
-				found = true;
-				break;
+				return temp->data;
 			}
 			temp = temp->next;
 		} while (temp != head);
-		if (found) {
-			return temp->data;
-		}
+		return T();
 	}
-
 	void update(int data, int replacer) {
 		if (isEmpty()) return;
 		if (head->data == data) head->setData(replacer);

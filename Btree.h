@@ -395,9 +395,6 @@ private:
 		if (resolved) {
 			return;
 		}
-
-
-
 		//  CHECK RIGHT SIBLING
 		if (childidx + 1 <= currNode->count) {
 			BNode<T>* nRight = currNode->links[childidx + 1];
@@ -421,12 +418,6 @@ private:
 		if (resolved) {
 			return;
 		}
-
-
-
-
-
-
 		//  MERGE LEFT
 		if (childidx - 1 >= 0) {
 			//BNode* mergedNode = new BNode(order);
