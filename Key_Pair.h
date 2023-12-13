@@ -34,7 +34,6 @@ public:
 	bool operator <= (const Key_Pair<T>& other) const{
 		return key <= other.key;
 	}
-
 	void insert(const T& data) {
 		chain.insert(data);
 	} 
@@ -46,5 +45,8 @@ public:
 	}
 	const Bigint& getKey() const{
 		return this->key;
+	}
+	~Key_Pair() {
+
 	}
 };

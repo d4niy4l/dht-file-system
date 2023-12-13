@@ -147,4 +147,15 @@ public:
 		}
 		cout << endl;
 	}
+	~CircularLinkedList() {
+		cNode<T>* curr = head->next;
+		cNode<T>* temp = nullptr;
+		while (curr != head) {
+			temp = curr;
+			curr = curr->next;
+			delete temp;
+		}
+		if (!head) delete head;
+		head = nullptr;
+	}
 };

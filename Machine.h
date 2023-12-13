@@ -11,7 +11,6 @@ using namespace std;
 class Machine {
 	Bigint id;
 	string name;
-
 public:
 	BTree<Key_Pair<File>> tree;
 	DoublyLinkedList<Machine*> RoutingTable;   
@@ -75,5 +74,8 @@ public:
 	}
 	bool operator != (const Machine& m) {
 		return id != m.id;
+	}
+	~Machine() {
+
 	}
 };

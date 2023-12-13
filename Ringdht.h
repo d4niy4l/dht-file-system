@@ -137,7 +137,7 @@ public:
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
 	
 	//search the machine required for file insertion/searching/deletion
-	Machine* searchMachine(const Bigint& fileHash, const Bigint& machineHash) {
+	Machine* searchMachine(const Bigint& fileHash, const Bigint& machineHash)  {
 		Machine* origin = getOrigin(machineHash);
 		if (!origin) {
 			cout << "Machine does not exist in filesystem!\n";
@@ -156,7 +156,6 @@ public:
 		int count = 0;
 		while (!nodeFound) {
 			currId = curr->getID();
-
 			//	(P == E) || (E <= P && P is machine with smallest id) || (E >= max Machine id and P is smaalest machine node)
 			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash >= ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
 				ret = curr;
@@ -195,7 +194,6 @@ public:
 							curr1 = currNode->data;
 						}
 					}
-
 				}
 				if (validEntry) {
 					curr = prev;
@@ -231,20 +229,12 @@ public:
 				}
 			}
 
-
-
 			if (c1 || c2 || c3) {
 				c1 = false;
 				c2 = false;
 				c3 = false;
 			}
 			else if (!c1 && !c2 && !c3) {
-				/*if ((fileHash > curr->getRoutingTable().head->data->getID() && fileHash > currLast->getID()) || (fileHash < curr->getRoutingTable().head->data->getID() && fileHash < currLast->getID())) {
-					return curr;
-				}else{
-					curr = currLast;
-				}
-				*/
 				if (startId == curr->getID() && count == 0) {
 					curr = currLast;
 					count++;
@@ -273,7 +263,7 @@ public:
 		Machine machine = Machine(id, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
-		currMachines++;
+		++currMachines;
 	}
 	void removeMachine(Bigint& id) {
 		if (currMachines == 0) {
@@ -287,6 +277,9 @@ public:
 			return;
 		}
 		Machine* next = machine->getRoutingTable().head->data;
+		if (!next) {
+			ring.remove(Machine(id, name, order));
+		}
 		/*while (!machine->tree.isEmpty()) {
 			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
 			next->tree.insert(pair); //WARNING: BTREE NOT SPECIALIZED FOR DELETION YET
@@ -294,7 +287,7 @@ public:
 		}*/
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
-		currMachines--;
+		--currMachines;
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;
@@ -315,6 +308,9 @@ public:
 			curr->data.showRoutingTable();
 			curr = curr->next;
 		} while (curr != ring.getHead());
+	}
+	~Ringdht() {
+		cout << "DESTROYING DHT\n";
 	}
 
 };
