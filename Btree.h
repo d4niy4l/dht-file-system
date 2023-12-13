@@ -58,12 +58,7 @@ public:
 	}
 
 	bool isFull() {
-		if (count == m - 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (count == m - 1) 
 	}
 
 	//  INSERT 
