@@ -38,6 +38,9 @@ public:
 	void insert(const T& data) {
 		chain.insert(data);
 	} 
+	void remove(const T& data) {
+		chain.remove(data);
+	}
 	const LinkedList<T>& getList() const{
 		return this->chain;
 	}

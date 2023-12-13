@@ -18,15 +18,16 @@ public:
 		}
 	}
 
-	const string& getFilename() {
-		return this->name;
+	const string& getFilename() const {
+		return (this->name);
 	}
+	
 	void setFilename(const string& _name) {
 		name = _name;
 	}
 
 	bool operator == (const File& other) const {
-		return hash == other.hash;
+		return (hash == other.hash && name == other.name);
 	}
 	bool operator != (const File& other) const {
 		return hash != other.hash;

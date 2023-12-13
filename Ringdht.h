@@ -133,19 +133,25 @@ public:
 	Machine* searchMachine(const Bigint& fileHash, const Bigint& machineHash) {
 		Machine* origin = getOrigin(machineHash);
 		if (!origin) {
-			return nullptr;  //incase origin not found
+			cout << "Machine does not exist in filesystem!\n";
+			return nullptr;
 		}
 		Machine* ret = nullptr;
 		Machine* curr = origin;
+		Machine* currMin = nullptr;
+		Machine* currLast = nullptr;
 		Bigint currId = curr->getID();
+		Bigint startId = currId;
 		bool nodeFound = false;
-		bool c1 = false;  //condition 1
-		bool c2 = false;  //condition 2
-		bool c3 = false;  //condition 3
+		bool c1 = false;
+		bool c2 = false;
+		bool c3 = false;
+		int count = 0;
 		while (!nodeFound) {
 			currId = curr->getID();
-			//	P == E
-			if (currId == fileHash) {
+
+			//	(P == E) || (E <= P && P is machine with smallest id) || (E >= max Machine id and P is smaalest machine node)
+			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash >= ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
 				ret = curr;
 				c1 = true;
 				return ret;
@@ -157,63 +163,92 @@ public:
 			}
 			//	CHECK ALL ENTRIES IN ROUTING TABLE
 			else {
- 				bool validEntry = false;  //will show if a successfull routing has happened
-				Machine* prev = curr->getRoutingTable().head->data;  //FT[j]
-				Machine* next = curr->getRoutingTable().head->next->data; //FT[j+1]
+				bool validEntry = false;
+				Machine* prev = curr->getRoutingTable().head->data;
+				Machine* curr1 = curr->getRoutingTable().head->next->data;
 				dNode<Machine*>* currNode = curr->getRoutingTable().head;
 				currNode = currNode->next;
+				Machine* minM = nullptr;
+				Machine* maxM = nullptr;
 				while (currNode) {
-					// if e > FT[j] and e <= FT[j+1] 
-					if (fileHash > prev->getID() && fileHash <= next->getID()) {
+					if (fileHash > prev->getID() && fileHash <= curr1->getID()) {
 						validEntry = true;
 						break;
 					}
-					//special case if the hash of the file is between the head and last element of the ring dht
-					//if head is reached in the routing table then return the head
-					else if (prev == &ring.getHead()->data && fileHash < ring.getHead()->data.getID() && fileHash < curr->getID()) {
-						return &ring.getHead()->data;
-					}
 					else {
-						prev = next;
+						prev = curr1;
+						if (!minM || prev->getID() < minM->getID()) {
+							minM = prev;
+						}
+						if (!maxM || prev->getID() > maxM->getID()) {
+							maxM = prev;
+						}
 						currNode = currNode->next;
-						if (currNode) {  //if next node is avaliable ie end of doublylinked list not reached
-							next = currNode->data;
+						if (currNode) {
+							curr1 = currNode->data;
 						}
 					}
+
 				}
-				//if routing was not done and the hash is less than the last element of routing table of current machine
-				if (!validEntry && fileHash <= ring.head->prev->data.getID()) { 
-					// this means that the last element of the routing table was smaller than file hash value so we reroute to that 
-					// and search there
-					if (curr->getID() < fileHash && prev->getID() < fileHash) {
+				if (validEntry) {
+					curr = prev;
+				}
+				if ((!validEntry && fileHash <= ring.head->data.getID()) || (!validEntry && fileHash > ring.head->prev->data.getID())) {
+					if (minM->getID() == ring.getHead()->data.getID()) {
+						curr = minM;
+						return curr;
+					}
+					else {
+						curr = maxM;
 						validEntry = true;
 					}
-					// this is for the case when the hash of the file is between the head and last element of the ring dht
-					else if (ring.getHead()->data.getID() > fileHash) {
-						validEntry = true;
+				}
+				else if (!validEntry && fileHash <= ring.head->prev->data.getID()) {
+					if (fileHash > curr->getID()) {
+						if (curr->getID() < prev->getID()) {
+							if (prev->getID() < fileHash) {
+								curr = prev;
+								validEntry = true;
+							}
+						}
+					}
+					else {
+						currMin = minM;
 					}
 				}
-				// validEntry = true means that a routing operation has been succesfully performed
 				if (validEntry) {
 					c3 = true;
-					curr = prev;  //reroute to FT[j]
+				}
+				else {
+					currLast = prev;
 				}
 			}
+
+
+
 			if (c1 || c2 || c3) {
 				c1 = false;
 				c2 = false;
 				c3 = false;
 			}
 			else if (!c1 && !c2 && !c3) {
-				//	CASE FOR 29,30,31 WHEN MAX NODE IS 28
-				if (fileHash > ring.head->prev->data.getID()) {
-					return &ring.head->data;
+				/*if ((fileHash > curr->getRoutingTable().head->data->getID() && fileHash > currLast->getID()) || (fileHash < curr->getRoutingTable().head->data->getID() && fileHash < currLast->getID())) {
+					return curr;
+				}else{
+					curr = currLast;
+				}
+				*/
+				if (startId == curr->getID() && count == 0) {
+					curr = currLast;
+					count++;
 				}
 				else {
 					return curr;
 				}
 			}
+
 		}
+
 	}
 
 	//inserts machine, gets machine name and autogenerates its id using SHA1
@@ -238,6 +273,12 @@ public:
 		Machine machine = Machine(sid, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+	}
+
+
+	void removeFile(string fileHash, string mid) {
+		Machine* m = searchMachine(Bigint(fileHash), mid);
+		m->removeFile(fileHash);
 	}
 
 	void showRoutingTables() {

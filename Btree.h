@@ -58,7 +58,7 @@ public:
 	}
 
 	bool isFull() {
-		return (count == m - 1) 
+		return (count == m - 1);
 	}
 
 	//  INSERT 
@@ -92,6 +92,14 @@ public:
 		links.set_at_index(left, idx + 1);
 		links.insert_at_index(right, idx + 2);
 	}
+
+
+	//	REMOVE
+	void remove(int i, const T& data) {
+		this->arr.remove_at_index(i);
+		this->count--;
+	}
+
 };
 
 template <>
@@ -180,6 +188,19 @@ public:
 		links.set_at_index(left, idx + 1);
 		links.insert_at_index(right, idx + 2);
 	}
+
+	//	REMOVE
+	void remove(int i, const Key_Pair<File>& val) {
+		Key_Pair<File>& k = arr[i];
+		File f = val.getList().getHead();
+		k.remove(f);
+		if (k.getList().size() > 0) {
+			return;
+		}
+		this->arr.remove_at_index(i);
+		this->count--;
+	}
+
 };
 
 
@@ -245,7 +266,7 @@ private:
 		}
 	}
 
-	void splitChild(BNode<T> * &parent, BNode<T> * &child) {
+	void splitChild(BNode<T>*& parent, BNode<T>*& child) {
 		T median = child->getMedian();
 		BNode<T>* left = child;
 		BNode<T>* right = new BNode<T>(order);
@@ -299,16 +320,15 @@ private:
 	}
 
 	//  HELPER FUNCTIONS FOR DELETION
-	void deleteAtLeaf(BNode<T> * &currNode, const T & data) {
+	void deleteAtLeaf(BNode<T>*& currNode, const T& data) {
 		for (int i = 0; i < currNode->count; i++) {
 			if (currNode->arr[i] == data) {
-				currNode->arr.remove_at_index(i);
-				currNode->count--;
+				currNode->remove(i, data);
 				break;
 			}
 		}
 	}
-	void deleteAtInternal(BNode<T> * &currNode, const T & data) {
+	void deleteAtInternal(BNode<T>*& currNode, const T& data) {
 		int idx = -1;
 		for (int i = 0; i < currNode->count; i++) {
 			if (data > currNode->arr[i]) {
@@ -343,7 +363,7 @@ private:
 			checkDeficiency(currNode, child, idx + 1);
 		}
 	}
-	void checkDeficiency(BNode<T> * currNode, BNode<T> * child, int childidx) {
+	void checkDeficiency(BNode<T>* currNode, BNode<T>* child, int childidx) {
 		if (child->count >= MIN_KEYS) {
 			return;
 		}
@@ -464,7 +484,7 @@ private:
 			return;
 		}
 	}
-	void deleteNode(BNode<T> * &currNode, const T & data) {
+	void deleteNode(BNode<T>*& currNode, const T& data) {
 		if (currNode == nullptr) {
 			return;
 		}
@@ -493,7 +513,7 @@ private:
 		}
 
 	}
-	void destroyTree(BNode<T> * node) {
+	void destroyTree(BNode<T>* node) {
 		if (node != nullptr) {
 			if (!node->isLeaf) {
 				for (int i = 0; i <= node->count; i++) {
@@ -646,3 +666,46 @@ public:
 		}
 	*/
 };
+
+
+template <>
+void BTree<Key_Pair<File>>::deleteAtInternal(BNode<Key_Pair<File>>*& currNode, const Key_Pair<File>& data) {
+	int idx = -1;
+	for (int i = 0; i < currNode->count; i++) {
+		if (data > currNode->arr[i]) {
+			idx++;
+		}
+		else {
+			break;
+		}
+	}
+	Key_Pair<File>& k = currNode->arr[idx + 1];
+	if (k.getList().size() > 1) {
+		k.remove(data.getList().getHead());
+		return;
+	}
+	//  SUCCESSOR
+	if (DELETE_VIA_SUCCESSOR) {
+		BNode<Key_Pair<File>>* child = currNode->links[idx + 2];
+		BNode<Key_Pair<File>>* temp = child;
+		while (temp->isLeaf == false) {
+			temp = temp->links[0];
+		}
+		Key_Pair<File> currData = temp->arr[0];
+		currNode->arr[idx + 1] = currData;
+		deleteNode(child, currData);
+		checkDeficiency(currNode, child, idx + 2);
+	}
+	else {
+		//  LEFT SUBTREE - RIGHTMOST ELEMENT
+		BNode<Key_Pair<File>>* child = currNode->links[idx + 1];
+		BNode<Key_Pair<File>>* temp = child;
+		while (temp->isLeaf == false) {
+			temp = temp->links[temp->count];
+		}
+		Key_Pair<File> currData = temp->arr[temp->count - 1];
+		currNode->arr[idx + 1] = currData;
+		deleteNode(child, currData);
+		checkDeficiency(currNode, child, idx + 1);
+	}
+}

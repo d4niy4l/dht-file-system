@@ -11,7 +11,8 @@ using namespace std;
 class Machine {
 	Bigint id;
 	string name;
-	public:
+
+public:
 	BTree<Key_Pair<File>> tree;
 	DoublyLinkedList<Machine*> RoutingTable;   
 	Machine(Bigint& id,string name, int order) : name(name), id(id), tree(order) {}
@@ -35,6 +36,27 @@ class Machine {
 	Bigint getID() {
 		return id;
 	}
+	
+		
+	//	FILE FUNCTIONS
+	void removeFile(const string& filehash) {
+		cout << "reached" << this->getID()<< "!\n";
+		Bigint key(filehash);
+		Key_Pair<File> pair(key);
+		Key_Pair<File> keyPair = tree.search(pair);
+		File f(key, "abc");
+		for (int i = 0; i < keyPair.getList().size(); i++) {
+			string fileName = keyPair.getList().getHead().getFilename();
+			f.setFilename(fileName);
+			cout << i + 1 << ". " << keyPair.getList().getHead().getFilename();
+			keyPair.remove(f);
+		}
+		cout << "Enter indexes (comma-seperated) of the files to remove: ";
+		string response;
+		getline(cin, response);
+	}
+	
+	//	COMPARISON OPERATORS OVERLOADED
 	bool operator < (const Machine& m) {
 		return id < m.id;
 	}
