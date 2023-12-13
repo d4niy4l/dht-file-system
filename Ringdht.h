@@ -8,6 +8,8 @@ using namespace std;
 
 class Ringdht {
 private:
+	Bigint maxMachines;
+	Bigint currMachines;
 	int identifierspace;
 	Bigint size; //made this so we done have to calculate the power (power function is expensive for bigint)
 	CircularLinkedList<Machine> ring;
@@ -54,43 +56,12 @@ private:
 
 		} while (curr != ring.getHead());
 	}
-
-
-
-public:
-	//	CONSTRUCTOR
-	Ringdht(int s, int order) : identifierspace(s), size(Bigint::power(2, s)), order(order) {}
-	
-	//GETTERS AND SETTERS FOR ORDER
-	void setOrder(int n) {
-		order = n;
-	}
-	int getOrder() {
-		return order;
-	}
-	//	INSERTION
-	void insertFile(string path, string MachineID) {
-		string filehash = hashFile(path);
-		string binary = hexaToBinary(filehash);
-		binary = getLastNBits(binary, identifierspace);
-		Bigint id = binaryToDecimel(binary);
-		Bigint mid = MachineID;
-		Machine* machine = searchMachine(id, mid);
-		Key_Pair<File> keyvalue;
-		keyvalue.insert(File(id, path));
-		machine->tree.insert(keyvalue);
-		cout << "HASH OF FILE: " << id << endl;
-		cout << "FILE INSERTED AT MACHINE WITH ID: " << machine->getID() << endl;
-		const Key_Pair<File>* ptr = &machine->tree.search(keyvalue);
-		ptr->getList().print();
-	}
-	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
 	Machine* getOrigin(const Bigint& p) {
 		//first step is to find the machine where the query will originate from
 		//case 1: there is only one machine
-		/* 
+		/*
 		* IF ONLY ONE MACHINE AVALIABLE THEN CHECK IF P == MACHINE ID IF NOT
-		* THEN IT IS AN INVALID ID FOR ORIGIN 
+		* THEN IT IS AN INVALID ID FOR ORIGIN
 		*/
 		Machine* curr = &ring.head->data;
 		if (ring.getHead() == ring.getHead()->next) {
@@ -99,7 +70,6 @@ public:
 			cout << "MACHINE OF ID " << p << " DOES NOT EXIST IN FILE SYSTEM \n";
 			return nullptr;
 		}
-
 		// WHILE REQUIRED ID IS NOT REACHED
 		while (p != curr->getID()) {
 			// IF P > CURRENT MACHINE ID AND P IS >= TO THE HEAD OF ROUTING TABLE THEN SET IT TO THE HEAD OF THE ROUTING TABLR
@@ -129,6 +99,43 @@ public:
 		}
 		return curr;
 	}
+public:
+	//	CONSTRUCTOR
+	Ringdht(int s, int order, Bigint max = 10) : identifierspace(s), size(Bigint::power(2, s)), order(order), maxMachines(max), currMachines(0){}
+	
+	//GETTERS AND SETTERS FOR ORDER
+	void setOrder(int n) {
+		order = n;
+	}
+	int getOrder() {
+		return order;
+	}
+
+	void setMaxMachines(Bigint& n) {
+		maxMachines = n;
+	}
+	const Bigint& getMaxMachines() {
+		return maxMachines;
+	}
+
+	//	INSERTION
+	void insertFile(string path, string MachineID) {
+		string filehash = hashFile(path);
+		string binary = hexaToBinary(filehash);
+		binary = getLastNBits(binary, identifierspace);
+		Bigint id = binaryToDecimel(binary);
+		Bigint mid = MachineID;
+		Machine* machine = searchMachine(id, mid);
+		Key_Pair<File> keyvalue;
+		keyvalue.insert(File(id, path));
+		machine->tree.insert(keyvalue);
+		cout << "HASH OF FILE: " << id << endl;
+		cout << "FILE INSERTED AT MACHINE WITH ID: " << machine->getID() << endl;
+		const Key_Pair<File>* ptr = &machine->tree.search(keyvalue);
+		ptr->getList().print();
+	}
+	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
+	
 	//search the machine required for file insertion/searching/deletion
 	Machine* searchMachine(const Bigint& fileHash, const Bigint& machineHash) {
 		Machine* origin = getOrigin(machineHash);
@@ -220,6 +227,10 @@ public:
 	//then converts hexa to binary and gets last n bits of it and changes it into decimel to make it an ID on which comparisons can
 	// be done
 	void insertMachine(string name) {
+		if (currMachines >= maxMachines) {
+			cout << "MAX NUMBER OF MACHINES REACHED \n";
+			return;
+		}
 		string hex = hashFunction(name);
 		string binary = hexaToBinary(hex);
 		binary = getLastNBits(binary, identifierspace);
@@ -227,11 +238,28 @@ public:
 		Machine machine = Machine(id, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		currMachines++;
 	}
 	void removeMachine(Bigint& id) {
+		if (currMachines == 0) {
+			cout << "NO MACHINE PRESENT IN FILE SYSTEM \n";
+			return;
+		}
 		string name = "DELETED MACHINE";
+		Machine* machine = getOrigin(id);
+		if (!machine) {
+			cout << "PLEASE SELECT AN EXISTING MACHINE"<<endl;
+			return;
+		}
+		Machine* next = machine->getRoutingTable().head->data;
+		/*while (!machine->tree.isEmpty()) {
+			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
+			next->tree.insert(pair); //WARNING: BTREE NOT SPECIALIZED FOR DELETION YET
+			machine->tree.remove(pair);
+		}*/
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
+		currMachines--;
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;
@@ -241,7 +269,7 @@ public:
 	}
 
 	void showRoutingTables() {
-		cNode<Machine>* curr = ring.getHead();
+		cNode<Machine>* curr = ring.getHead();	
 		do {
 			curr->data.showRoutingTable();
 			curr = curr->next;

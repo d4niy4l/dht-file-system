@@ -32,6 +32,7 @@ class Machine {
 		}
 		cout << endl;
 	}
+
 	Bigint getID() {
 		return id;
 	}
