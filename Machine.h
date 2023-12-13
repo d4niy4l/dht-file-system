@@ -41,20 +41,66 @@ public:
 		
 	//	FILE FUNCTIONS
 	void removeFile(const string& filehash) {
-		cout << "reached" << this->getID()<< "!\n";
 		Bigint key(filehash);
 		Key_Pair<File> pair(key);
 		Key_Pair<File> keyPair = tree.search(pair);
-		File f(key, "abc");
-		for (int i = 0; i < keyPair.getList().size(); i++) {
-			string fileName = keyPair.getList().getHead().getFilename();
-			f.setFilename(fileName);
-			cout << i + 1 << ". " << keyPair.getList().getHead().getFilename();
+		File f(key, "hello.txt");
+		int size = keyPair.getList().size();
+		LinkedList<File> list;
+		LinkedList<Bigint> userInput;
+		for (int i = 0; i < size; i++) {
+			File file = keyPair.getList().getHead();
+			f.setFilename(file.getFilename());
+			f.setExtension(file.getExtension());
+			f.setPath(file.getPath());
+			list.insert(f);
+			cout << i + 1 << ". " << keyPair.getList().getHead().getFilename() << ".txt" << "\n";
 			keyPair.remove(f);
 		}
 		cout << "Enter indexes (comma-seperated) of the files to remove: ";
 		string response;
 		getline(cin, response);
+		int i = 0;
+		char delimeter = ' ';
+		string num;
+		while (response[i] != '\0') {
+			if (response[i] == delimeter) {
+				userInput.insert(Bigint(num));
+				num.clear();
+			}
+			else {
+				num += response[i];
+			}
+			i++;
+		}
+		userInput.insert(Bigint(num));
+		num.clear();
+		int count = -1;
+		while (userInput.isEmpty() == false) {
+			Bigint curr = userInput.getHead();
+			userInput.remove(curr);
+
+			File currFile(key, "random.txt");
+			while (curr > count) {
+				currFile = list.getHead();
+				list.remove(currFile);
+				count++;
+			}
+			
+			if (curr == count) {
+				//	PERFORM DELETION HERE
+				Key_Pair<File> tempPair(key);
+				tempPair.insert(currFile);
+				tree.remove(tempPair);
+			}
+		}
+
+		Key_Pair<File> newPair = tree.search(pair);
+		int psize = newPair.getList().size();
+		for (int i = 0; i < psize; i++) {
+			cout << newPair.getList().getHead();
+			newPair.remove(newPair.getList().getHead());
+		}
 	}
 	
 	//	COMPARISON OPERATORS OVERLOADED

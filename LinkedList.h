@@ -34,11 +34,13 @@ class LinkedList {
 private:
 	LNode<T>* head;
 	int _size;
+	int _ic;
 public:
 	//	CONSTRUCTOR
 	LinkedList() {
 		this->head = nullptr;
 		_size = 0;
+		_ic = 0;
 	}
 
 	//	DESTRUCTOR
@@ -71,6 +73,7 @@ public:
 	//	INSERTION
 	void insert(const T& val) {
 		_size++;
+		_ic++;
 		LNode<T>* temp = this->head;
 		//	IF LIST HEAD IS NULL
 		if (!temp) {
@@ -92,6 +95,11 @@ public:
 	//	SIZE
 	int size() const {
 		return _size;
+	}
+
+	//	INSERTION COUNT
+	int getIC() const {
+		return this->_ic;
 	}
 
 	//	DELETE

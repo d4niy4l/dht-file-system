@@ -154,7 +154,7 @@ public:
 				Key_Pair<File>& f = arr[i];
 				File newobj = val.getList().getHead();
 				string currName = newobj.getFilename();
-				currName += to_string(f.getList().size());
+				currName += to_string(f.getList().getIC());
 				newobj.setFilename(currName);
 				f.insert(newobj);
 				inserted = true;

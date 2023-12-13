@@ -126,7 +126,7 @@ public:
 		Bigint id = binaryToDecimel(binary);
 		Bigint mid = MachineID;
 		Machine* machine = searchMachine(id, mid);
-		Key_Pair<File> keyvalue;
+		Key_Pair<File> keyvalue(id);
 		keyvalue.insert(File(id, path));
 		machine->tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;
@@ -294,7 +294,7 @@ public:
 		}*/
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
-		currMachines--;
+		--currMachines;
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;

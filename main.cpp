@@ -18,6 +18,9 @@ int main() {
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","9");
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","9");
 	
+	cout << "------- DELETION --------\n";
+	sys.removeFile("15", "9");
+
 	/*
 	n.insertion(4);
 	n.insertion(10);
