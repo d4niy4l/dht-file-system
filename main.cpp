@@ -5,9 +5,10 @@
 #include "utlity.h"
 int main() {
 	Ringdht sys(5,5);
-	sys.insertMachine("machine 1","1");
+	sys.insertMachine("machine 1","1"); 
 	sys.insertMachine("machine 4","4");
 	sys.insertMachine("machine 9", "9");
+	//sys.showRoutingTables();
 	sys.insertMachine("machine 11", "11");
 	sys.insertMachine("machine 14", "14");
 	sys.insertMachine("machine 20", "20");
@@ -17,8 +18,8 @@ int main() {
 	//sys.showRoutingTables();
 	Bigint a(18);
 	sys.removeMachine(a);
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\cases.png","11");
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\cases.png","11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
 	//Bigint a(1);
 	
 	//sys.removeMachine(a);
@@ -30,7 +31,7 @@ int main() {
 	//	SPLITTING CHECK
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
 	sys.insertMachine("NEW MACHINE LES GOO", "18");
-	sys.searchFile("15", "18");
+	sys.searchFile("22", "18");
 
 	/*
 	n.insertion(4);

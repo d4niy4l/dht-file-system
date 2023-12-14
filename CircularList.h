@@ -124,18 +124,22 @@ public:
 			cNode<T>* curr = head->next;
 			while (curr->next != head) curr = curr->next;
 			head = head->next;
+			head->prev = temp->prev;
 			curr->next = head;
 			delete temp;
 			return;
 		}
 		do {
-			if (curr->next->data == data)
-				break;
+			if (curr->data == data) {
+				cNode<T>* temp = curr;
+				temp->prev->next = temp->next;
+				temp->next->prev = temp->prev;
+				delete temp;
+				return;
+			}
+
 			curr = curr->next;
 		} while (curr != head);
-		cNode<T>* temp = curr->getNext()->getNext();
-		delete curr->getNext();
-		curr->next = (temp);
 	}
 	void printList() {
 		cNode<T>* temp = head;

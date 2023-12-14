@@ -81,12 +81,21 @@ private:
 				curr = curr->RoutingTable.head->data;
 				break; //EITHER MACHINE == P OR MACHINE > P (IF MACHINE > P) THEN MACHINE DOES NOT EXIST IN FILE SYSTEM
 			}
+
 			// TRAVERSE ROUTING TABLE
 			dNode<Machine*>* ptr = curr->RoutingTable.head;
 			while (ptr) {
 				if (!ptr->next) {  // IF THERES NO NEXT THEN REROUTE TO THE LAST MEMBER OF THE FT
+					if (ptr->data == curr || ptr->data->getID() < p) {
+						curr = curr->RoutingTable.head->data;
+						break;
+					}
 					curr = ptr->data;
 					break;
+				}
+				else if (p == ptr->next->data->getID()) {
+					curr = ptr->next->data;
+					return curr;
 				}
 				else if (p > ptr->data->getID() && p <= ptr->next->data->getID()) { //CHECK IF FT[j] < P <= FT[j+1]
 					curr = ptr->data;
@@ -263,6 +272,7 @@ public:
 		Machine machine = Machine(id, mName, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		
 		Machine* newMachine = getOrigin(id);
 		Machine* nextMachine = newMachine->getRoutingTable().head->data;
 		//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
@@ -290,6 +300,8 @@ public:
 		dNode<Machine*>* next = machine->getRoutingTable().head;
 		if (!next) {
 			ring.remove(Machine(id, name, order));
+			makeRoutingTables();
+			--currMachines;
 			//	WRITE COUT HERE THAT SUCCESSFULLY REMOVED
 			return;
 		}
@@ -310,6 +322,7 @@ public:
 		}
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
+		showRoutingTables();
 		--currMachines;
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
@@ -317,6 +330,9 @@ public:
 		Machine machine = Machine(sid, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		if (id == "18") {
+			showRoutingTables();
+		}
 		++currMachines;
 		if (currMachines > 1) {
 			Machine* newMachine = getOrigin(sid);
@@ -358,7 +374,7 @@ public:
 		} while (curr != ring.getHead());
 	}
 	~Ringdht() {
-		string remove = "rmdir / s / q C:\\Users\\borzoi\\Desktop\\IPFS";
+		string remove = "rmdir / s / q IPFS";
 		system(remove.c_str());
 	}
 
