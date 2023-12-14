@@ -33,10 +33,10 @@ int main() {
 
 	//	SPLITTING CHECK
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
-	sys.insertMachine("NEW MACHINE LES GOO", "18");
+	sys.insertMachine("machine 18", "18");
 	sys.searchFile("22", "18");
 
-	sys.insertMachine("edge case", "29");
+	sys.insertMachine("machine 29", "29");
 	//	HEREE 
 
 	/*

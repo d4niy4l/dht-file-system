@@ -155,6 +155,7 @@ public:
 		Machine* ret = nullptr;
 		Machine* curr = origin;
 		Machine* currMin = nullptr;
+		Machine* currMax = nullptr;
 		Machine* currLast = nullptr;
 		Bigint currId = curr->getID();
 		Bigint startId = currId;
@@ -166,7 +167,7 @@ public:
 		while (!nodeFound) {
 			currId = curr->getID();
 			//	(P == E) || (E <= P && P is machine with smallest id) || (E >= max Machine id and P is smaalest machine node)
-			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash >= ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
+			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash > ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
 				ret = curr;
 				c1 = true;
 				return ret;
@@ -228,6 +229,7 @@ public:
 					}
 					else {
 						currMin = minM;
+						currMax = maxM;
 					}
 				}
 				if (validEntry) {
@@ -236,6 +238,8 @@ public:
 				else {
 					currLast = prev;
 				}
+					currMin = minM;
+					currMax = maxM;
 			}
 
 			if (c1 || c2 || c3) {
@@ -249,7 +253,11 @@ public:
 					count++;
 				}
 				else {
-					return curr;
+					if (curr->getID() < fileHash) {
+						curr = currMax;
+					}else{
+						return curr;
+					}
 				}
 			}
 
@@ -334,7 +342,7 @@ public:
 		Machine machine = Machine(sid, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
-		if (id == "18") {
+		if (id == "29") {
 			showRoutingTables();
 		}
 		++currMachines;
