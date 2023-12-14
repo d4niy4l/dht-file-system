@@ -131,7 +131,7 @@ public:
 		machine->tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;
 		cout << "FILE INSERTED AT MACHINE WITH ID: " << machine->getID() << endl;
-		const Key_Pair<File>* ptr = &machine->tree.search(keyvalue);
+		const Key_Pair<File>* ptr = machine->tree.search(keyvalue);
 		ptr->getList().print();
 	}
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
@@ -282,21 +282,40 @@ public:
 		}
 		while (!machine->tree.isEmpty()) {
 			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
-			next->tree.insert(pair); //WARNING: BTREE NOT SPECIALIZED FOR DELETION YET
-			machine->tree.remove(pair);
+			Bigint key = pair.getKey();
+			int s = pair.getList().size();
+			for (int i = 0; i < s; i++) {
+				Key_Pair<File> temp(key);
+				File f = pair.getList().getHead();
+				temp.insert(f);
+				pair.remove(f);
+				next->tree.insert(temp);
+				machine->tree.remove(temp);
+			}
 		}
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
 		--currMachines;
 	}
-	void insertMachine(string name, string id) { //incase user wants to give their own id
-		Bigint sid = id;
-		Machine machine = Machine(sid, name, order);
+	void insertMachine(string mName, string mid) { //incase user wants to give their own id
+		Bigint sid = mid;
+		Machine machine = Machine(sid, mName, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		Machine* m = getOrigin(mid);
+		Machine* nextM = m->getRoutingTable().head->data;
 		++currMachines;
 	}
 
+	void searchFile(const string& filehash, const string& mid) {
+		Machine* m = searchMachine(filehash, mid);
+		if (m == nullptr) {
+			cout << "No suitable machine found where the file could be stored!\n";
+			return;
+		}
+		m->printDetails();
+		m->searchFile(filehash);
+	}
 
 	void removeFile(string fileHash, string mid) {
 		Machine* m = searchMachine(Bigint(fileHash), mid);

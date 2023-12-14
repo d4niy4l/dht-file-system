@@ -218,9 +218,9 @@ private:
 
 
 	//	HELPER FUNCTIONS FOR SEARCH
-	const T& helpSearch(BNode<T>* currNode, const T& data) {
+	const T* helpSearch(BNode<T>* currNode, const T& data) {
 		if (currNode == nullptr) {
-			return T();
+			return nullptr;
 		}
 		int idx = -1;
 		for (int i = 0; i < currNode->count; i++) {
@@ -232,7 +232,7 @@ private:
 			}
 		}
 		if (currNode->arr[idx + 1] == data) {
-			return currNode->arr[idx + 1];
+			return &currNode->arr[idx + 1];
 		}
 		else {
 			return helpSearch(currNode->links[idx + 1], data);
@@ -569,17 +569,29 @@ public:
 	//  REMOVE
 	void remove(const T& data) {
 		deleteNode(this->root, data);
+		if (this->root->count == 0) {
+			delete this->root;
+			this->root = nullptr;
+		}
 	}
 
 	//	SEARCH
-	const T& search(const T& val) {
-		return helpSearch(root, val);
+	const T* search(const T& val) {
+		const T* result = helpSearch(root, val);
+		if (result) {
+			return result;
+		}
+		else {
+			return nullptr;
+		}
 	}
 
 	//  GETTERS
 	BNode<T>* getRoot() {
 		return this->root;
 	}
+
+	//	GET SMALLEST
 
 	//  VISUALIZATION
 	void visualizeTree(const string & dotCode) {

@@ -39,10 +39,29 @@ public:
 	
 		
 	//	FILE FUNCTIONS
+	
+	bool searchFile(const string& fileHash) {
+		Bigint key(fileHash);
+		Key_Pair<File> k(key);
+		const Key_Pair<File>* result = tree.search(k);
+		if (result == nullptr) {
+			cout << "File does not exist on the current machine.\n";
+			return false;
+		}else{
+			cout << "File is stored on machine " << this->getID();
+			return true;
+		}
+	}
+	
 	void removeFile(const string& filehash) {
 		Bigint key(filehash);
 		Key_Pair<File> pair(key);
-		Key_Pair<File> keyPair = tree.search(pair);
+		const Key_Pair<File>* ptr = tree.search(pair);
+		if (ptr == nullptr) {
+			cout << "ERROR: Unable to delete file. File is not stored on the machine.\n";
+			return;
+		} 
+		Key_Pair<File> keyPair = *ptr;
 		File f(key, "hello.txt");
 		int size = keyPair.getList().size();
 		LinkedList<File> list;
@@ -93,8 +112,9 @@ public:
 				tree.remove(tempPair);
 			}
 		}
-
-		Key_Pair<File> newPair = tree.search(pair);
+		
+		const Key_Pair<File>* newP = tree.search(pair);
+		Key_Pair<File> newPair = *newP;
 		int psize = newPair.getList().size();
 		for (int i = 0; i < psize; i++) {
 			cout << newPair.getList().getHead();

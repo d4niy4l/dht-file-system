@@ -10,7 +10,13 @@ class Key_Pair {
 	LinkedList<T> chain;
 public:
 	Key_Pair(Bigint key) : key(key){}
-	Key_Pair() {}
+	Key_Pair() {
+		key = Bigint(-1);
+	}
+	Key_Pair(const Key_Pair& otherKeyPair) {
+		key = otherKeyPair.key;
+		chain = otherKeyPair.chain;
+	}
 	Key_Pair& operator = (const Key_Pair<T>& other) {
 		key = other.key;
 		chain = other.chain;
