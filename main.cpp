@@ -18,14 +18,10 @@ int main() {
 	//sys.showRoutingTables();
 	Bigint a(18);
 	sys.removeMachine(a);
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png","11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11");
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\cases.png","11"); // HASH: 8
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");  // HASH: 15
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
 	//Bigint a(1);
 	
 	//sys.removeMachine(a);
@@ -39,6 +35,20 @@ int main() {
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
 	sys.insertMachine("NEW MACHINE LES GOO", "18");
 	sys.searchFile("22", "18");
+
+	sys.insertMachine("edge case", "29");
+	//	HEREE 
+
+	/*
+	
+		SEARCH FILE FUNCTION BELOW DOES NOT GET NODE 29 FOR THE FILE TO BE SEARCHED
+	*/
+
+
+
+
+
+	sys.searchFile("29", "1");
 	//cin >> i;
 	/*
 	n.insertion(4);

@@ -599,6 +599,20 @@ public:
 		const T* ret = &temp->arr[0];
 		return ret;
 	}
+	
+	//	GET MAXIMUM
+	const T* getMaximum() {
+		if (this->isEmpty()) {
+			return nullptr;
+		}
+		BNode<T>* temp = this->root;
+		while (temp && !temp->isLeaf) {
+			temp = temp->links[temp->count];
+		}
+		const T* ret = &temp->arr[temp->count -1];
+		return ret;
+	}
+
 
 	//  VISUALIZATION
 	void visualizeTree(const string & dotCode) {

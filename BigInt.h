@@ -40,7 +40,7 @@ public:
         _str = n._str;
     }
     
-    string str() const{
+    string str() const {
         return _str;
     }
 

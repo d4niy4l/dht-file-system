@@ -179,36 +179,77 @@ public:
 	void splitTree(const Bigint& mid, Machine* m) {
 		//	IF THE CURRENT MACHINE HAS FILES ONLY THEN SPLITTING MIGHT HAPPEN
 		if (tree.isEmpty() == false) {
-			bool minIsLess = false;
-			do {
-				//	INITIALLY ASSUME THAT MINIMUM WOULD BE LESSER - IF GREATER LOOP BREAKS
-				minIsLess = false;
+			//	IF MACHINE ID OF NEWER MACHINE IS LESSER
+			if (m->getID() < this->id) {
 
-				//	GET CURRENT MINIMUM
-				const Key_Pair<File>* kp = tree.getMinimum();
-				if (kp == nullptr) {
-					break;
-				}
-				//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
-				if (kp->getKey() <= mid) {
-					minIsLess = true;
-					Key_Pair<File> copy = *kp;
-					int numFiles = kp->getList().size();
-					for (int i = 0; i < numFiles; i++) {
-						//	MAKE ONE PAIR FROM WHOLE LINKED LIST ONE BY ONE FOR EVERY FILE
-						Key_Pair<File> tempPair(copy.getKey());
-						File temp = copy.getList().getHead();
-						tempPair.insert(temp);
-						
-						//	INSERTING TO NEW MACHINE AND REMOVING FROM PREVIOUS MACHINE
-						m->tree.insert(tempPair);
-						tree.remove(tempPair);
+				bool minIsLess = false;
+				do {
+					//	INITIALLY ASSUME THAT MINIMUM WOULD BE LESSER - IF GREATER LOOP BREAKS
+					minIsLess = false;
 
-						//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
-						copy.remove(temp);
+				
+					//	GET CURRENT MINIMUM
+					const Key_Pair<File>* kp = tree.getMinimum();
+					if (kp == nullptr) {
+						break;
 					}
-				}
-			} while (minIsLess);
+					//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
+					if (kp->getKey() <= mid) {
+						minIsLess = true;
+						Key_Pair<File> copy = *kp;
+						int numFiles = kp->getList().size();
+						for (int i = 0; i < numFiles; i++) {
+							//	MAKE ONE PAIR FROM WHOLE LINKED LIST ONE BY ONE FOR EVERY FILE
+							Key_Pair<File> tempPair(copy.getKey());
+							File temp = copy.getList().getHead();
+							tempPair.insert(temp);
+
+							//	INSERTING TO NEW MACHINE AND REMOVING FROM PREVIOUS MACHINE
+							m->tree.insert(tempPair);
+							tree.remove(tempPair);
+
+							//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
+							copy.remove(temp);
+						}
+					}
+
+				} while (minIsLess);
+
+
+			} 
+			
+			if (m->getID() > this->id) {
+				bool maxIsLess = false;
+				do {
+
+
+					//	GET CURRENT MINIMUM
+					const Key_Pair<File>* kp = tree.getMaximum();
+					if (kp == nullptr) {
+						break;
+					}
+					//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
+					if (kp->getKey() <= mid) {
+						maxIsLess = true;
+						Key_Pair<File> copy = *kp;
+						int numFiles = kp->getList().size();
+						for (int i = 0; i < numFiles; i++) {
+							//	MAKE ONE PAIR FROM WHOLE LINKED LIST ONE BY ONE FOR EVERY FILE
+							Key_Pair<File> tempPair(copy.getKey());
+							File temp = copy.getList().getHead();
+							tempPair.insert(temp);
+
+							//	INSERTING TO NEW MACHINE AND REMOVING FROM PREVIOUS MACHINE
+							m->tree.insert(tempPair);
+							tree.remove(tempPair);
+
+							//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
+							copy.remove(temp);
+						}
+					}
+
+				} while (maxIsLess);
+			}
 		}
 	}
 
