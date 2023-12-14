@@ -72,3 +72,4 @@ bool copyFile(const string& from, const string& destination) {
 	}
 	return true;
 }
+

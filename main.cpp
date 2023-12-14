@@ -31,7 +31,7 @@ int main() {
 	//sys.removeMachine(a);
 	//cout << "------- DELETION --------\n";
 	//sys.searchFile("29", "1");
-	//sys.removeFile("22", "9");
+	sys.removeFile("22", "9");
 	int i;
 	cin >> i;
 
