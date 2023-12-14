@@ -68,6 +68,8 @@ public:
 		}
 		if (ptr->getList().size() == 1) {
 			//	SUCCESSFULLY REMOVED FILENAME FROM SYSTEM
+			File f = ptr->getList().getHead();
+			pair.insert(f);
 			tree.remove(pair);
 			return;
 		}
@@ -169,7 +171,9 @@ public:
 
 				//	GET CURRENT MINIMUM
 				const Key_Pair<File>* kp = tree.getMinimum();
-				
+				if (kp == nullptr) {
+					break;
+				}
 				//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
 				if (kp->getKey() <= mid) {
 					minIsLess = true;
