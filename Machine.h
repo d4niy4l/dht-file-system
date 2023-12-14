@@ -69,6 +69,9 @@ public:
 		if (ptr->getList().size() == 1) {
 			//	SUCCESSFULLY REMOVED FILENAME FROM SYSTEM
 			File f = ptr->getList().getHead();
+			cout << "SUCCESSFULLY REMOVED FILE" << f.getFilename() << f.getExtension() << "with path: " << f.getPath()<<'\\'<<f.getFilename() << f.getExtension() << endl;
+			string filePath = f.getPath() + '\\' + key.str()  + '\\' + f.getFilename() + f.getExtension();
+			remove(filePath.c_str());
 			pair.insert(f);
 			tree.remove(pair);
 			return;
@@ -122,6 +125,9 @@ public:
 				//	PERFORM DELETION HERE
 				Key_Pair<File> tempPair(key);
 				tempPair.insert(currFile);
+				cout << "SUCCESSFULLY REMOVED FILE" << currFile.getFilename() << currFile.getExtension() << "with path: " << currFile.getPath()<< '\\' << currFile.getFilename() << currFile.getExtension() << endl;
+				string filePath = currFile.getPath() + '\\' + key.str()  + '\\' + currFile.getFilename() + currFile.getExtension();
+				remove(filePath.c_str());
 				tree.remove(tempPair);
 			}
 		}
@@ -143,11 +149,11 @@ public:
 	void insertFile(const Bigint& id, const string& path) {
 		Key_Pair<File> keyvalue(id);
 		const Key_Pair<File>* pair = tree.search(keyvalue);
-		string Newpath = "./IPFS/MACHINE" + this->id.str();
+		string Newpath = ".\\IPFS\\MACHINE" + this->id.str();
 		File newFile(id, Newpath, path);
 		if (pair == nullptr) {
 			keyvalue.insert(newFile);
-			string filePath = "./IPFS/MACHINE" + this->id.str();
+			string filePath = ".\\IPFS\\MACHINE" + this->id.str();
 			filePath += "\\" + id.str();
 			_mkdir(filePath.c_str());
 			filePath += '\\' + newFile.getFilename() + newFile.getExtension();
@@ -162,7 +168,7 @@ public:
 			 fileName += " (" + delimeter + ")";
 			 newFile.setFilename(fileName);
 			 keyvalue.insert(newFile);
-			 string filePath = "./IPFS/MACHINE" + this->id.str();
+			 string filePath = ".\\IPFS\\MACHINE" + this->id.str();
 			 filePath += "\\" + id.str();
 			 _mkdir(filePath.c_str());
 			 filePath += '\\' + newFile.getFilename() + newFile.getExtension();
