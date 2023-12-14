@@ -2,7 +2,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <Windows.h>
+#include <direct.h>
 #include "DoubleList.h"
+#include "utlity.h"
 #include "BigInt.h"
 #include "Btree.h"
 #include "SHA1.hpp"
@@ -13,8 +16,10 @@ class Machine {
 	string name;
 public:
 	BTree<Key_Pair<File>> tree;
-	DoublyLinkedList<Machine*> RoutingTable;   
-	Machine(Bigint& id,string name, int order) : name(name), id(id), tree(order) {}
+	DoublyLinkedList<Machine*> RoutingTable;    
+	Machine(Bigint& id,string name, int order) : name(name), id(id), tree(order){
+	
+	}
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;
@@ -60,9 +65,9 @@ public:
 		if (ptr == nullptr) {
 			cout << "ERROR: Unable to delete file. File is not stored on the machine.\n";
 			return;
-		} 
+		}
 		Key_Pair<File> keyPair = *ptr;
-		File f(key, "hello.txt");
+		File f(key, "hello.txt", "temppath.txt");
 		int size = keyPair.getList().size();
 		LinkedList<File> list;
 		LinkedList<Bigint> userInput;
@@ -72,7 +77,7 @@ public:
 			f.setExtension(file.getExtension());
 			f.setPath(file.getPath());
 			list.insert(f);
-			cout << i + 1 << ". " << keyPair.getList().getHead().getFilename() << ".txt" << "\n";
+			cout << i + 1 << ". " << keyPair.getList().getHead().getFilename() << f.getExtension() << "\n";
 			keyPair.remove(f);
 		}
 		cout << "Enter indexes (comma-seperated) of the files to remove: ";
@@ -98,13 +103,13 @@ public:
 			Bigint curr = userInput.getHead();
 			userInput.remove(curr);
 
-			File currFile(key, "random.txt");
+			File currFile(key, "random.txt", "temppath.txt");
 			while (curr > count) {
 				currFile = list.getHead();
 				list.remove(currFile);
 				count++;
 			}
-			
+
 			if (curr == count) {
 				//	PERFORM DELETION HERE
 				Key_Pair<File> tempPair(key);
@@ -112,7 +117,7 @@ public:
 				tree.remove(tempPair);
 			}
 		}
-		
+
 		const Key_Pair<File>* newP = tree.search(pair);
 		Key_Pair<File> newPair = *newP;
 		int psize = newPair.getList().size();
@@ -121,7 +126,16 @@ public:
 			newPair.remove(newPair.getList().getHead());
 		}
 	}
-	
+
+	void insertFile(Bigint& id, string path) {
+		Key_Pair<File> keyvalue(id);
+		string Newpath = "./IPFS/MACHINE" + id.str();
+		keyvalue.insert(File(id, Newpath, path));
+		tree.insert(keyvalue);
+		cout << "HASH OF FILE: " << id << endl;
+		cout << "FILE INSERTED AT MACHINE WITH ID: " << getID() << endl;
+		//bool success = copyFile(path, Newpath + "/File_" + get + getFileExtension(path));
+	}
 	//	COMPARISON OPERATORS OVERLOADED
 	bool operator < (const Machine& m) {
 		return id < m.id;
@@ -142,6 +156,6 @@ public:
 		return id != m.id;
 	}
 	~Machine() {
-
+		
 	}
 };
