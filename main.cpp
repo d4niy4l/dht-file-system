@@ -15,12 +15,12 @@ int main() {
 	sys.insertMachine("machine 28", "28");
 	sys.insertMachine("machine 21", "21");
 	//sys.showRoutingTables();
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\cases.png","11");
 	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
-	Bigint a(1);
-	sys.removeMachine(a);
+	//Bigint a(1);
+	//sys.removeMachine(a);
 	cout << "------- DELETION --------\n";
-	sys.removeFile("29", "9");
+	sys.removeFile("22", "9");
 
 	/*
 	n.insertion(4);

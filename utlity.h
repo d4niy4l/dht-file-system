@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include "BigInt.h"
 using namespace std;
 string hexaToBinary(string hex){
@@ -52,4 +53,22 @@ string getFileExtension(const string& path) {
 		ext = path[i] + ext;
 	ext = '.' + ext;
 	return ext;
+}
+bool copyFile(const string& from, const string& destination) {
+	ifstream source_File(from, ios::binary);
+	ofstream dest_File(destination, ios::binary);
+	if (!source_File) {
+		cout << "Error opening source file " << endl;
+		return false;
+	}
+	if (!dest_File) {
+		cout << "Error opening destination file " << endl;
+		return false;
+	}
+	dest_File << source_File.rdbuf();
+	if (!dest_File) {
+		cout << "Error copying file from " << from << " to " << destination << endl;
+		return false;
+	}
+	return true;
 }

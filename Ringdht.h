@@ -4,6 +4,9 @@
 #include "SHA1.hpp"
 #include "CircularList.h"
 #include "BigInt.h"
+#include <fstream>
+#include <Windows.h>
+#include <direct.h>
 using namespace std;
 
 class Ringdht {
@@ -101,7 +104,10 @@ private:
 	}
 public:
 	//	CONSTRUCTOR
-	Ringdht(int s, int order, Bigint max = 10) : identifierspace(s), size(Bigint::power(2, s)), order(order), maxMachines(max), currMachines(0){}
+	Ringdht(int s, int order, Bigint max = 10)
+		: identifierspace(s), size(Bigint::power(2, s)), order(order), maxMachines(max), currMachines(0){
+		auto ret = _mkdir("./IPFS");
+	}
 	
 	//GETTERS AND SETTERS FOR ORDER
 	void setOrder(int n) {
@@ -126,13 +132,7 @@ public:
 		Bigint id = binaryToDecimel(binary);
 		Bigint mid = MachineID;
 		Machine* machine = searchMachine(id, mid);
-		Key_Pair<File> keyvalue(id);
-		keyvalue.insert(File(id, path));
-		machine->tree.insert(keyvalue);
-		cout << "HASH OF FILE: " << id << endl;
-		cout << "FILE INSERTED AT MACHINE WITH ID: " << machine->getID() << endl;
-		const Key_Pair<File>* ptr = &machine->tree.search(keyvalue);
-		ptr->getList().print();
+		machine->insertFile(id, path);
 	}
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
 	
@@ -263,6 +263,8 @@ public:
 		Machine machine = Machine(id, name, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		string path = "./IPFS/MACHINE" + machine.getID().str();
+		auto ret = _mkdir(path.c_str());
 		++currMachines;
 	}
 	void removeMachine(Bigint& id) {
@@ -292,6 +294,8 @@ public:
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;
 		Machine machine = Machine(sid, name, order);
+		string path = "./IPFS/MACHINE" + machine.getID().str();
+		auto ret = _mkdir(path.c_str());
 		ring.insertAscending(machine);
 		makeRoutingTables();
 		++currMachines;
@@ -311,7 +315,8 @@ public:
 		} while (curr != ring.getHead());
 	}
 	~Ringdht() {
-		cout << "DESTROYING DHT\n";
+		string remove = "rmdir / s / q C:\\Users\\borzoi\\Desktop\\IPFS";
+		system(remove.c_str());
 	}
 
 };

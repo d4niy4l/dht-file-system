@@ -10,12 +10,9 @@ class File {
 	string name;
 	string ext;
 public:
-	File(Bigint hash, string path) : hash(hash), path(path){
-		name = getNameFromPath(path);
+	File(Bigint hash, string Newpath, string path) : hash(hash), path(Newpath){
+		name = "FILE_"+ hash.str();
 		ext = getFileExtension(path);
-		for (int i = 0; i < ext.size(); i++) {
-			name.pop_back();
-		}
 	}
 
 	const string& getFilename() const {
@@ -64,7 +61,7 @@ public:
 		out << "FILE DETAILS: " << endl;
 		cout << "ID: " << file.hash << endl;
 		cout << "NAME: " << file.name << file.ext << endl;;
-		cout << "PATH: " << file.path << endl;
+		cout << "PATH: " << file.path + "/" + file.name + file.ext << endl;
 		return out;
 	}
 };
