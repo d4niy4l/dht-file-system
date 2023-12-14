@@ -588,6 +588,17 @@ public:
 	}
 
 	//	GET MINIMUM
+	const T* getMinimum() {
+		if (this->isEmpty()) {
+			return nullptr;
+		}
+		BNode<T>* temp = this->root;
+		while (temp && !temp->isLeaf) {
+			temp = temp->links[0];
+		}
+		const T* ret = temp->arr[0];
+		return ret;
+	}
 
 	//  VISUALIZATION
 	void visualizeTree(const string & dotCode) {
