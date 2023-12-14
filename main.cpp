@@ -17,13 +17,20 @@ int main() {
 	//sys.showRoutingTables();
 	Bigint a(18);
 	sys.removeMachine(a);
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\cases.png","11");
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\cases.png","11");
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");
 	//Bigint a(1);
+	
 	//sys.removeMachine(a);
-	cout << "------- DELETION --------\n";
-	sys.searchFile("29", "1");
-	sys.removeFile("22", "9");
+	//cout << "------- DELETION --------\n";
+	//sys.searchFile("29", "1");
+	//sys.removeFile("22", "9");
+
+
+	//	SPLITTING CHECK
+	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
+	sys.insertMachine("NEW MACHINE LES GOO", "18");
+	sys.searchFile("15", "18");
 
 	/*
 	n.insertion(4);

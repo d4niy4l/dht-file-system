@@ -66,6 +66,11 @@ public:
 			cout << "ERROR: Unable to delete file. File is not stored on the machine.\n";
 			return;
 		}
+		if (ptr->getList().size() == 1) {
+			//	SUCCESSFULLY REMOVED FILENAME FROM SYSTEM
+			tree.remove(pair);
+			return;
+		}
 		Key_Pair<File> keyPair = *ptr;
 		File f(key, "hello.txt", "temppath.txt");
 		int size = keyPair.getList().size();
@@ -80,7 +85,7 @@ public:
 			cout << i + 1 << ". " << keyPair.getList().getHead().getFilename() << f.getExtension() << "\n";
 			keyPair.remove(f);
 		}
-		cout << "Enter indexes (comma-seperated) of the files to remove: ";
+		cout << "Enter indexes (space seperated) of the files to remove: ";
 		string response;
 		getline(cin, response);
 		int i = 0;
@@ -104,7 +109,8 @@ public:
 			userInput.remove(curr);
 
 			File currFile(key, "random.txt", "temppath.txt");
-			while (curr > count) {
+			while (curr > count) 
+			{
 				currFile = list.getHead();
 				list.remove(currFile);
 				count++;
@@ -117,8 +123,13 @@ public:
 				tree.remove(tempPair);
 			}
 		}
-
+		//	COUTING
 		const Key_Pair<File>* newP = tree.search(pair);
+		if (!newP) {
+			cout << "NO FILES REMAINING IN BTREE!\n";
+			return;
+		}
+		cout << "FILES AFTER DELETION: \n";
 		Key_Pair<File> newPair = *newP;
 		int psize = newPair.getList().size();
 		for (int i = 0; i < psize; i++) {
@@ -127,15 +138,61 @@ public:
 		}
 	}
 
-	void insertFile(Bigint& id, string path) {
+	void insertFile(const Bigint& id, const string& path) {
 		Key_Pair<File> keyvalue(id);
-		string Newpath = "./IPFS/MACHINE" + id.str();
-		keyvalue.insert(File(id, Newpath, path));
+		const Key_Pair<File>* pair = tree.search(keyvalue);
+		string Newpath = "./IPFS/MACHINE" + this->id.str();
+		File newFile(id, Newpath, path);
+		if (pair == nullptr) {
+			keyvalue.insert(newFile);
+		}
+		else {
+			 string delimeter = to_string(pair->getList().getIC());
+			 string fileName = newFile.getFilename();
+			 fileName += " (" + delimeter + ")";
+			 newFile.setFilename(fileName);
+			 keyvalue.insert(newFile);
+		}
 		tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;
 		cout << "FILE INSERTED AT MACHINE WITH ID: " << getID() << endl;
 		//bool success = copyFile(path, Newpath + "/File_" + get + getFileExtension(path));
 	}
+	
+	void splitTree(const Bigint& mid, Machine* m) {
+		//	IF THE CURRENT MACHINE HAS FILES ONLY THEN SPLITTING MIGHT HAPPEN
+		if (tree.isEmpty() == false) {
+			bool minIsLess = false;
+			do {
+				//	INITIALLY ASSUME THAT MINIMUM WOULD BE LESSER - IF GREATER LOOP BREAKS
+				minIsLess = false;
+
+				//	GET CURRENT MINIMUM
+				const Key_Pair<File>* kp = tree.getMinimum();
+				
+				//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
+				if (kp->getKey() <= mid) {
+					minIsLess = true;
+					Key_Pair<File> copy = *kp;
+					int numFiles = kp->getList().size();
+					for (int i = 0; i < numFiles; i++) {
+						//	MAKE ONE PAIR FROM WHOLE LINKED LIST ONE BY ONE FOR EVERY FILE
+						Key_Pair<File> tempPair(copy.getKey());
+						File temp = copy.getList().getHead();
+						tempPair.insert(temp);
+						
+						//	INSERTING TO NEW MACHINE AND REMOVING FROM PREVIOUS MACHINE
+						m->tree.insert(tempPair);
+						tree.remove(tempPair);
+
+						//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
+						copy.remove(temp);
+					}
+				}
+			} while (minIsLess);
+		}
+	}
+
 	//	COMPARISON OPERATORS OVERLOADED
 	bool operator < (const Machine& m) {
 		return id < m.id;

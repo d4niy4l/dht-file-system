@@ -596,7 +596,7 @@ public:
 		while (temp && !temp->isLeaf) {
 			temp = temp->links[0];
 		}
-		const T* ret = temp->arr[0];
+		const T* ret = &temp->arr[0];
 		return ret;
 	}
 

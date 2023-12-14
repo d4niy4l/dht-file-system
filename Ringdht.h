@@ -251,18 +251,27 @@ public:
 	//inserts machine, gets machine name and autogenerates its id using SHA1
 	//then converts hexa to binary and gets last n bits of it and changes it into decimel to make it an ID on which comparisons can
 	// be done
-	void insertMachine(string name) {
+	void insertMachine(const string& mName) {
 		if (currMachines >= maxMachines) {
 			cout << "MAX NUMBER OF MACHINES REACHED \n";
 			return;
 		}
-		string hex = hashFunction(name);
+		string hex = hashFunction(mName);
 		string binary = hexaToBinary(hex);
 		binary = getLastNBits(binary, identifierspace);
 		Bigint id = binaryToDecimel(binary);
-		Machine machine = Machine(id, name, order);
+		Machine machine = Machine(id, mName, order);
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		Machine* newMachine = getOrigin(id);
+		Machine* nextMachine = newMachine->getRoutingTable().head->data;
+		//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
+		if (nextMachine) {
+			nextMachine->splitTree(id, newMachine);
+
+			//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
+		}
+
 		string path = "./IPFS/MACHINE" + machine.getID().str();
 		auto ret = _mkdir(path.c_str());
 		++currMachines;
@@ -278,10 +287,14 @@ public:
 			cout << "PLEASE SELECT AN EXISTING MACHINE"<<endl;
 			return;
 		}
-		Machine* next = machine->getRoutingTable().head->data;
+		dNode<Machine*>* next = machine->getRoutingTable().head;
 		if (!next) {
 			ring.remove(Machine(id, name, order));
+			//	WRITE COUT HERE THAT SUCCESSFULLY REMOVED
+			return;
 		}
+		
+		Machine* nextM = machine->getRoutingTable().head->data;
 		while (!machine->tree.isEmpty()) {
 			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
 			Bigint key = pair.getKey();
@@ -291,7 +304,7 @@ public:
 				File f = pair.getList().getHead();
 				temp.insert(f);
 				pair.remove(f);
-				next->tree.insert(temp);
+				nextM->tree.insert(temp);
 				machine->tree.remove(temp);
 			}
 		}
@@ -302,6 +315,25 @@ public:
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;
 		Machine machine = Machine(sid, name, order);
+		
+		if (currMachines == 0) {
+			ring.insertAscending(machine);
+			makeRoutingTables();
+			++currMachines;
+			return;
+		}
+
+		Machine* newMachine = getOrigin(sid);
+		Machine* nextMachine = newMachine->getRoutingTable().head->data;
+		//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
+		if (nextMachine) {
+			nextMachine->splitTree(sid, newMachine);
+
+			//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
+		}
+
+
+
 		string path = "./IPFS/MACHINE" + machine.getID().str();
 		auto ret = _mkdir(path.c_str());
 		ring.insertAscending(machine);
