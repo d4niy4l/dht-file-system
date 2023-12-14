@@ -20,6 +20,12 @@ int main() {
 	sys.removeMachine(a);
 	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png","11");
 	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11");
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11");
 	//Bigint a(1);
 	
 	//sys.removeMachine(a);

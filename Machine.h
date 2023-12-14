@@ -68,6 +68,8 @@ public:
 		}
 		if (ptr->getList().size() == 1) {
 			//	SUCCESSFULLY REMOVED FILENAME FROM SYSTEM
+			File f = ptr->getList().getHead();
+			pair.insert(f);
 			tree.remove(pair);
 			return;
 		}
@@ -148,6 +150,11 @@ public:
 			string filePath = "./IPFS/MACHINE" + this->id.str();
 			filePath += "\\" + id.str();
 			_mkdir(filePath.c_str());
+			filePath += '\\' + newFile.getFilename() + newFile.getExtension();
+			bool success = copyFile(path, filePath);
+			if (success) {
+				cout << "FILE COPIED SUCCESSFULLY\n";
+			}
 		}
 		else {
 			 string delimeter = to_string(pair->getList().getIC());
@@ -158,11 +165,15 @@ public:
 			 string filePath = "./IPFS/MACHINE" + this->id.str();
 			 filePath += "\\" + id.str();
 			 _mkdir(filePath.c_str());
+			 filePath += '\\' + newFile.getFilename() + newFile.getExtension();
+			 bool success = copyFile(path, filePath);
+			 if (success) {
+				 cout << "FILE COPIED SUCCESSFULLY\n";
+			 }
 		}
 		tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;
 		cout << "FILE INSERTED AT MACHINE WITH ID: " << getID() << endl;
-		//bool success = copyFile(path, Newpath + "/File_" + get + getFileExtension(path));
 	}
 	
 	void splitTree(const Bigint& mid, Machine* m) {
@@ -175,7 +186,9 @@ public:
 
 				//	GET CURRENT MINIMUM
 				const Key_Pair<File>* kp = tree.getMinimum();
-				
+				if (kp == nullptr) {
+					break;
+				}
 				//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
 				if (kp->getKey() <= mid) {
 					minIsLess = true;
