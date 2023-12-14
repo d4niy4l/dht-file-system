@@ -299,6 +299,8 @@ public:
 		}
 		dNode<Machine*>* next = machine->getRoutingTable().head;
 		if (!next) {
+			string removeStr = "rmdir / s / q IPFS/MACHINE" + machine->getID().str();
+			system(removeStr.c_str());
 			ring.remove(Machine(id, name, order));
 			makeRoutingTables();
 			--currMachines;
@@ -320,9 +322,11 @@ public:
 				machine->tree.remove(temp);
 			}
 		}
+		string removeStr = "rmdir / s / q .\\IPFS\\MACHINE" + machine->getID().str();
+		system(removeStr.c_str());
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
-		showRoutingTables();
+		//showRoutingTables();
 		--currMachines;
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
@@ -344,8 +348,6 @@ public:
 				//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
 			}
 		}
-
-
 		string path = "./IPFS/MACHINE" + machine.getID().str();
 		auto ret = _mkdir(path.c_str());
 		

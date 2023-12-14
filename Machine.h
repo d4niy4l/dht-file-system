@@ -145,6 +145,9 @@ public:
 		File newFile(id, Newpath, path);
 		if (pair == nullptr) {
 			keyvalue.insert(newFile);
+			string filePath = "./IPFS/MACHINE" + this->id.str();
+			filePath += "\\" + id.str();
+			_mkdir(filePath.c_str());
 		}
 		else {
 			 string delimeter = to_string(pair->getList().getIC());
@@ -152,6 +155,9 @@ public:
 			 fileName += " (" + delimeter + ")";
 			 newFile.setFilename(fileName);
 			 keyvalue.insert(newFile);
+			 string filePath = "./IPFS/MACHINE" + this->id.str();
+			 filePath += "\\" + id.str();
+			 _mkdir(filePath.c_str());
 		}
 		tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;
