@@ -16,10 +16,14 @@ int main() {
 	sys.insertMachine("machine 28", "28");
 	sys.insertMachine("machine 21", "21");
 	//sys.showRoutingTables();
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png","11"); // HASH: 22
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");  // HASH: 29
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11"); // HASH: 22
-	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\cases.png","11"); // HASH: 22
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");  // HASH: 29
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
 	Bigint a(28);
 	sys.removeMachine(a);
 

@@ -50,12 +50,13 @@ public:
 
 	//	ASSIGNMENT OPERATOR
 	LinkedList& operator = (const LinkedList& list) {
-		this->head = nullptr;
+		this->clear();
 		LNode<T>* curr = list.head;
 		while (curr) {
 			insert(curr->data);
 			curr = curr->next;
 		}
+		this->_ic = list._ic;
 		return *this;
 	}
 
