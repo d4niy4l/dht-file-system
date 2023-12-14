@@ -315,30 +315,24 @@ public:
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;
 		Machine machine = Machine(sid, name, order);
-		
-		if (currMachines == 0) {
-			ring.insertAscending(machine);
-			makeRoutingTables();
-			++currMachines;
-			return;
+		ring.insertAscending(machine);
+		makeRoutingTables();
+		++currMachines;
+		if (currMachines > 1) {
+			Machine* newMachine = getOrigin(sid);
+			Machine* nextMachine = newMachine->getRoutingTable().head->data;
+			//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
+			if (nextMachine) {
+				nextMachine->splitTree(sid, newMachine);
+
+				//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
+			}
 		}
-
-		Machine* newMachine = getOrigin(sid);
-		Machine* nextMachine = newMachine->getRoutingTable().head->data;
-		//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
-		if (nextMachine) {
-			nextMachine->splitTree(sid, newMachine);
-
-			//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
-		}
-
 
 
 		string path = "./IPFS/MACHINE" + machine.getID().str();
 		auto ret = _mkdir(path.c_str());
-		ring.insertAscending(machine);
-		makeRoutingTables();
-		++currMachines;
+		
 	}
 
 	void searchFile(const string& filehash, const string& mid) {
