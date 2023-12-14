@@ -307,6 +307,7 @@ public:
 		}
 		dNode<Machine*>* next = machine->getRoutingTable().head;
 		if (!next) {
+			//TODO: WARNING COUT
 			string removeStr = "rmdir / s / q IPFS/MACHINE" + machine->getID().str();
 			system(removeStr.c_str());
 			ring.remove(Machine(id, name, order));
@@ -321,9 +322,18 @@ public:
 			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
 			Bigint key = pair.getKey();
 			int s = pair.getList().size();
+			string newPath = ".\\IPFS\\MACHINE" + nextM->getID().str() + "\\" + key.str();
+			auto ret = _mkdir(newPath.c_str());
+			string oldPath = ".\\IPFS\\MACHINE" + machine->getID().str() + "\\" + key.str();
+
 			for (int i = 0; i < s; i++) {
 				Key_Pair<File> temp(key);
 				File f = pair.getList().getHead();
+				string retFilePath = "\\" + f.getFilename() + f.getExtension();
+				bool successful = copyFile(oldPath + retFilePath, newPath + retFilePath);
+				if (successful) {
+					cout << "FILE SHIFTED SUCCESSFULLY\n";
+				}
 				temp.insert(f);
 				pair.remove(f);
 				nextM->tree.insert(temp);

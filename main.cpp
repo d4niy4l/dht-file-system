@@ -16,24 +16,23 @@ int main() {
 	sys.insertMachine("machine 28", "28");
 	sys.insertMachine("machine 21", "21");
 	//sys.showRoutingTables();
-	Bigint a(18);
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png","11"); // HASH: 22
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");  // HASH: 29
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11"); // HASH: 22
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11"); // HASH: 29
+	Bigint a(28);
 	sys.removeMachine(a);
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\cases.png","11"); // HASH: 8
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");  // HASH: 15
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
-	//Bigint a(1);
-	
+
 	//sys.removeMachine(a);
 	//cout << "------- DELETION --------\n";
 	//sys.searchFile("29", "1");
-	sys.removeFile("22", "9");
+	//sys.removeFile("22", "9");
 	int i;
 	cin >> i;
 
 	//	SPLITTING CHECK
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
-	sys.insertMachine("machine 18", "18");
+	//sys.insertMachine("machine 18", "18");
 	sys.searchFile("22", "18");
 
 	sys.insertMachine("machine 29", "29");
@@ -49,7 +48,7 @@ int main() {
 
 
 	sys.searchFile("29", "1");
-	//cin >> i;
+	cin >> i;
 	/*
 	n.insertion(4);
 	n.insertion(10);
