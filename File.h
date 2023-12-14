@@ -11,8 +11,12 @@ class File {
 	string ext;
 public:
 	File(Bigint hash, string Newpath, string path) : hash(hash), path(Newpath){
-		name = "FILE_"+ hash.str();
+		name = getNameFromPath(path);
 		ext = getFileExtension(path);
+		for (int i = 0; i < ext.length(); i++) {
+			name.pop_back();
+		}
+		name += "_" + hash.str();
 	}
 
 	const string& getFilename() const {

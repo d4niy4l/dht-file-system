@@ -306,8 +306,6 @@ public:
 		auto ret = _mkdir(path.c_str());
 		ring.insertAscending(machine);
 		makeRoutingTables();
-		Machine* m = getOrigin(mid);
-		Machine* nextM = m->getRoutingTable().head->data;
 		++currMachines;
 	}
 

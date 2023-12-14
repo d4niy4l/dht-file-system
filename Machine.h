@@ -61,8 +61,13 @@ public:
 	void removeFile(const string& filehash) {
 		Bigint key(filehash);
 		Key_Pair<File> pair(key);
-		Key_Pair<File> keyPair = tree.search(pair);
-		File f(key, "./IPFS/DELETE", "hello.txt");
+		const Key_Pair<File>* ptr = tree.search(pair);
+		if (ptr == nullptr) {
+			cout << "ERROR: Unable to delete file. File is not stored on the machine.\n";
+			return;
+		}
+		Key_Pair<File> keyPair = *ptr;
+		File f(key, "hello.txt", "temppath.txt");
 		int size = keyPair.getList().size();
 		LinkedList<File> list;
 		LinkedList<Bigint> userInput;
@@ -98,13 +103,13 @@ public:
 			Bigint curr = userInput.getHead();
 			userInput.remove(curr);
 
-			File currFile(key, "./IPFS/DELETE", "random.txt");
+			File currFile(key, "random.txt", "temppath.txt");
 			while (curr > count) {
 				currFile = list.getHead();
 				list.remove(currFile);
 				count++;
 			}
-			
+
 			if (curr == count) {
 				//	PERFORM DELETION HERE
 				Key_Pair<File> tempPair(key);
@@ -112,7 +117,7 @@ public:
 				tree.remove(tempPair);
 			}
 		}
-		
+
 		const Key_Pair<File>* newP = tree.search(pair);
 		Key_Pair<File> newPair = *newP;
 		int psize = newPair.getList().size();
@@ -121,6 +126,7 @@ public:
 			newPair.remove(newPair.getList().getHead());
 		}
 	}
+
 	void insertFile(Bigint& id, string path) {
 		Key_Pair<File> keyvalue(id);
 		string Newpath = "./IPFS/MACHINE" + id.str();
@@ -128,7 +134,7 @@ public:
 		tree.insert(keyvalue);
 		cout << "HASH OF FILE: " << id << endl;
 		cout << "FILE INSERTED AT MACHINE WITH ID: " << getID() << endl;
-		bool success = copyFile(path, Newpath + "/File_" + get + getFileExtension(path));
+		//bool success = copyFile(path, Newpath + "/File_" + get + getFileExtension(path));
 	}
 	//	COMPARISON OPERATORS OVERLOADED
 	bool operator < (const Machine& m) {
