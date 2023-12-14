@@ -2,71 +2,149 @@
 #include<iostream>
 #include"Ringdht.h"
 using namespace std;
-class system{
-    public:
-Ringdht filesys;
-Bigint noofmac;
-System(int size, int order) : filesys(size, order) {}
-void setmachines(){
-    cout<<"enter total number of machines";
-    cin>>noofmac;
-}
-void assignidtoeachmachine(){
-    cout<<"Press -1 to skip a machine";
-    Bigint i;
-    while(i!=noofmac){
+class System {
+public:
+    Ringdht filesys;
+    Bigint noofmac;
+
+    System(int size, int order) : filesys(size, order) {}
+
+    System() {}
+
+    void setringdht(int size, int order) {
+        filesys = Ringdht(size, order);
+    }
+
+    void setmachines() {
+        cout << left << setw(20) << "---------------------------------------" << endl;
+        cout << left << setw(20) << "||        NUMBER OF MACHINES          ||" << endl;
+        cout << left << setw(20) << "---------------------------------------" << endl;
+        cout << left << setw(20) << "||  1.Enter total number of machines: ||" << endl;
+        cout << left << setw(20) << "---------------------------------------" << endl;
+
+        cout << "NUMBER OF MACHINES: ";
+        cin >> noofmac;
+        filesys.setMaxMachines(noofmac);
+    }
+
+    void assignidtoeachmachine() {
+        Bigint i = 0;
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        cout << left << setw(20) << "||     MANUALLY ASSIGN IDs       ||" << endl;
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        cout << left << setw(20) << "||    1.Enter name of machine    ||" << endl;
+        cout << left << setw(20) << "||    2.Enter machine ID         ||" << endl;
+        cout << left << setw(20) << "||  (Press -1 to skip a machine  ||" << endl;
+        cout << left << setw(20) << "-----------------------------------" << endl;
+
+        while (i != noofmac) {
+            string s;
+            string name;
+
+            cout << left << setw(20) << "Name of machine " << i << ": ";
+            cin >> name;
+            cout << left << setw(20) << "Enter machine ID " << i << ": ";
+            cin >> s;
+            if (s == "-1") {
+                i++;
+                filesys.insertMachine(name);
+                continue;
+            }
+            filesys.insertMachine(name, s);
+            i++;
+        }
+    }
+
+    void insertafile() {
+        cout << left << setw(20) << "---------------------------------" << endl;
+        cout << left << setw(20) << "||        INSERT A FILE         ||" << endl;
+        cout << left << setw(20) << "----------------------------------" << endl;
+        cout << left << setw(20) << "||     1.Enter Path of file     ||" << endl;
+        cout << left << setw(20) << "||   2. Enter the machine id    ||" << endl;
+        cout << left << setw(20) << "---------------------------------" << endl;
+        string path;
+        string machineid;
+
+        cout << left << setw(20) << "Path: ";
+        cin >> path;
+        cout << left << setw(20) << "Machine ID: ";
+        cin >> machineid;
+        filesys.insertafile(path, machineid);
+        // display the b tree
+    }
+
+    void deletefile() {
+        cout << left << setw(20) << "---------------------------------" << endl;
+        cout << left << setw(20) << "||        DELETE A FILE         ||" << endl;
+        cout << left << setw(20) << "----------------------------------" << endl;
+        string path;
+        string machineid;
+        cout << left << setw(20) << "Path: ";
+        cin >> path;
+        cout << left << setw(20) << "Machine ID: ";
+        cin >> machineid;
+    }
+
+    void addanewmachine() {
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        cout << left << setw(20) << "||         ADD A MACHINE         ||" << endl;
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        cout << left << setw(20) << "||    1.Enter name of machine    ||" << endl;
+        cout << left << setw(20) << "||    2.Enter machine ID         ||" << endl;
+        cout << left << setw(20) << "||  (Press -1 to skip a machine  ||" << endl;
+        cout << left << setw(20) << "-----------------------------------" << endl;
         string s;
         string name;
-        cout<<"enter name of the machine"<<i;
-        cin>>name;
-        cout<<"enter the id of machine "<<i;
-        cin>>s;
-        if(s=="-1")
-        {
-            i++;
-             filesys.insertMachine(name);
-            continue;
+        cout << left << setw(20) << "Name: ";
+        cin >> name;
+        cout << left << setw(20) << "Machine ID: ";
+        cin >> s;
+        if (s == "-1") {
+            filesys.insertMachine(name);
+            return;
         }
-       filesys.insertMachine(name,s);
-        i++;
+        filesys.insertMachine(name, s);
     }
-}
-void insertafile(){
-    string path;
-    string machineid;
-    cout<<"enter path of the file"<<endl;
-    cin>>path;
-    cout<<"enter the machineid you want to add through"<<endl;
-    cin>>machineid;
-    filesys.insertafile(path,machineid);
-    //display the b tree
-}
-void deletefile(){
-    string path;
-    string machineid;
-    cout<<"enter path of the file"<<endl;
-    cin>>path;
-    cout<<"enter machineid you want to add through"<<endl;
-    cin>>machineid;
-}
-void addanewmachine(){
-    string s;
-        string name;
-        cout<<"enter name of the machine"<<i;
-        cin>>name;
-        cout<<"enter the id of machine(enter -1 if you dont want to manually assigne the id) "<<i;
-        cin>>s;
-        if(s=="-1")
-        {
-             filesys.insertMachine(name);
-             return;
-        }
-       filesys.insertMachine(name,s);
-}
-void removeamachine(){
-    string s;
-        cout<<"enter id of the machine"<<i;
-        cin>>s;
+
+    void removeamachine() {
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        cout << left << setw(20) << "||       DELETE A MACHINE         ||" << endl;
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        cout << left << setw(20) << "||     1.Enter ID of machine     ||" << endl;
+        cout << left << setw(20) << "-----------------------------------" << endl;
+        string s;
+        cout << left << setw(20) << "Machine ID: ";
+        cin >> s;
         filesys.removeMachine(s);
-}
+    }
+
+    void mainmenu() {
+        cout << left << setw(20) << "-------------------------------------------------------" << endl;
+        cout << left << setw(20) << "||                    MAIN MENU                      ||" << endl;
+        cout << left << setw(20) << "-------------------------------------------------------" << endl;
+        cout << left << setw(20) << "||1.enter number of machines in the system           ||" << endl;
+        cout << left << setw(20) << "||2.enter size of identifier space and order         ||" << endl;
+        cout << left << setw(20) << "||3.Do you want to manually assign id to each machine||" << endl;
+        cout << left << setw(20) << "||4.Do you want to insert a file                     ||" << endl; // complete path taken //Show b tree
+        cout << left << setw(20) << "||5.Do you want to delete a file                     ||" << endl; // complete path taken //Show b tree
+        cout << left << setw(20) << "||6.do you want to print the routing table           ||" << endl;
+        cout << left << setw(20) << "||7.do you want to add a new machine                 ||" << endl;
+        cout << left << setw(20) << "||8.do you want to delete a machine                  ||" << endl;
+        cout << left << setw(20) << "||9.Exit                                             ||" << endl;
+        cout << left << setw(20) << "-------------------------------------------------------" << endl;
+    }
+
+    void newsystem() {
+        cout << left << setw(20) << "-------------------------------------------------------" << endl;
+        cout << left << setw(20) << "||        InterPlanetary File System (IPFS)           ||" << endl;
+        cout << left << setw(20) << "-------------------------------------------------------" << endl;
+        cout << left << setw(20) << "||1.create a new system                               ||" << endl;
+        cout << left << setw(20) << "||2.Exit                                             ||" << endl;
+        cout << left << setw(20) << "-------------------------------------------------------" << endl;
+        cout << left << setw(20) << "Enter your choice: ";
+    }
+
+    void printroutingtable() {
+        filesys.showRoutingTables();
+    }
 };

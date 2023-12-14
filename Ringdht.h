@@ -284,8 +284,16 @@ public:
 		}
 		while (!machine->tree.isEmpty()) {
 			Key_Pair<File> pair = machine->tree.getRoot()->arr[0];
-			next->tree.insert(pair); //WARNING: BTREE NOT SPECIALIZED FOR DELETION YET
-			machine->tree.remove(pair);
+			Bigint key = pair.getKey();
+			int s = pair.getList().size();
+			for (int i = 0; i < s; i++) {
+				Key_Pair<File> temp(key);
+				File f = pair.getList().getHead();
+				temp.insert(f);
+				pair.remove(f);
+				next->tree.insert(temp);
+				machine->tree.remove(temp);
+			}
 		}
 		ring.remove(Machine(id, name, order));
 		makeRoutingTables();
@@ -298,9 +306,20 @@ public:
 		auto ret = _mkdir(path.c_str());
 		ring.insertAscending(machine);
 		makeRoutingTables();
+		Machine* m = getOrigin(mid);
+		Machine* nextM = m->getRoutingTable().head->data;
 		++currMachines;
 	}
 
+	void searchFile(const string& filehash, const string& mid) {
+		Machine* m = searchMachine(filehash, mid);
+		if (m == nullptr) {
+			cout << "No suitable machine found where the file could be stored!\n";
+			return;
+		}
+		m->printDetails();
+		m->searchFile(filehash);
+	}
 
 	void removeFile(string fileHash, string mid) {
 		Machine* m = searchMachine(Bigint(fileHash), mid);
