@@ -153,9 +153,6 @@ public:
 			if (arr[i] == val) {
 				Key_Pair<File>& f = arr[i];
 				File newobj = val.getList().getHead();
-				string currName = newobj.getFilename();
-				currName += to_string(f.getList().getIC());
-				newobj.setFilename(currName);
 				f.insert(newobj);
 				inserted = true;
 				break;
@@ -238,7 +235,6 @@ private:
 			return helpSearch(currNode->links[idx + 1], data);
 		}
 	}
-
 
 	//  HELPER FUNCTIONS FOR INSERTION
 	void insertNode(BNode<T>*& currNode, const T& data) {
@@ -591,7 +587,7 @@ public:
 		return this->root;
 	}
 
-	//	GET SMALLEST
+	//	GET MINIMUM
 
 	//  VISUALIZATION
 	void visualizeTree(const string & dotCode) {
