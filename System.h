@@ -1,4 +1,17 @@
 #pragma once
+/************************************************************************
+TITLE: SYSTEM
+DESCRIPTION:
+This class was made to serve as a
+menu class. This was made so main.cpp stays 
+organized
+REQUIREMENTS: Ringdht object
+AUTHOR:HAFIZA IQRA [22I-1269]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: DANIYAL AHMED [22I-1032]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include<iostream>
 #include"Ringdht.h"
 using namespace std;
