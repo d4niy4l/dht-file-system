@@ -1,6 +1,6 @@
 #pragma once
 /************************************************************************
-TITLE: VECTOR
+TITLE: UTILITY
 DESCRIPTION:
 This header file was created to include some essential functions.
 AUTHOR: DANIYAL AHMED [22I-1032]
