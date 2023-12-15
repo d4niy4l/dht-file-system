@@ -5,7 +5,7 @@ AUTHOR: HAFIZA IQRA [22I-1269]
 COAUTHOR: MUHAMMAD AHMAD [22I-1056]
 COAUTHOR: DANIYAL AHMED [22I-1032]
 DATE: MONDAY 15-12-2023
-LASTEDITBY: MUHAMMAD AHMAD
+LASTEDITBY: HAFIZA IQRA
 *************************************************************************/
 #include "System.h"
 #include "BigInt.h"
