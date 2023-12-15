@@ -87,65 +87,62 @@ int main() {
 	Bigint mid(29);
 	Machine* m = sys.searchMachine(fid, mid);
 	m->printTree();	*/
-	  int choice;
-  System system;
+int choice;
+System system;
 
-  do {
-      system.newsystem();
-      cin >> choice;
+do {
+    system.newsystem();
+    cin >> choice;
 
-      switch (choice) {
-      case 1:
-          do {
-              system.mainmenu();
-              cin >> choice;
-              switch (choice) {
-              case 1:
-                  system.setmachines();
-                  break;
-              case 2:
-                  int size, order;
-                  cout << left << setw(20) << "Identifier space: ";
-                  cin >> size;
-                  cout << left << setw(20) << "Order: ";
-                  cin >> order;
-                  system.setringdht(size, order);
-                  break;
-              case 3:
-                  system.assignidtoeachmachine();
-                  break;
-              case 4:
-                  system.insertafile();
-                  break;
-              case 5:
-                  system.deletefile();
-                  break;
-              case 6:
-                  system.printroutingtable();
-                  break;
-              case 7:
-                  system.addanewmachine();
-                  break;
-              case 8:
-                  system.removeamachine();
-                  break;
-              case 9:
-                  system.displaybtree();
-                  break;
-              case 10:
-                  break;
-              default:
-                  cout << "Invalid choice. Please try again." << endl;
-              }
-          } while (choice != 10);
-          break;
-      case 2:
-          break;
-      default:
-          cout << "Invalid choice. Please try again." << endl;
-      }
+    switch (choice) {
+    case 1:
+      
+        int size, order;
+        cout << left << setw(20) << "Identifier space: ";
+        cin >> size;
+        cout << left << setw(20) << "Order: ";
+        cin >> order;
+        system.setringdht(size, order);
+        system.setmachines();
+        system.assignidtoeachmachine();
+        
 
-  } while (choice != 2);
+        do {
+            system.mainmenu();
+            cin >> choice;
+            switch (choice) {
+            case 1:
+                system.insertafile();
+                break;
+            case 2:
+                system.deletefile();
+                break;
+            case 3:
+                system.printroutingtable();
+                break;
+            case 4:
+                system.addanewmachine();
+                break;
+            case 5:
+                system.removeamachine();
+                break;
+            case 6:
+                system.displaybtree();
+                break;
+            case 7:
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+            }
+        } while (choice != 7);
+        break;
+    case 2:
+        break;
+    default:
+        cout << "Invalid choice. Please try again." << endl;
+    }
 
-  return 0;
+} while (choice != 2);
+
+return 0;
 }
