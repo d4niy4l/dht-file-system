@@ -27,6 +27,13 @@ int main() {
 	Bigint a(28);
 	sys.removeMachine(a);
 
+
+	//	TODO: CHANGE QUEUE IN BTREE
+	//	TODO: ADD COUT STATEMENTS
+	//	TODO: ADD FUNCTIONALITY TO SHOW PATH WHEN USING searchFile()
+
+
+
 	//sys.removeMachine(a);
 	//cout << "------- DELETION --------\n";
 	//sys.searchFile("29", "1");

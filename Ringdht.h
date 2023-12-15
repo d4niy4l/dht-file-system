@@ -355,6 +355,9 @@ public:
 		if (id == "29") {
 			showRoutingTables();
 		}
+		
+		string path = "./IPFS/MACHINE" + machine.getID().str();
+		auto ret = _mkdir(path.c_str());
 		++currMachines;
 		if (currMachines > 1) {
 			Machine* newMachine = getOrigin(sid);
@@ -366,8 +369,6 @@ public:
 				//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
 			}
 		}
-		string path = "./IPFS/MACHINE" + machine.getID().str();
-		auto ret = _mkdir(path.c_str());
 		
 	}
 

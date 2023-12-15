@@ -1,4 +1,3 @@
-
 #pragma once
 #include <iostream>
 #include <string>
@@ -16,17 +15,22 @@ class Machine {
 	string name;
 public:
 	BTree<Key_Pair<File>> tree;
+	
 	DoublyLinkedList<Machine*> RoutingTable;    
+	
 	Machine(Bigint& id,string name, int order) : name(name), id(id), tree(order){
 	
 	}
+	
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;
 	}
+	
 	const DoublyLinkedList<Machine*>& getRoutingTable() {
 		return RoutingTable;
 	}
+	
 	void showRoutingTable() {
 		printDetails();
 		cout << "CONNECTED TO: " << endl;
@@ -222,11 +226,12 @@ public:
 							//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
 							copy.remove(temp);
 						}
+						oldPath = "rmdir / s / q " + oldPath;
+						system(oldPath.c_str());
 					}
 
 				} while (minIsLess);
-				oldPath = "rmdir / s / q " + oldPath;
-				system(oldPath.c_str());
+				
 			} 
 			
 			if (m->getID() > this->id) {
@@ -260,11 +265,12 @@ public:
 							//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
 							copy.remove(temp);
 						}
+								
+						oldPath = "rmdir / s / q " + oldPath;
+						system(oldPath.c_str());
 					}
 
 				} while (maxIsLess);
-				oldPath = "rmdir / s / q " + oldPath;
-				system(oldPath.c_str());
 			}
 		}
 	}
