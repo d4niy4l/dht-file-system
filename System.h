@@ -128,16 +128,13 @@ public:
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
         cout << left << setw(20) << "||                    MAIN MENU                      ||" << endl;
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
-        cout << left << setw(20) << "||1.enter number of machines in the system           ||" << endl;
-        cout << left << setw(20) << "||2.enter size of identifier space and order         ||" << endl;
-        cout << left << setw(20) << "||3.Do you want to manually assign id to each machine||" << endl;
-        cout << left << setw(20) << "||4.Do you want to insert a file                     ||" << endl; // complete path taken //Show b tree
-        cout << left << setw(20) << "||5.Do you want to delete a file                     ||" << endl; // complete path taken //Show b tree
-        cout << left << setw(20) << "||6.do you want to print the routing table           ||" << endl;
-        cout << left << setw(20) << "||7.do you want to add a new machine                 ||" << endl;
-        cout << left << setw(20) << "||8.do you want to delete a machine                  ||" << endl;
-        cout << left << setw(20) << "||9.do you want to print b tree                      ||" << endl;
-        cout << left << setw(20) << "||10.Exit                                            ||" << endl;
+        cout << left << setw(20) << "||1.Do you want to insert a file                     ||" << endl; // complete path taken //Show b tree
+        cout << left << setw(20) << "||2.Do you want to delete a file                     ||" << endl; // complete path taken //Show b tree
+        cout << left << setw(20) << "||3.do you want to print the routing table           ||" << endl;
+        cout << left << setw(20) << "||4.do you want to add a new machine                 ||" << endl;
+        cout << left << setw(20) << "||5.do you want to delete a machine                  ||" << endl;
+        cout << left << setw(20) << "||6.do you want to print b tree                      ||" << endl;
+        cout << left << setw(20) << "||7.Exit                                            ||" << endl;
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
         cout << left << setw(20) << "Enter your choice: ";
     }
@@ -184,7 +181,7 @@ public:
         cout << left << setw(20) << "Machine ID :" << endl;
         cin >> s;
         Machine *m;
-        m = filesys->getOrigin(s);
+        m=filesys->getOrigin(s);
         m->printTree();
     }
     ~System() {
