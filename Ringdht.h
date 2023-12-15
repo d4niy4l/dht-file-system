@@ -398,7 +398,7 @@ public:
 				string retFilePath = "\\" + f.getFilename() + f.getExtension();
 				bool successful = copyFile(oldPath + retFilePath, newPath + retFilePath);
 				if (successful) {
-					cout << "FILE SHIFTED SUCCESSFULLY FROM"<<oldPath + retFilePath<<" TO " <<newPath + retFilePath;
+					cout << "FILE SHIFTED SUCCESSFULLY FROM"<<oldPath + retFilePath<<" TO " <<newPath + retFilePath<<endl;
 				}
 				temp.insert(f);
 				pair.remove(f);

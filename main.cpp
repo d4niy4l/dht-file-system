@@ -7,8 +7,16 @@ int main() {
 	Ringdht sys(5,5);
 	sys.insertMachine("machine 1","1"); 
 	sys.insertMachine("machine 29", "29");
+	//sys.insertMachine("machine 4","4");
 	sys.insertMachine("machine 11", "11");
-	sys.showRoutingTables();
+	//sys.showRoutingTables();
+	//sys.insertMachine("machine 21");
+	//sys.insertMachine("machine 14", "14");
+	//sys.insertMachine("machine 20", "20");
+	//sys.insertMachine("machine 18", "18");
+	//sys.insertMachine("machine 28", "28");
+	//sys.insertMachine("machine 21");
+	//sys.showRoutingTables();
 	
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png","11"); // HASH: 22
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");  // HASH: 29
@@ -38,9 +46,8 @@ int main() {
 	//	SPLITTING CHECK
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
 	//sys.insertMachine("machine 18", "18");
-	sys.searchFile("22", "18");
 
-	sys.insertMachine("machine 29", "29");
+	//sys.searchFile("22", "18");
 	//	HEREE 
 
 	/*
@@ -52,7 +59,7 @@ int main() {
 
 
 
-	sys.searchFile("29", "1");
+	sys.searchFile("29", "11");
 
 	/*
 	n.insertion(4);
