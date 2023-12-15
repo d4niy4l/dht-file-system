@@ -6,26 +6,26 @@
 int main() {
 	Ringdht sys(160,5);
 	sys.insertMachine("machine 1","1"); 
-	sys.insertMachine("machine 4","4");
-	sys.insertMachine("machine 9", "9");
+	//sys.insertMachine("machine 4","4");
+	//sys.insertMachine("machine 11", "11");
 	//sys.showRoutingTables();
-	sys.insertMachine("machine 11", "11");
-	sys.insertMachine("machine 14", "14");
-	sys.insertMachine("machine 20", "20");
-	sys.insertMachine("machine 18", "18");
-	sys.insertMachine("machine 28", "28");
-	sys.insertMachine("machine 21", "21");
-	sys.showRoutingTables();
+	//sys.insertMachine("machine 21");
+	//sys.insertMachine("machine 14", "14");
+	//sys.insertMachine("machine 20", "20");
+	//sys.insertMachine("machine 18", "18");
+	//sys.insertMachine("machine 28", "28");
+	//sys.insertMachine("machine 21");
+	//sys.showRoutingTables();
 	
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\cases.png","11"); // HASH: 22
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");  // HASH: 29
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
-	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop (1).txt", "11"); // HASH: 29
-	Bigint a(28);
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png","11"); // HASH: 22
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt","11");  // HASH: 29
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11"); // HASH: 22
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\ccases.png", "11"); // HASH: 22
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11"); // HASH: 29
+	sys.insertFile("C:\\Users\\borzoi\\Desktop\\poop.txt", "11"); // HASH: 29
+	Bigint a(1);
 	sys.removeMachine(a);
 
 
@@ -40,7 +40,7 @@ int main() {
 	//sys.searchFile("29", "1");
 	//sys.removeFile("22", "9");
 	int i;
-	cin >> i;
+
 
 	//	SPLITTING CHECK
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
@@ -60,7 +60,7 @@ int main() {
 
 
 	sys.searchFile("29", "1");
-	cin >> i;
+
 	/*
 	n.insertion(4);
 	n.insertion(10);

@@ -22,6 +22,14 @@ public:
 	
 	}
 	
+	void setName(string name) {
+		this->name = name;
+	}
+
+	void setID(const Bigint& a) {
+		id = a;
+	}
+
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;
@@ -163,7 +171,11 @@ public:
 			filePath += '\\' + newFile.getFilename() + newFile.getExtension();
 			bool success = copyFile(path, filePath);
 			if (success) {
-				cout << "FILE COPIED SUCCESSFULLY\n";
+				cout << "FILE TRANSFERRED SUCCESSFULLY TO: ";
+				cout << filePath << endl;
+			}
+			else {
+				cout << "ERROR: TRANSFER UNSUCCESSFUL" << endl;
 			}
 		}
 		else {

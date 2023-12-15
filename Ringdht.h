@@ -17,6 +17,7 @@ private:
 	Bigint size; //made this so we done have to calculate the power (power function is expensive for bigint)
 	CircularLinkedList<Machine> ring;
 	int order;
+	string machinesPresent;
 	string hashFunction(string data) {
 		/*
 			the hash function, gets a string and hashes it using SHA1
@@ -35,6 +36,9 @@ private:
 	}
 	
 	void makeRoutingTables() {
+		if (ring.head == nullptr) {
+			return;
+		}
 		if (ring.head->next == ring.head) {
 			ring.head->data.RoutingTable.clear();
 			return;
@@ -66,6 +70,10 @@ private:
 		* IF ONLY ONE MACHINE AVALIABLE THEN CHECK IF P == MACHINE ID IF NOT
 		* THEN IT IS AN INVALID ID FOR ORIGIN
 		*/
+		if (ring.head == nullptr) {
+			cout << "FILE SYSTEM HAS NO MACHINE \n";
+			return nullptr;
+		}
 		Machine* curr = &ring.head->data;
 		if (ring.getHead() == ring.getHead()->next) {
 			if (curr->getID() == p)
@@ -77,11 +85,18 @@ private:
 		while (p != curr->getID()) {
 			// IF P > CURRENT MACHINE ID AND P IS >= TO THE HEAD OF ROUTING TABLE THEN SET IT TO THE HEAD OF THE ROUTING TABLR
 			// THIS IS P > CURR MACHINE AND P <= FT [1]
-			if (p > curr->getID() && p <= curr->RoutingTable.head->data->getID()) {
+			if (p < curr->getID() && curr == &ring.head->data) {
+				break;
+			}
+
+			else if (p > curr->getID() && p <= curr->RoutingTable.head->data->getID()) {
 				curr = curr->RoutingTable.head->data;
 				break; //EITHER MACHINE == P OR MACHINE > P (IF MACHINE > P) THEN MACHINE DOES NOT EXIST IN FILE SYSTEM
 			}
-
+			else if (p < curr->getID() && curr->RoutingTable.head->data->getID() < curr->getID()) {
+				curr = curr->RoutingTable.head->data;
+				break;
+			}
 			// TRAVERSE ROUTING TABLE
 			dNode<Machine*>* ptr = curr->RoutingTable.head;
 			while (ptr) {
@@ -91,6 +106,9 @@ private:
 						break;
 					}
 					curr = ptr->data;
+					break;
+				}
+				if (p < ring.head->data.getID()) {
 					break;
 				}
 				else if (p == ptr->next->data->getID()) {
@@ -141,6 +159,8 @@ public:
 		Bigint id = binaryToDecimel(binary);
 		Bigint mid = MachineID;
 		Machine* machine = searchMachine(id, mid);
+		if (!machine) 
+			return;
 		machine->insertFile(id, path);
 	}
 	//This method will be called whenever we need the machine where we need to orignate a query (searching/deleting/insertion)
@@ -149,7 +169,7 @@ public:
 	Machine* searchMachine(const Bigint& fileHash, const Bigint& machineHash)  {
 		Machine* origin = getOrigin(machineHash);
 		if (!origin) {
-			cout << "Machine does not exist in filesystem!\n";
+			cout << "ERROR: MACHINE DOES NOT EXIST IN FILE SYSTEM!\n";
 			return nullptr;
 		}
 		Machine* ret = nullptr;
@@ -270,30 +290,51 @@ public:
 	// be done
 	void insertMachine(const string& mName) {
 		if (currMachines >= maxMachines) {
-			cout << "MAX NUMBER OF MACHINES REACHED \n";
+			cout << "ERROR: CANNOT INSERT AS MAX NUMBER OF MACHINES REACHED \n";
 			return;
 		}
+		cout << "CALCULATING HASH OF MACHINE... PLEASE WAIT" << endl;
 		string hex = hashFunction(mName);
 		string binary = hexaToBinary(hex);
 		binary = getLastNBits(binary, identifierspace);
 		Bigint id = binaryToDecimel(binary);
 		Machine machine = Machine(id, mName, order);
-		ring.insertAscending(machine);
-		makeRoutingTables();
-		
-		Machine* newMachine = getOrigin(id);
-		Machine* nextMachine = newMachine->getRoutingTable().head->data;
-		//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
-		if (nextMachine) {
-			nextMachine->splitTree(id, newMachine);
-
-			//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
+		bool success = ring.insertAscending(machine);
+		cout << "HASH OF THE MACHINE IS" << id << endl;
+		while (!success) {
+			cout << "ERROR: CANNOT INSERT AS MACHINE OF THE SAME HASH IF PRESENT, ENTER NAME AGAIN \n";
+			string mName;
+			getline(cin, mName);
+			cout << "CALCULATING HASH OF MACHINE... PLEASE WAIT" << endl;
+			hex = hashFunction(mName);
+			binary = hexaToBinary(hex);
+			binary = getLastNBits(binary, identifierspace);
+			id = binaryToDecimel(binary);
+			machine.setName(mName);
+			machine.setID(id);
+			cout << "HASH OF THE MACHINE IS" << id << endl;
+			success = ring.insertAscending(machine);
 		}
-
-		string path = "./IPFS/MACHINE" + machine.getID().str();
-		auto ret = _mkdir(path.c_str());
+		if (success) cout << "MACHINE INSERTED SUCCESSFULLY\n";
+		cout << "CONSTRUCTING ROUTING TABLES..." << endl;
+		makeRoutingTables();
+		cout << "ROUTING TABLES MADE SUCCESSFULLY..." << endl;
 		++currMachines;
+		if(currMachines > 1){
+			string path = "./IPFS/MACHINE" + machine.getID().str();
+			auto ret = _mkdir(path.c_str());
+			Machine* newMachine = getOrigin(id);
+			Machine* nextMachine = newMachine->getRoutingTable().head->data;
+			//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
+			if (nextMachine) {
+				nextMachine->splitTree(id, newMachine);
+				//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
+			}
+		}
 	}
+
+	
+
 	void removeMachine(Bigint& id) {
 		if (currMachines == 0) {
 			cout << "NO MACHINE PRESENT IN FILE SYSTEM \n";
@@ -307,13 +348,20 @@ public:
 		}
 		dNode<Machine*>* next = machine->getRoutingTable().head;
 		if (!next) {
-			//TODO: WARNING COUT
-			string removeStr = "rmdir / s / q IPFS/MACHINE" + machine->getID().str();
+			cout << "WARNING: REMOVING THIS MACHINE WILL LEAD TO DELETION OF ALL FILES. DO YOU WISH TO CONTINUE \n";
+			cout << "PRESS Y/y to continue and any other key to abort deletion \n";
+			char k;
+			cin >> k;
+			if (!(k == 'y' || k == 'Y')){
+				cout<<"DELETION SUCCESSFULLY ABORTED \n";
+				return;
+			}
+			string removeStr = "rmdir / s / q IPFS\\MACHINE" + machine->getID().str();
 			system(removeStr.c_str());
 			ring.remove(Machine(id, name, order));
-			makeRoutingTables();
 			--currMachines;
-			//	WRITE COUT HERE THAT SUCCESSFULLY REMOVED
+			makeRoutingTables();
+			cout << "MACHINE REMOVED SUCCESSFULLY\n";
 			return;
 		}
 		
@@ -332,13 +380,14 @@ public:
 				string retFilePath = "\\" + f.getFilename() + f.getExtension();
 				bool successful = copyFile(oldPath + retFilePath, newPath + retFilePath);
 				if (successful) {
-					cout << "FILE SHIFTED SUCCESSFULLY\n";
+					cout << "FILE SHIFTED SUCCESSFULLY FROM"<<oldPath + retFilePath<<" TO " <<newPath + retFilePath;
 				}
 				temp.insert(f);
 				pair.remove(f);
 				nextM->tree.insert(temp);
 				machine->tree.remove(temp);
 			}
+			cout << "MACHINE DELETED SUCCESSFULLY\n";
 		}
 		string removeStr = "rmdir / s / q .\\IPFS\\MACHINE" + machine->getID().str();
 		system(removeStr.c_str());
@@ -350,12 +399,18 @@ public:
 	void insertMachine(string name, string id) { //incase user wants to give their own id
 		Bigint sid = id;
 		Machine machine = Machine(sid, name, order);
-		ring.insertAscending(machine);
-		makeRoutingTables();
-		if (id == "29") {
-			showRoutingTables();
+		bool success = ring.insertAscending(machine);
+		while (!success) {
+			cout << "ERROR: CANNOT INSERT AS MACHINE OF THE SAME HASH IF PRESENT, ENTER ID AGAIN \n";
+			cin >> sid;
+			machine.setID(sid);
+			cout << "HASH OF THE MACHINE IS" << id << endl;
+			success = ring.insertAscending(machine);
 		}
-		
+		if (success) cout << "MACHINE INSERTED SUCCESSFULLY \n";
+		cout << "CONSTRUCTING ROUTING TABLES...\n";
+		makeRoutingTables();
+		cout << "ROUTING TABLES CONSTURCTED SUCCESSFULLY \n";
 		string path = "./IPFS/MACHINE" + machine.getID().str();
 		auto ret = _mkdir(path.c_str());
 		++currMachines;
