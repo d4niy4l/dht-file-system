@@ -150,7 +150,16 @@ public:
 	const Bigint& getMaxMachines() {
 		return maxMachines;
 	}
-
+	void printRoutingTable(const Bigint& id) {
+		Machine* machine = getOrigin(id);
+		if (!machine) {
+			cout << "MACHINE IS NOT PRESENT IN THE FILE SYSTEM" << endl;
+			return;
+		}
+		cout << "ROUTING TABLE OF: \n";
+		machine->printDetails();
+		machine->showRoutingTable();
+	}
 	//	INSERTION
 	void insertFile(string path, string MachineID) {
 		string filehash = hashFile(path);
