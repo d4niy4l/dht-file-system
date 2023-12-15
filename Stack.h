@@ -1,6 +1,6 @@
 #pragma once
 /************************************************************************
-TITLE: VECTOR
+TITLE: STACK
 DESCRIPTION:
 A stack is a Last In, First Out (LIFO) data structure used for for efficient push and pop operations
 dynamic memory.
