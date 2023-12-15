@@ -351,7 +351,7 @@ public:
 			Machine* nextMachine = newMachine->getRoutingTable().head->data;
 			//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
 			if (nextMachine) {
-				nextMachine->splitTree(id, newMachine);
+				nextMachine->splitTree(id, newMachine, &ring.head->next->data);
 				//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
 			}
 		}
@@ -447,7 +447,7 @@ public:
 			Machine* nextMachine = newMachine->getRoutingTable().head->data;
 			//	ONLY SPLIT TREES IF THE NEXT MACHINE EXISTS - IF ONLY ONE MACHINE THEN NO SPLITTING SHOULD BE THERE
 			if (nextMachine) {
-				nextMachine->splitTree(sid, newMachine);
+				nextMachine->splitTree(sid, newMachine, &ring.head->next->data);
 
 				//	TODO: ALSO MOVE FILE FOLDERS TO OTHER MACHINE
 			}

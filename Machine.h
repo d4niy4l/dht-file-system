@@ -219,7 +219,7 @@ public:
 		cout << "FILE INSERTED AT MACHINE WITH ID: " << getID() << endl;
 	}
 	
-	void splitTree(const Bigint& mid, Machine* m) {
+	void splitTree(const Bigint& mid, Machine* m, Machine* head) {
 		//	IF THE CURRENT MACHINE HAS FILES ONLY THEN SPLITTING MIGHT HAPPEN
 		string oldPath;
 		if (tree.isEmpty() == false) {
@@ -265,6 +265,49 @@ public:
 
 				} while (minIsLess);
 				
+				if (head == this) {
+					bool minIsLess = false;
+					do {
+						//	INITIALLY ASSUME THAT MINIMUM WOULD BE LESSER - IF GREATER LOOP BREAKS
+						minIsLess = false;
+						//	GET CURRENT MINIMUM
+						const Key_Pair<File>* kp = tree.getMaximum();
+						if (kp == nullptr) {
+							break;
+						}
+						//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
+						if (kp->getKey() >= this->getID()) {
+							minIsLess = true;
+							Key_Pair<File> copy = *kp;
+							int numFiles = kp->getList().size();
+							for (int i = 0; i < numFiles; i++) {
+								//	MAKE ONE PAIR FROM WHOLE LINKED LIST ONE BY ONE FOR EVERY FILE
+								Key_Pair<File> tempPair(copy.getKey());
+								File temp = copy.getList().getHead();
+								tempPair.insert(temp);
+
+								string newPath = ".\\IPFS\\MACHINE" + m->getID().str() + '\\' + copy.getKey().str();
+								_mkdir(newPath.c_str());
+								oldPath = ".\\IPFS\\MACHINE" + getID().str() + '\\' + copy.getKey().str();
+								string RelFilePath = '\\' + temp.getFilename() + temp.getExtension();
+								bool success = copyFile(oldPath + RelFilePath, newPath + RelFilePath);
+								
+								//	INSERTING TO NEW MACHINE AND REMOVING FROM PREVIOUS MACHINE
+								m->tree.insert(tempPair);
+								tree.remove(tempPair);
+
+								//	REMOVING FROM COPY SO THAT THE HEAD GIVES THE NEXT FILE NEXT TIME
+								copy.remove(temp);
+							}
+							oldPath = "rmdir / s / q " + oldPath;
+							system(oldPath.c_str());
+						}
+
+					} while (minIsLess);
+						
+				}
+
+
 			} 
 			
 			if (m->getID() > this->id) {
