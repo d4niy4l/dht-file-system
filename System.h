@@ -139,7 +139,7 @@ public:
         cout << left << setw(20) << "||        InterPlanetary File System (IPFS)           ||" << endl;
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
         cout << left << setw(20) << "||1.create a new system                               ||" << endl;
-        cout << left << setw(20) << "||2.Exit                                             ||" << endl;
+        cout << left << setw(20) << "||2.Exit                                              ||" << endl;
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
         cout << left << setw(20) << "Enter your choice: ";
     }

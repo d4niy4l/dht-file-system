@@ -46,12 +46,15 @@ public:
 		curr->next = head;
 		head->prev = curr;
 	}
-	void insertAscending(T data) {
+	bool insertAscending(T data) {
 		if (isEmpty()) {
 			head = new cNode<T>(data);
 			head->next = head;
 			head->prev = head;
-			return;
+			return true;
+		}
+		if (data == head->data) {
+			return false;
 		}
 		if (data < head->data) {
 			cNode<T>* node = new cNode<T>(data);
@@ -60,11 +63,12 @@ public:
 			head->prev->next = node;
 			head->prev = node;
 			head = node;
-			return;
+			return true;
 		}
 		cNode<T>* curr = head;
 		do {
 			if (curr->data > data) break;
+			else if (curr->data == data) return false;
 			curr = curr->next;
 		} while (curr != head);
 		cNode<T>* node = new cNode<T>(data);
@@ -72,7 +76,7 @@ public:
 		node->next = curr;
 		curr->prev->next = node;
 		curr->prev = node;
-
+		return true;
 	}
 	cNode<T>*& getHead() {
 		return head;
@@ -119,7 +123,14 @@ public:
 		if (isEmpty())
 			return;
 		cNode<T>* curr = head;
+
+
 		if (head->data == data) {
+			if (head->next == head) { //means that only one element in list
+				delete head;
+				head = nullptr;
+				return;
+			}
 			cNode<T>* temp = head;
 			cNode<T>* curr = head->next;
 			while (curr->next != head) curr = curr->next;
