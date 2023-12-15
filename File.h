@@ -1,4 +1,12 @@
 #pragma once
+/************************************************************************
+TITLE: Queue
+AUTHOR: HAFIZA IQRA [22I-1269]
+COAUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR:MUHAMMAD AHMAD [22I-1056]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include<iostream>
 #include "BigInt.h"
 #include "LinkedList.h"
