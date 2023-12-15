@@ -198,12 +198,13 @@ public:
 		int count = 0;
 		while (!nodeFound) {
 			currId = curr->getID();
-			path += currId;
+			path += "-> " + currId.str();
 
 			//	(P == E) || (E <= P && P is machine with smallest id) || (E >= max Machine id and P is smaalest machine node)
 			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash > ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
 				ret = curr;
 				c1 = true;
+				cout << path << endl;
 				return ret;
 			}
 			//	P < E && E < FTP[1]
@@ -291,9 +292,13 @@ public:
 					count++;
 				}
 				else {
+					if (startId == curr->getID()) {
+						path = "";
+					}
 					if (curr->getID() < fileHash) {
 						curr = currMax;
 					}else{
+						cout << path << endl;
 						return curr;
 					}
 				}
