@@ -1,4 +1,15 @@
 #pragma once
+/************************************************************************
+TITLE: VECTOR
+DESCRIPTION:
+A stack is a Last In, First Out (LIFO) data structure used for for efficient push and pop operations
+dynamic memory.
+AUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: HAFIZA IQRA [22I-1269]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include <iostream>
 using namespace std;
 template<class T>
