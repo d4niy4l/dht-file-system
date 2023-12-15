@@ -1,8 +1,6 @@
-#include "Btree.h"
-#include "RingDHT.h"
-#include "SHA1.hpp"
+#include "System.h"
 #include "BigInt.h"
-#include "utlity.h"
+
 int main() {
 	/*Ringdht sys(5,5);
 	sys.insertMachine("machine 1","1");

@@ -11,7 +11,6 @@ public:
 
     void setringdht(int size, int order) {
         filesys = new Ringdht(size, order);
-        filesys->setMaxMachines(noofmac);
     }
 
     void setmachines() {
@@ -185,7 +184,7 @@ public:
         cout << left << setw(20) << "Machine ID :" << endl;
         cin >> s;
         Machine *m;
-        m=filesys->getOrigin(s);
+        m = filesys->getOrigin(s);
         m->printTree();
     }
     ~System() {

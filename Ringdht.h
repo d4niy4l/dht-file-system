@@ -63,6 +63,7 @@ private:
 
 		} while (curr != ring.getHead());
 	}
+public:
 	Machine* getOrigin(const Bigint& p) {
 		//first step is to find the machine where the query will originate from
 		//case 1: there is only one machine
@@ -129,7 +130,6 @@ private:
 		}
 		return curr;
 	}
-public:
 	//	CONSTRUCTOR
 	Ringdht(int s, int order)
 		: identifierspace(s), size(Bigint::power(2, s)), order(order), currMachines(0){
