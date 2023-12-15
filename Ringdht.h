@@ -1,7 +1,7 @@
 /************************************************************************
-TITLE: SYSTEM
+TITLE: Ringdht
 DESCRIPTION:
-This main class around which everything revolves
+The main class around which everything revolves
 REQUIREMENTS: Ringdht object
 AUTHOR: DANIYAL AHMED [22I-1032]
 COAUTHOR: MUHAMMAD AHMAD [22I-1056]
