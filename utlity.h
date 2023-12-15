@@ -2,8 +2,7 @@
 /************************************************************************
 TITLE: VECTOR
 DESCRIPTION:
-This header file was made to add some
-basic functions needed
+This header file was created to include some essential functions.
 AUTHOR: DANIYAL AHMED [22I-1032]
 COAUTHOR: MUHAMMAD AHMAD [22I-1056]
 COAUTHOR: HAFIZA IQRA [22I-1269]
