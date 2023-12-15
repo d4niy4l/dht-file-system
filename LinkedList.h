@@ -6,6 +6,7 @@ This class was made to make a chain of file objects when there was a collision i
 REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
 AUTHOR: MUHAMMAD AHMAD AZAM [22I-1056]
 COAUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: HAFIZA IQRA [22I-1269]
 DATE: TUESDAY 5-12-2023
 LASTEDITBY: MUHAMMAD AHMAD AZAM
 *************************************************************************/
