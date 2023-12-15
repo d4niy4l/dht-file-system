@@ -5,7 +5,7 @@
 #include "utlity.h"
 int main() {
 	Ringdht sys(5,5);
-	sys.insertMachine("machine 1","1"); 
+	sys.insertMachine("machine 1","1");
 	sys.insertMachine("machine 29", "29");
 	//sys.insertMachine("machine 4","4");
 	sys.insertMachine("machine 11", "11");
@@ -17,8 +17,11 @@ int main() {
 	//sys.insertMachine("machine 28", "28");
 	//sys.insertMachine("machine 21");
 	//sys.showRoutingTables();
+	cout << "--------------------\n";
 	
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png","11"); // HASH: 22
+	cout << "--------------------\n";
+	
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\poop.txt","11");  // HASH: 29
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
 	sys.insertFile("C:\\Users\\Ahmed\\Desktop\\ccases.png", "11"); // HASH: 22
@@ -54,12 +57,15 @@ int main() {
 	
 		SEARCH FILE FUNCTION BELOW DOES NOT GET NODE 29 FOR THE FILE TO BE SEARCHED
 	*/
+	cout << "----------------------------\n";
+
+	sys.printAllMachines();
+	cout << "----------------------------\n";
 
 
 
 
-
-	sys.searchFile("29", "11");
+	sys.searchFile("15", "29");
 
 	/*
 	n.insertion(4);
