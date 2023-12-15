@@ -1,4 +1,14 @@
 #pragma once
+/************************************************************************
+TITLE: UTILITY
+DESCRIPTION:
+This header file was created to include some essential functions.
+AUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: HAFIZA IQRA [22I-1269]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include <iostream>
 #include <fstream>
 #include "BigInt.h"

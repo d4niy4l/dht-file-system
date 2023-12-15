@@ -1,4 +1,12 @@
 #pragma once
+/************************************************************************
+TITLE: DoubleList
+AUTHOR:DANIYAL AHMED [22I-1032] 
+COAUTHOR: HAFIZA IQRA [22I-1269]
+COAUTHOR:MUHAMMAD AHMAD [22I-1056]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 template <class T>
 class dNode {
 public:

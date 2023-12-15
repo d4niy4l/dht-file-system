@@ -1,15 +1,11 @@
 #pragma once
 /************************************************************************
-TITLE: VECTOR
+TITLE: Btree
 DESCRIPTION:
-This class was made to serve as a
-replacement for the static array in C++,
-to efficiently grow the array and manage
-dynamic memory.
-REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
+This class was made to store files efficiently in the form of b tree
 AUTHOR: DANIYAL AHMED [22I-1032]
-COAUTHOR: MUHAMMAD AHMAD [22I-1056]
-COAUTHOR: HAFIZA IQRA [22I-1299]
+AUTHOR: MUHAMMAD AHMAD [22I-1056]
+AUTHOR: HAFIZA IQRA [22I-1269]
 DATE: MONDAY 4-12-2023
 LASTEDITBY: MUHAMMAD AHMAD
 *************************************************************************/

@@ -1,5 +1,17 @@
 #pragma once
-#pragma once
+/************************************************************************
+TITLE: SYSTEM
+DESCRIPTION:
+This class was made to serve as a
+menu class. This was made so main.cpp stays 
+organized
+REQUIREMENTS: Ringdht object
+AUTHOR:HAFIZA IQRA [22I-1269]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: DANIYAL AHMED [22I-1032]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include<iostream>
 #include"Ringdht.h"
 using namespace std;
@@ -134,7 +146,8 @@ public:
         cout << left << setw(20) << "||4.do you want to add a new machine                 ||" << endl;
         cout << left << setw(20) << "||5.do you want to delete a machine                  ||" << endl;
         cout << left << setw(20) << "||6.do you want to print b tree                      ||" << endl;
-        cout << left << setw(20) << "||7.Exit                                            ||" << endl;
+        cout << left << setw(20) << "||7.do you want to print all machines                ||" << endl;
+        cout << left << setw(20) << "||8.Exit                                             ||" << endl;
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
         cout << left << setw(20) << "Enter your choice: ";
     }
@@ -184,8 +197,16 @@ public:
         m=filesys->getOrigin(s);
         m->printTree();
     }
+    void displayavailablemachines() {
+        cout << left << setw(20) << "---------------------------" << endl;
+        cout << left << setw(20) << "||        MACHINES        ||" << endl;
+        cout << left << setw(20) << "----------------------------" << endl;
+        filesys->printAllMachines();
+    }
+    void deleteringdht() {
+        delete filesys;
+    }
     ~System() {
-        delete filesys; 
     }
 
 };

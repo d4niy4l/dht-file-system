@@ -1,4 +1,12 @@
 #pragma once
+/************************************************************************
+TITLE: MACHINE
+AUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: HAFIZA IQRA [22I-1269]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include <iostream>
 #include <string>
 #include <Windows.h>

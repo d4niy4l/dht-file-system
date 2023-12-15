@@ -1,3 +1,14 @@
+/************************************************************************
+TITLE: Ringdht
+DESCRIPTION:
+The main class around which everything revolves
+REQUIREMENTS: Ringdht object
+AUTHOR: DANIYAL AHMED [22I-1032]
+COAUTHOR: MUHAMMAD AHMAD [22I-1056]
+COAUTHOR: HAFIZA IQRA [22I-1269]
+DATE: MONDAY 4-12-2023
+LASTEDITBY: MUHAMMAD AHMAD
+*************************************************************************/
 #include<iostream>
 #include "utlity.h"
 #include "Machine.h"
