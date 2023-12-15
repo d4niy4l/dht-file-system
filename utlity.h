@@ -2,11 +2,8 @@
 /************************************************************************
 TITLE: VECTOR
 DESCRIPTION:
-This class was made to serve as a
-replacement for the static array in C++,
-to efficiently grow the array and manage
-dynamic memory.
-REQUIREMENTS: COPY CONSTRUCTOR FOR THE TYPE MUST BE DEFINED
+This header file was made to add some
+basic functions needed
 AUTHOR: DANIYAL AHMED [22I-1032]
 COAUTHOR: MUHAMMAD AHMAD [22I-1056]
 COAUTHOR: HAFIZA IQRA [22I-1269]
