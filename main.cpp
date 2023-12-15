@@ -4,7 +4,7 @@
 #include "BigInt.h"
 #include "utlity.h"
 int main() {
-	Ringdht sys(5,5);
+	/*Ringdht sys(5,5);
 	sys.insertMachine("machine 1","1");
 	sys.insertMachine("machine 29", "29");
 	//sys.insertMachine("machine 4","4");
@@ -57,6 +57,7 @@ int main() {
 	
 		SEARCH FILE FUNCTION BELOW DOES NOT GET NODE 29 FOR THE FILE TO BE SEARCHED
 	*/
+	/*
 	cout << "----------------------------\n";
 
 	sys.printAllMachines();
@@ -83,8 +84,70 @@ int main() {
 	n.insertion(90);
 	n.insertion(70);
 	n.insertion(66);*/
+	/*
 	Bigint fid(1);
 	Bigint mid(29);
 	Machine* m = sys.searchMachine(fid, mid);
-	m->printTree();	
+	m->printTree();	*/
+	  int choice;
+  System system;
+
+  do {
+      system.newsystem();
+      cin >> choice;
+
+      switch (choice) {
+      case 1:
+          do {
+              system.mainmenu();
+              cin >> choice;
+              switch (choice) {
+              case 1:
+                  system.setmachines();
+                  break;
+              case 2:
+                  int size, order;
+                  cout << left << setw(20) << "Identifier space: ";
+                  cin >> size;
+                  cout << left << setw(20) << "Order: ";
+                  cin >> order;
+                  system.setringdht(size, order);
+                  break;
+              case 3:
+                  system.assignidtoeachmachine();
+                  break;
+              case 4:
+                  system.insertafile();
+                  break;
+              case 5:
+                  system.deletefile();
+                  break;
+              case 6:
+                  system.printroutingtable();
+                  break;
+              case 7:
+                  system.addanewmachine();
+                  break;
+              case 8:
+                  system.removeamachine();
+                  break;
+              case 9:
+                  system.displaybtree();
+                  break;
+              case 10:
+                  break;
+              default:
+                  cout << "Invalid choice. Please try again." << endl;
+              }
+          } while (choice != 10);
+          break;
+      case 2:
+          break;
+      default:
+          cout << "Invalid choice. Please try again." << endl;
+      }
+
+  } while (choice != 2);
+
+  return 0;
 }
