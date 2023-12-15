@@ -131,8 +131,8 @@ private:
 	}
 public:
 	//	CONSTRUCTOR
-	Ringdht(int s, int order, Bigint max = 10)
-		: identifierspace(s), size(Bigint::power(2, s)), order(order), maxMachines(max), currMachines(0){
+	Ringdht(int s, int order)
+		: identifierspace(s), size(Bigint::power(2, s)), order(order), currMachines(0){
 		auto ret = _mkdir("./IPFS");
 	}
 	
@@ -144,12 +144,7 @@ public:
 		return order;
 	}
 
-	void setMaxMachines(Bigint& n) {
-		maxMachines = n;
-	}
-	const Bigint& getMaxMachines() {
-		return maxMachines;
-	}
+	
 	void printRoutingTable(const Bigint& id) {
 		Machine* machine = getOrigin(id);
 		if (!machine) {
@@ -312,7 +307,7 @@ public:
 	//then converts hexa to binary and gets last n bits of it and changes it into decimel to make it an ID on which comparisons can
 	// be done
 	void insertMachine(const string& mName) {
-		if (currMachines >= maxMachines) {
+		if (currMachines >= size) {
 			cout << "ERROR: CANNOT INSERT AS MAX NUMBER OF MACHINES REACHED \n";
 			return;
 		}
@@ -420,6 +415,10 @@ public:
 		--currMachines;
 	}
 	void insertMachine(string name, string id) { //incase user wants to give their own id
+		if (currMachines >= size) {
+			cout << "ERROR: CANNOT INSERT AS MAX NUMBER OF MACHINES REACHED \n";
+			return;
+		}
 		Bigint sid = id;
 		Machine machine = Machine(sid, name, order);
 		bool success = ring.insertAscending(machine);
