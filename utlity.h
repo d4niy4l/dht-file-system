@@ -25,9 +25,10 @@ string hexaToBinary(string hex){
 	}
 	return binary;
 }
-string getLastNBits(string binary, int bits) {
+string getLastNBits(const string& binary, int bits) {
 	string ans;
-	for (int i = binary.length()-1; i >= binary.length() - bits; i--) 
+	int s = binary.length() - bits;
+	for (int i = binary.length()-1; i >= s; i--) 
 		ans += binary[i];
 	return ans;
 }

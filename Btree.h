@@ -232,7 +232,11 @@ private:
 			return &currNode->arr[idx + 1];
 		}
 		else {
-			return helpSearch(currNode->links[idx + 1], data);
+			if (currNode->isLeaf) {
+				return nullptr;
+			}else{
+				return helpSearch(currNode->links[idx + 1], data);
+			}
 		}
 	}
 
