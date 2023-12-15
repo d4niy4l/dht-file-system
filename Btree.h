@@ -15,10 +15,10 @@ LASTEDITBY: MUHAMMAD AHMAD
 *************************************************************************/
 #include <iostream>
 #include <string>
-#include <queue>
 #include <fstream>
 #include "vector.h"
 #include "Key_Pair.h"
+#include "Queue.h"
 using namespace std;
 
 template <class T>
@@ -499,6 +499,9 @@ private:
 		}
 		//  FIND VALUE IN SUBTREE
 		else {
+			if (currNode->isLeaf) {
+				return;
+			}
 			deleteNode(currNode->links[idx + 1], data);
 			checkDeficiency(currNode, currNode->links[idx + 1], idx + 1);
 		}
@@ -617,84 +620,7 @@ public:
 		return ret;
 	}
 
-
-	//  VISUALIZATION
-	void visualizeTree(const string & dotCode) {
-		ofstream dotFile("btree.dot");
-		dotFile << dotCode;
-		dotFile.close();
-		string command = "dot -Tpng btree.dot -o btree.png";
-		system(command.c_str());
-		system("start btree.png");
-	}
-
-	string generateDotCode(BNode<T> * btreeRoot) {
-		std::string dotCode = "digraph BTree {\n";
-		dotCode += "\tnode [shape=record, height=.1];\n\n";
-
-		std::queue<BNode<T>*> levelOrderQueue;
-		vector<int> idQ;
-		levelOrderQueue.push(btreeRoot);
-		int count = 0;
-		idQ.push_back(count);
-		while (!levelOrderQueue.empty()) {
-			BNode<T>* current = levelOrderQueue.front();
-			levelOrderQueue.pop();
-			int j = idQ[0];
-			idQ.erase(idQ.begin());
-			dotCode += "\tnode" + std::to_string(j) + " [label=\"";
-			for (int i = 0; i < current->arr.size(); i++) {
-				char ch = current->arr[i];
-				dotCode += "|";
-				dotCode += ch;
-			}
-			dotCode += "|\"];\n";
-
-			for (size_t i = 0; i < current->links.size(); ++i) {
-				count++;
-				dotCode += "\tnode" + std::to_string(j) + " -> node" + std::to_string(count) + ";\n";
-				idQ.push_back(count);
-				if (current->links[i]) {
-					levelOrderQueue.push(current->links[i]);
-				}
-			}
-		}
-
-		dotCode += "}\n";
-		return dotCode;
-	}
-
-	/*
-		void toGraphViz() {
-			string x = "digraph g { node [shape = record,height=.1];";
-			int i = -1;
-			queue<BNode*> q;
-			q.push(this->root);
-			int count = 0;
-			while (q.empty() == false) {
-				for (int i = 0; i < q.size(); i++) {
-					q.pop();
-				}
-
-				i++;
-				string keys = "node" + to_string(i) +"[label = \"";
-				BNode* n = q.front();
-				q.pop();
-				int k = -1;
-				for (int i = 0; i < n->count; i++) {
-					k++;
-					keys += "<f" + to_string(k) + "> |" + to_string(n->arr[i]) + "|";
-					q.push(n->links[i]);
-				}
-				keys += "\"];";
-				q.push(n->links[n->count]);
-				string strLinks = "";
-
-			}
-		}
-	*/
 };
-
 
 template <>
 void BTree<Key_Pair<File>>::deleteAtInternal(BNode<Key_Pair<File>>*& currNode, const Key_Pair<File>& data) {
@@ -737,3 +663,173 @@ void BTree<Key_Pair<File>>::deleteAtInternal(BNode<Key_Pair<File>>*& currNode, c
 		checkDeficiency(currNode, child, idx + 1);
 	}
 }
+
+
+// BTREE VISUALIZATION
+void visualizeTree(const string & dotCode) {
+	ofstream dotFile("btree.dot");
+	dotFile << dotCode;
+	dotFile.close();
+	string command = "dot -Tpng btree.dot -o btree.png";
+	system(command.c_str());
+	system("start btree.png");
+}
+
+//	FOR INT
+template <class T>
+string generateTreeDotCode(BNode<T>* btreeRoot) {
+	std::string dotCode = "digraph BTree {\n";
+	dotCode += "\tnode [shape=record, height=.1];\n\n";
+
+	Queue<BNode<T>*> levelOrderQueue;
+	Vector<int> idQ;
+	levelOrderQueue.enqueue(btreeRoot);
+	int count = 0;
+	idQ.push_back(count);
+	while (!levelOrderQueue.isEmpty()) {
+		BNode<T>* current = levelOrderQueue.peek();
+		levelOrderQueue.dequeue();
+		int j = idQ[0];
+		idQ.remove_at_index(0);
+		dotCode += "\tnode" + std::to_string(j) + " [label=\"";
+		for (int i = 0; i < current->arr.size(); i++) {
+			dotCode += "|";
+			dotCode += to_string(current->arr[i]);
+		}
+		dotCode += "|\"];\n";
+
+		for (size_t i = 0; i < current->links.size(); ++i) {
+			count++;
+			dotCode += "\tnode" + std::to_string(j) + " -> node" + std::to_string(count) + ";\n";
+			idQ.push_back(count);
+			if (current->links[i]) {
+				levelOrderQueue.enqueue(current->links[i]);
+			}
+		}
+	}
+
+	dotCode += "}\n";
+	return dotCode;
+}
+
+//	FOR CHAR
+template <>
+string generateTreeDotCode(BNode<char>* btreeRoot) {
+	std::string dotCode = "digraph BTree {\n";
+	dotCode += "\tnode [shape=record, height=.1];\n\n";
+
+	Queue<BNode<char>*> levelOrderQueue;
+	Vector<int> idQ;
+	levelOrderQueue.enqueue(btreeRoot);
+	int count = 0;
+	idQ.push_back(count);
+	while (!levelOrderQueue.isEmpty()) {
+		BNode<char>* current = levelOrderQueue.peek();
+		levelOrderQueue.dequeue();
+		int j = idQ[0];
+		idQ.remove_at_index(0);
+		dotCode += "\tnode" + std::to_string(j) + " [label=\"";
+		for (int i = 0; i < current->arr.size(); i++) {
+			char ch = current->arr[i];
+			dotCode += "|";
+			dotCode += ch;
+		}
+		dotCode += "|\"];\n";
+
+		for (size_t i = 0; i < current->links.size(); ++i) {
+			count++;
+			dotCode += "\tnode" + std::to_string(j) + " -> node" + std::to_string(count) + ";\n";
+			idQ.push_back(count);
+			if (current->links[i]) {
+				levelOrderQueue.enqueue(current->links[i]);
+			}
+		}
+	}
+
+	dotCode += "}\n";
+	return dotCode;
+}
+
+//	FOR STRINGS
+template <>
+string generateTreeDotCode(BNode<string>* btreeRoot) {
+	std::string dotCode = "digraph BTree {\n";
+	dotCode += "\tnode [shape=record, height=.1];\n\n";
+
+	Queue<BNode<string>*> levelOrderQueue;
+	Vector<int> idQ;
+	levelOrderQueue.enqueue(btreeRoot);
+	int count = 0;
+	idQ.push_back(count);
+	while (!levelOrderQueue.isEmpty()) {
+		BNode<string>* current = levelOrderQueue.peek();
+		levelOrderQueue.dequeue();
+		int j = idQ[0];
+		//idQ.erase(idQ.begin());
+		idQ.remove_at_index(0);
+		dotCode += "\tnode" + std::to_string(j) + " [label=\"";
+		for (int i = 0; i < current->arr.size(); i++) {
+			dotCode += "|";
+			dotCode += current->arr[i];
+		}
+		dotCode += "|\"];\n";
+
+		for (size_t i = 0; i < current->links.size(); ++i) {
+			count++;
+			dotCode += "\tnode" + std::to_string(j) + " -> node" + std::to_string(count) + ";\n";
+			idQ.push_back(count);
+			if (current->links[i]) {
+				levelOrderQueue.enqueue(current->links[i]);
+			}
+		}
+	}
+
+	dotCode += "}\n";
+	return dotCode;
+}
+
+//	FOR KEY_PAIR<FILE>
+template <>
+string generateTreeDotCode(BNode<Key_Pair<File>>* btreeRoot) {
+	std::string dotCode = "digraph BTree {\n";
+	dotCode += "\tnode [shape=record, height=.1];\n\n";
+
+	Queue<BNode<Key_Pair<File>>*> levelOrderQueue;
+	Vector<int> idQ;
+	levelOrderQueue.enqueue(btreeRoot);
+	int count = 0;
+	idQ.push_back(count);
+	while (!levelOrderQueue.isEmpty()) {
+		BNode<Key_Pair<File>>* current = levelOrderQueue.peek();
+		levelOrderQueue.dequeue();
+		int j = idQ[0];
+		//idQ.erase(idQ.begin());
+		idQ.remove_at_index(0);
+		dotCode += "\tnode" + std::to_string(j) + " [label=\"";
+		for (int i = 0; i < current->arr.size(); i++) {
+			dotCode += "|";
+			dotCode += current->arr[i].getKey().str();
+		}
+		dotCode += "|\"];\n";
+
+		for (size_t i = 0; i < current->links.size(); ++i) {
+			count++;
+			dotCode += "\tnode" + std::to_string(j) + " -> node" + std::to_string(count) + ";\n";
+			idQ.push_back(count);
+			if (current->links[i]) {
+				levelOrderQueue.enqueue(current->links[i]);
+			}
+		}
+	}
+
+	dotCode += "}\n";
+	return dotCode;
+}
+
+
+
+
+
+
+
+

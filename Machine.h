@@ -22,11 +22,23 @@ public:
 	
 	}
 	
+
+
 	void printDetails() {
 		cout << "MACHINE NAME: " << name << ", ";
 		cout << "MACHINE ID: " << id << endl;
 	}
 	
+	void printTree() {
+		if (tree.getRoot() == nullptr) {
+			cout << "BTree of machine " << this->id << " is empty. There is nothing to visualize in GraphViz.\n";
+			return;
+		}
+		visualizeTree(generateTreeDotCode(tree.getRoot()));		
+	}
+
+
+
 	const DoublyLinkedList<Machine*>& getRoutingTable() {
 		return RoutingTable;
 	}
@@ -46,7 +58,11 @@ public:
 		return id;
 	}
 	
-		
+
+
+
+
+
 	//	FILE FUNCTIONS
 	
 	bool searchFile(const string& fileHash) {
@@ -274,6 +290,9 @@ public:
 			}
 		}
 	}
+
+
+
 
 	//	COMPARISON OPERATORS OVERLOADED
 	bool operator < (const Machine& m) {
