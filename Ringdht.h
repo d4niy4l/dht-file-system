@@ -160,6 +160,7 @@ public:
 		machine->printDetails();
 		machine->showRoutingTable();
 	}
+	
 	//	INSERTION
 	void insertFile(string path, string MachineID) {
 		string filehash = hashFile(path);
@@ -181,6 +182,8 @@ public:
 			cout << "ERROR: MACHINE DOES NOT EXIST IN FILE SYSTEM!\n";
 			return nullptr;
 		}
+		string path = "";
+
 		Machine* ret = nullptr;
 		Machine* curr = origin;
 		Machine* currMin = nullptr;
@@ -195,6 +198,8 @@ public:
 		int count = 0;
 		while (!nodeFound) {
 			currId = curr->getID();
+			path += currId;
+
 			//	(P == E) || (E <= P && P is machine with smallest id) || (E >= max Machine id and P is smaalest machine node)
 			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash > ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
 				ret = curr;
@@ -235,7 +240,11 @@ public:
 					}
 				}
 				if (validEntry) {
-					curr = prev;
+					if (curr->getID() < prev->getID()) {
+						curr = prev;
+					}else{
+						validEntry = false;
+					}
 				}
 				if ((!validEntry && fileHash <= ring.head->data.getID()) || (!validEntry && fileHash > ring.head->prev->data.getID())) {
 					if (minM->getID() == ring.getHead()->data.getID()) {
