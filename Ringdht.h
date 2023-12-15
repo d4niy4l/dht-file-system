@@ -178,7 +178,7 @@ public:
 			return nullptr;
 		}
 		string path = "";
-
+		cout << "Route: ";
 		Machine* ret = nullptr;
 		Machine* curr = origin;
 		Machine* currMin = nullptr;
@@ -193,12 +193,15 @@ public:
 		int count = 0;
 		while (!nodeFound) {
 			currId = curr->getID();
-			path += "-> " + currId.str();
+			path += " -> " + currId.str();
 
 			//	(P == E) || (E <= P && P is machine with smallest id) || (E >= max Machine id and P is smaalest machine node)
 			if ((currId == fileHash) || (currId >= fileHash && currId == ring.getHead()->data.getID() || (fileHash > ring.head->prev->data.getID() && currId == ring.getHead()->data.getID()))) {
 				ret = curr;
 				c1 = true;
+				if (path.size() > 4) {
+					path.erase(0, 3);
+				}
 				cout << path << endl;
 				return ret;
 			}
@@ -293,6 +296,9 @@ public:
 					if (curr->getID() < fileHash) {
 						curr = currMax;
 					}else{
+						if (path.size() > 4) {
+							path.erase(0, 3);
+						}
 						cout << path << endl;
 						return curr;
 					}
@@ -471,6 +477,21 @@ public:
 			curr = curr->next;
 		} while (curr != ring.getHead());
 	}
+
+	void printAllMachines() {
+		cNode<Machine>* curr = ring.getHead();	
+		if (curr == nullptr) {
+			cout << "There are no machines in the system.\n";
+			return;
+		}
+		do {
+			curr->data.printDetails();
+			curr = curr->next;
+		} while (curr != ring.getHead());
+	
+	}
+
+
 	~Ringdht() {
 		string remove = "rmdir / s / q IPFS";
 		system(remove.c_str());
