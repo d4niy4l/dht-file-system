@@ -65,8 +65,15 @@ public:
 			cout << "File does not exist on the current machine.\n";
 			return false;
 		}else{
-			cout << "File is stored on machine " << this->getID();
-			return true;
+			if (result->getList().size() == 1) {
+				cout << "FILE HASH: " << result->getKey().str();
+				cout << "FILE NAME: " << result->getList().getHead().getFilename() << result->getList().getHead().getExtension() << endl;
+				cout << "FILE PATH" << result->getList().getHead().getPath() << endl;
+				return true;
+			}
+			cout << "MULTIPLE FILES OF HASH " << result->getKey() << " ARE PRESENT \n";
+			cout << "DISPLAYING FILES.." << endl;
+			result->getList().print();
 		}
 	}
 	

@@ -62,10 +62,8 @@ public:
 	}
 	
 	friend ostream& operator << (ostream& out, const File& file) {
-		out << "FILE DETAILS: " << endl;
-		cout << "ID: " << file.hash << endl;
 		cout << "NAME: " << file.name << file.ext << endl;;
-		cout << "PATH: " << file.path + "/" + file.name + file.ext << endl;
+		cout << "PATH: " << file.path + "\\" + file.name + file.ext << endl;
 		return out;
 	}
 };

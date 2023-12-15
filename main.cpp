@@ -4,10 +4,11 @@
 #include "BigInt.h"
 #include "utlity.h"
 int main() {
-	Ringdht sys(160,5);
+	Ringdht sys(5,5);
 	sys.insertMachine("machine 1","1"); 
+	sys.insertMachine("machine 29", "29");
 	//sys.insertMachine("machine 4","4");
-	//sys.insertMachine("machine 11", "11");
+	sys.insertMachine("machine 11", "11");
 	//sys.showRoutingTables();
 	//sys.insertMachine("machine 21");
 	//sys.insertMachine("machine 14", "14");
@@ -45,9 +46,8 @@ int main() {
 	//	SPLITTING CHECK
 	//	NODE 18 REMOVED BEFORE -> FILE WITH HASH 15 STORED AT MACHINE 20 NOW
 	//sys.insertMachine("machine 18", "18");
-	sys.searchFile("22", "18");
 
-	sys.insertMachine("machine 29", "29");
+	//sys.searchFile("22", "18");
 	//	HEREE 
 
 	/*
@@ -59,7 +59,7 @@ int main() {
 
 
 
-	sys.searchFile("29", "1");
+	sys.searchFile("29", "11");
 
 	/*
 	n.insertion(4);
