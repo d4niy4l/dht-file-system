@@ -12,7 +12,9 @@ LASTEDITBY: HAFIZA IQRA
 
 int main() {
         int choice;
-        System system;
+        
+		
+		System system;
         do {
            
             system.newsystem();
@@ -71,6 +73,6 @@ int main() {
             }
 
         } while (choice != 2);
-
+			
         return 0;
 }

@@ -259,6 +259,11 @@ public:
 				if ((!validEntry && fileHash <= ring.head->data.getID()) || (!validEntry && fileHash > ring.head->prev->data.getID())) {
 					if (minM->getID() == ring.getHead()->data.getID()) {
 						curr = minM;
+						path += " -> " + curr->getID().str();
+						if (path.size() > 4) {
+							path.erase(0, 3);
+						}
+						cout << path << endl;
 						return curr;
 					}
 					else {

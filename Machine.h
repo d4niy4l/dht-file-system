@@ -104,7 +104,7 @@ public:
 		Key_Pair<File> pair(key);
 		const Key_Pair<File>* ptr = tree.search(pair);
 		if (ptr == nullptr) {
-			cout << "ERROR: Unable to delete file. File is not stored on the machine.\n";
+			cout << "ERROR: Unable to delete file. File is not stored on the system.\n";
 			return;
 		}
 		if (ptr->getList().size() == 1) {

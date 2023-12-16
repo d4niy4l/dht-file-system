@@ -195,6 +195,10 @@ public:
         cin >> s;
         Machine *m;
         m=filesys->getOrigin(s);
+        if (m == nullptr) {
+            cout << "No such machine exists in the system!\n";
+            return;
+        }
         m->printTree();
     }
     void displayavailablemachines() {
