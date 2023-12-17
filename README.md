@@ -23,13 +23,14 @@ During the implementation of the code, we used softwares like Git and GitHub to 
 
 ## Contribution
 The contribution amongst the team members was extraordinary. With time we were all able to understand each other’s code better and came up with better practices for naming conventions, etc.
-Conclusion:
+
+## Conclusion:
 The system made offered a decentralized system for storing files and provided faster search results.  
 
 
 ## Getting Started
 
-# 1. Clone the repository:
+### 1. Clone the repository:
 
    ```bash
    git clone https://github.com/your-username/your-project.git
@@ -37,16 +38,16 @@ The system made offered a decentralized system for storing files and provided fa
 # 2. Open the project in Visual Studio:
 
 Open Visual Studio.
-```
+
 File -> Open -> Project/Solution.
-```
+
 Navigate to the cloned repository and open the solution file (.sln).
 
-# 3. Build the project:
+### 3. Build the project:
 
 Build the solution by clicking on the Build menu and selecting Build Solution.
 
-# 4. Run the project:
+### 4. Run the project:
 
 Set the startup project if needed.
 Press F5 or click on the Run button to execute the program.
