@@ -58,13 +58,16 @@ int main() {
                     case 7:
                         system.displayavailablemachines();
                         break;
-                    case 8:
+					case 8:
+						system.searchafile();
+						break;
+                    case 9:
                         system.deleteringdht();
                         break;
                     default:
                         cout << "Invalid choice. Please try again." << endl;
                     }
-                } while (choice != 8);
+                } while (choice != 9);
                 break;
             case 2:
                 break;

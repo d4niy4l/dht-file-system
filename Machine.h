@@ -88,9 +88,10 @@ public:
 			return false;
 		}else{
 			if (result->getList().size() == 1) {
-				cout << "FILE HASH: " << result->getKey().str();
-				cout << "FILE NAME: " << result->getList().getHead().getFilename() << result->getList().getHead().getExtension() << endl;
-				cout << "FILE PATH" << result->getList().getHead().getPath() << endl;
+				result->getList().print(); 
+				//cout << "FILE HASH: " << result->getKey().str();
+				//cout << "FILE NAME: " << result->getList().getHead().getFilename() << result->getList().getHead().getExtension() << endl;
+				//cout << "FILE PATH" << result->getList().getHead().getPath() << "\\" << result->getList().getHead().getFilename() << result->getList().getHead().getExtension() << endl;
 				return true;
 			}
 			cout << "MULTIPLE FILES OF HASH " << result->getKey() << " ARE PRESENT \n";
@@ -284,7 +285,7 @@ public:
 							break;
 						}
 						//	IF LESSER COPY THE PAIR AND THEN REMOVE FROM THE TREE
-						if (kp->getKey() >= this->getID()) {
+						if (kp->getKey() > this->getID()) {
 							minIsLess = true;
 							Key_Pair<File> copy = *kp;
 							int numFiles = kp->getList().size();

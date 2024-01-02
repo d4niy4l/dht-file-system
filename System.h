@@ -84,7 +84,24 @@ public:
         filesys->insertFile(path, machineid);
         // display the b tree
     }
+	void searchafile() {
+		cout << left << setw(20) << "---------------------------------" << endl;
+		cout << left << setw(20) << "||        SEARCH A FILE         ||" << endl;
+		cout << left << setw(20) << "----------------------------------" << endl;
+		cout << left << setw(20) << "||     1.Enter file id          ||" << endl;
+		cout << left << setw(20) << "||   2. Enter the machine id    ||" << endl;
+		cout << left << setw(20) << "---------------------------------" << endl;
+		string path;
+		string machineid;
 
+		cout << left << setw(20) << "File ID: ";
+		std::cin.ignore(); // Clear input buffer
+		std::getline(std::cin, path);
+		cout << left << setw(20) << "Machine ID: ";
+		std::getline(std::cin, machineid);
+		filesys->searchFile(path, machineid);
+		// display the b tree
+	}
     void deletefile() {
         cout << left << setw(20) << "------------------------------------------------" << endl;
         cout << left << setw(20) << "||                 DELETE A FILE              ||" << endl;
@@ -146,8 +163,9 @@ public:
         cout << left << setw(20) << "||4.do you want to add a new machine                 ||" << endl;
         cout << left << setw(20) << "||5.do you want to delete a machine                  ||" << endl;
         cout << left << setw(20) << "||6.do you want to print b tree                      ||" << endl;
-        cout << left << setw(20) << "||7.do you want to print all machines                ||" << endl;
-        cout << left << setw(20) << "||8.Exit                                             ||" << endl;
+		cout << left << setw(20) << "||7.do you want to print all machines                ||" << endl;
+		cout << left << setw(20) << "||8.do you want to search a file                     ||" << endl;
+        cout << left << setw(20) << "||9.Exit                                             ||" << endl;
         cout << left << setw(20) << "-------------------------------------------------------" << endl;
         cout << left << setw(20) << "Enter your choice: ";
     }
